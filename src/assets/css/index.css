@@ -1,4 +1,9 @@
 
-body {
-    color: red;
+
+.union-member:not(:last-of-type):after {
+    content: ' | ';
+}
+
+.object-member:not(:last-of-type):after {
+    content: ', ';
 }
