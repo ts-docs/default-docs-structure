@@ -29,7 +29,13 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
             <p>Types</p>
             <ul>${[...data.types.values()].map(c => `<li><a href="./type/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
         `
-    } else if (data.type === "index") {
+    } else if (data.type === "interface") {
+        return `
+            <p>Properties</p>
+            <ul>${data.properties.map(m => `<li><a href="#${m.name}">${m.name}</a></li>`).join("")}</ul>
+        `;
+    } 
+    else if (data.type === "index") {
         return `
             <p>Modules</p>
             <ul>${data.packages.map(c => `<li><a href="./m.${c.module.name}/index.html">${c.module.name}</a></li>`).join("")}</ul>
