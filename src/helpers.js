@@ -17,25 +17,32 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         </ul>
         `
     } else if (data.type === "module") {
+        const nested = data.isNested ? ".":"";
         return `
             <p>Modules</p>
-            <ul>${[...data.modules.values()].map(c => `<li><a href="./${c.name}/index.html">${c.name}</a></li>`).join("")}</ul>
+            <ul>${[...data.module.modules.values()].map(c => `<li><a href="${nested}./${c.name}/index.html">${c.name}</a></li>`).join("")}</ul>
             <p>Classes</p>
-            <ul>${[...data.classes.values()].map(c => `<li><a href="./class/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
+            <ul>${[...data.module.classes.values()].map(c => `<li><a href="${nested}./class/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
             <p>Interfaces</p>
-            <ul>${[...data.interfaces.values()].map(c => `<li><a href="./interface/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
+            <ul>${[...data.module.interfaces.values()].map(c => `<li><a href="${nested}./interface/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
+            <p>Functions</p>
+            <ul>${[...data.module.functions.values()].map(c => `<li><a href="${nested}./interface/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
             <p>Enums</p>
-            <ul>${[...data.enums.values()].map(c => `<li><a href="./enum/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
+            <ul>${[...data.module.enums.values()].map(c => `<li><a href="${nested}./enum/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
             <p>Types</p>
-            <ul>${[...data.types.values()].map(c => `<li><a href="./type/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
+            <ul>${[...data.module.types.values()].map(c => `<li><a href="${nested}./type/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
         `
     } else if (data.type === "interface") {
         return `
             <p>Properties</p>
             <ul>${data.properties.map(m => `<li><a href="#${m.name}">${m.name}</a></li>`).join("")}</ul>
         `;
-    } 
-    else if (data.type === "index") {
+    } else if (data.type === "enum") {
+        return `
+            <p>Members</p>
+            <ul>${data.members.map(m => `<li><a href="#${m.name}">${m.name}</a></li>`).join("")}</ul>
+        `;
+    } else if (data.type === "index") {
         return `
             <p>Modules</p>
             <ul>${data.packages.map(c => `<li><a href="./${c.module.name}/index.html">${c.module.name}</a></li>`).join("")}</ul>

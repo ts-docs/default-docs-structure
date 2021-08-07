@@ -1,4 +1,6 @@
 
-<p id={{name}}>
-    {{name}} => {{{type}}}
-</p>
+{{#if key}} 
+<span>[key: {{{key}}}]: {{{type}}}</span>
+{{else}}
+<span>{{name}}: {{{type}}}</span>
+{{/if}}

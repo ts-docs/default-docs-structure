@@ -1,0 +1,16 @@
+
+<div>
+    <h1>{{name}}</h1>
+    <p>{{{comment}}}</p><br><br>
+    
+    {{#each members}}
+    <div id={{this.name}}>{{this.name}}
+
+        {{#if this.initializer}} 
+            <span>= {{{this.initializer}}}</span>
+        {{/if}}
+
+    </div>
+    {{/each}}
+
+</div>
