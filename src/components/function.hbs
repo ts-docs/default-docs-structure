@@ -1,0 +1,9 @@
+<div>
+    <h1>{{name}}</h1>
+
+    {{#each signatures}}
+    <div>
+        ({{{join parameters ", "}}}) => {{{returnType}}}
+    </div>
+    {{/each}}
+</div>

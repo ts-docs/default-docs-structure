@@ -1,4 +1,10 @@
 
 <span>
-<a href={{link}}>{{type.name}}</a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}  
+<a href={{link}}>
+    {{#if type.displayName}}
+    {{type.displayName}}
+    {{else}}
+    {{type.name}}
+    {{/if}}
+    </a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}  
 </span>
