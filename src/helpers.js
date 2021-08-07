@@ -19,7 +19,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     } else if (data.type === "module") {
         return `
             <p>Modules</p>
-            <ul>${[...data.modules.values()].map(c => `<li><a href="./m.${c.name}/index.html">${c.name}</a></li>`).join("")}</ul>
+            <ul>${[...data.modules.values()].map(c => `<li><a href="./${c.name}/index.html">${c.name}</a></li>`).join("")}</ul>
             <p>Classes</p>
             <ul>${[...data.classes.values()].map(c => `<li><a href="./class/${c.name}.html">${c.name}</a></li>`).join("")}</ul>
             <p>Interfaces</p>
@@ -38,7 +38,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     else if (data.type === "index") {
         return `
             <p>Modules</p>
-            <ul>${data.packages.map(c => `<li><a href="./m.${c.module.name}/index.html">${c.module.name}</a></li>`).join("")}</ul>
+            <ul>${data.packages.map(c => `<li><a href="./${c.module.name}/index.html">${c.module.name}</a></li>`).join("")}</ul>
         `
     }
 });

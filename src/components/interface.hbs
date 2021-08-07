@@ -1,6 +1,6 @@
 
 <div>
-    <h1>{{name}}</h1>
+    <h1>{{name}}</h1><h2>{{#if typeParameters}}<span><{{{join typeParameters ", "}}}></span>{{/if}}</h2> 
     <p>{{{comment}}}</p><br><br>
     
     {{#each properties}}
