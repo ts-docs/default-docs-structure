@@ -3,6 +3,41 @@ Handlebars.registerHelper("join", (args, delimiter) => {
     return args.join(delimiter);
 });
 
+Handlebars.registerHelper("linkPrimitive", (ref) => {
+    switch (ref.name) {
+        case "string": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
+        case "number": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
+        case "true":
+        case "false":
+        case "boolean": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
+        case "undefined": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
+        case "null": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
+        case "void": return "void";
+    }
+});
+
+Handlebars.registerHelper("linkDefault", (ref) => {
+    switch (ref.type.name) {
+        case "Date": "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date\">Date</a>"
+        case "Bigint": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt\">Bigint</a>"
+        case "Promise": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\">Promise</a>"
+        case "Set": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set\">Set</a>"
+        case "Map": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map\">Map</a>"
+        case "Array": {
+            const val = `${ref.typeParameters[0]}[]`;
+            ref.typeParameters.length = 0;
+            return val;
+        }
+        case "Function": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\">Function</a>"
+        case "Record": return "<a href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype\">Record</a>"
+        case "Omit": return "<a href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys\">Omit</a>"
+        case "Symbol": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">Symbol</a>"
+        case "Error": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\">Error</a>"
+        case "URLSearchParams": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams\">URLSearchParams</a>"
+        default: return ref.type.name
+    }
+});
+
 Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const data = ctx.data.root;
     if (data.type === "class") {

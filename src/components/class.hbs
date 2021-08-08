@@ -4,6 +4,11 @@
     {{#if extends}}
     <h2>extends {{{extends}}}</h2>
     {{/if}}
+
+    {{#if implements}}
+    <h2>implements {{join implements ", "}}</h2>
+    {{/if}}
+
     <p>{{{comment}}}</p><br><br>
     
     {{#each properties}}
