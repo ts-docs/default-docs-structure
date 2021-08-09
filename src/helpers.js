@@ -12,7 +12,7 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case "boolean": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
         case "undefined": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
         case "null": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
-        case "void": return "void";
+        default: return ref.name;
     }
 });
 
