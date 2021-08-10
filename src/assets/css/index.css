@@ -1,6 +1,40 @@
 
+
+.dark-theme {
+    --backgroundColor: #181818;
+    --secondaryBackgroundColor: #121212;
+    --textColor: rgba(255, 255, 255, 0.88);
+    --primary: #3178c6;
+    --primaryLight: #6ec6ff;
+    --primaryDark: #0069c0;
+    --secondary: #1a237e;
+    --secondaryLight: #534bae;
+    --secondaryDark: #000051;
+    --moduleName: #c62828;
+    --className: #3949ab;
+    --interfaceName: #00897b;
+    --enumName: #43a047;
+    --functionName: #9c27b0;
+    --typeName: #e91e63;
+    --constantName: #8d6e63;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--backgroundColor);
+  color: var(--textColor);
+}
+
+.navi {
+    background-color: var(--primary);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
 .collapsible-arrow {
-    border: solid black;
+    border: solid var(--primaryLight);
     display: inline-block;
     padding: 4px;
     margin-left: 10px;
@@ -30,7 +64,7 @@
 }
 
 .sidebar {
-    background-color: lightgrey;
+    background-color: var(--secondaryBackgroundColor)
 }
 
 .sidebar-category {
@@ -48,15 +82,65 @@
 
 .sidebar-category-member a {
     text-decoration: none;
-    color: black;
+    color: var(--textColor);
 }
 
 .sidebar-category-member a:visited {
     text-decoration: none;
-    color: black;
+    color: var(--textColor);
 }
 
 .lib-name {
     margin-top: 20px;
     margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.referenceLink {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--secondaryLight);
+}
+
+.referenceLink .class {
+    color: var(--className);
+}
+
+.referenceLink .interface {
+    color: var(--interfaceName);
+}
+
+.referenceLink .enum {
+    color: var(--enumName);
+}
+
+.referenceLink .module {
+    color: var(--moduleName);
+}
+
+.referenceLink .function {
+    color: var(--functionName);
+}
+
+.referenceLink .type {
+    color: var(--typeName);
+}
+
+.referenceLink .constant {
+    color: var(--constantName);
+}
+
+.search:hover,
+.search:not(:hover),
+.search {
+    color: var(--textColor);
+    background-color: var(--primaryDark);
+    border: none !important;
+    outline: none !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

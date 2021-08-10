@@ -1,10 +1,11 @@
-
 <span>
-<a href={{link}}>
-    {{#if type.displayName}}
-    {{type.displayName}}
-    {{else}}
-    {{type.name}}
-    {{/if}}
-    </a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}  
+    <a href={{link}} class="referenceLink">
+        <span class={{handleReferenceClass this}}>
+            {{#if type.displayName}}
+            {{type.displayName}}
+            {{else}}
+            {{type.name}}
+            {{/if}}
+        </span>
+    </a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}
 </span>

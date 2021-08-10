@@ -1,13 +1,13 @@
 
 <div>
-    <h1>{{name}}</h1><h2>{{#if typeParameters}}<span><{{{join typeParameters ", "}}}></span>{{/if}}</h2> 
+    <h1>Interface <span class="referenceLink interface">{{name}}</span></h1><h2>{{#if typeParameters}}<span><{{{join typeParameters ", "}}}></span>{{/if}}</h2> 
 
     {{#if extends}}
     <h2>extends {{{extends}}}</h2>
     {{/if}}
 
     {{#if implements}}
-    <h2>implements {{join implements ", "}}</h2>
+    <h2>implements {{{join implements ", "}}}</h2>
     {{/if}}
 
 

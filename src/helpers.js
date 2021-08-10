@@ -1,20 +1,3 @@
-
-Handlebars.registerHelper("join", (args, delimiter) => {
-    if (!args) return "";
-    return args.join(delimiter);
-});
-
-Handlebars.registerHelper("handleAssets", (mod) => {
-    let depth = mod.moduleDepth || 0;
-    if (mod.type === "class" || mod.type === "interface" || mod.type === "enum") depth++;
-    if (mod.isPage) depth += 2;
-    const dpth = "../".repeat(depth || 0);
-    return `
-    <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
-    <script src="${dpth}assets/js/index.js"></script>
-    `
-});
-
 const Types = {
     REFERENCE: 0,
     ARROW_FUNCTION: 1,
@@ -38,6 +21,51 @@ const Types = {
     NULL: 19,
     ANY: 20,
 };
+
+const ReferenceTypes = {
+    CLASS: 0,
+    INTERFACE: 1,
+    ENUM: 2,
+    FUNCTION: 3,
+    CONSTANT: 4,
+    TYPE_ALIAS: 5,
+    TYPE_PARAMETER: 6,
+    UNKNOWN: 7,
+    STRINGIFIED_UNKNOWN: 8,
+    UNIQUE_OPERATOR: 9,
+    READONLY_OPERATOR: 10,
+    KEYOF_OPERATOR: 11,
+    ENUM_MEMBER: 12,
+    DEFAULT_API: 13,
+}
+Handlebars.registerHelper("join", (args, delimiter) => {
+    if (!args) return "";
+    return args.join(delimiter);
+});
+
+Handlebars.registerHelper("handleAssets", (mod) => {
+    let depth = mod.moduleDepth || 0;
+    if (mod.type === "class" || mod.type === "interface" || mod.type === "enum" || mod.realType === "function" || mod.realType === "type" || mod.realType === "constant") depth++;
+    if (mod.isPage) depth += 2;
+    const dpth = "../".repeat(depth || 0);
+    return `
+    <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
+    <script src="${dpth}assets/js/index.js"></script>
+    `
+});
+
+Handlebars.registerHelper("handleReferenceClass", (ref) => {
+    switch (ref.type.kind)  {
+        case ReferenceTypes.CLASS: return "class";
+        case ReferenceTypes.INTERFACE: return "interface";
+        case ReferenceTypes.ENUM_MEMBER:
+        case ReferenceTypes.ENUM: return "enum";
+        case ReferenceTypes.TYPE_ALIAS: return "type";
+        case ReferenceTypes.FUNCTION: return "function";
+        default: return "";
+    }
+});
+
 
 function resolvePrimitive(ref) {
     switch (ref.kind) {
