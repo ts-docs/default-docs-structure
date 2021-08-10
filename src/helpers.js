@@ -1,20 +1,50 @@
 
 Handlebars.registerHelper("join", (args, delimiter) => {
+    if (!args) return "";
     return args.join(delimiter);
 });
 
-Handlebars.registerHelper("linkPrimitive", (ref) => {
-    switch (ref.name) {
-        case "string": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
-        case "number": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
-        case "true":
-        case "false":
-        case "boolean": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
-        case "undefined": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
-        case "null": return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
+const Types = {
+    REFERENCE: 0,
+    ARROW_FUNCTION: 1,
+    OBJECT_LITERAL: 2,
+    TUPLE: 3,
+    UNION: 4,
+    UNIQUE_OPERATOR: 5,
+    READONLY_OPERATOR: 6,
+    KEYOF_OPERATOR: 7,
+    UNKNOWN: 8,
+    STRINGIFIED_UNKNOWN: 9,
+    ARRAY_TYPE: 10,
+    INTERSECTION: 11,
+    NUMBER: 12,
+    STRING: 13,
+    BOOLEAN: 14,
+    VOID: 15,
+    TRUE: 16,
+    FALSE: 17,
+    UNDEFINED: 18,
+    NULL: 19,
+    ANY: 20,
+};
+
+function resolvePrimitive(ref) {
+    switch (ref.kind) {
+        case Types.STRING: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
+        case Types.NUMBER: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
+        case Types.TRUE:
+        case Types.FALSE:
+        case Types.BOOLEAN: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
+        case Types.UNDEFINED: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
+        case Types.NULL: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
+        case Types.UNIQUE_OPERATOR: return `unique ${resolvePrimitive(ref)}`
+        case Types.KEYOF_OPERATOR: return `keyof ${resolvePrimitive(ref)}`
+        case Types.READONLY_OPERATOR: return `readonly ${resolvePrimitive(ref)}`
         default: return ref.name;
     }
-});
+}
+
+Handlebars.registerHelper("linkPrimitive", resolvePrimitive);
 
 Handlebars.registerHelper("linkDefault", (ref) => {
     switch (ref.type.name) {

@@ -1,9 +1,13 @@
 
 <div id={{name}}>
+    {{#if isStatic}}[static]{{/if}}
+    {{#if isProtected}}[protected]{{/if}}
+    {{#if isAbstract}}[abstract]{{/if}}
+    {{#if isPrivate}}[private]{{/if}}
     {{{comment}}}
     {{#each signatures}}
     <div>
-        {{../name}}({{{join parameters ", "}}}) => {{{returnType}}}
+        {{../name}}({{{join parameters ", "}}}) {{#if returnType}} <span>=> {{{returnType}}}</span> {{/if}}
     </div>
     {{/each}}
 </div>

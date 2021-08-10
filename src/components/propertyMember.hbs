@@ -1,6 +1,10 @@
 
 <p id={{name}}>
     {{{comment}}}
-    
+    {{#if isStatic}}[static]{{/if}}
+    {{#if isProtected}}[protected]{{/if}}
+    {{#if isAbstract}}[abstract]{{/if}}
+    {{#if isPrivate}}[private]{{/if}}
+    {{#if isReadonly}}[readonly]{{/if}}
     {{name}}: {{{type}}}
 </p>
