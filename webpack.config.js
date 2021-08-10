@@ -18,7 +18,7 @@ const config = {
             },
         ],
     },
-
+    
     output: {
         filename: "index.js",
         path: path.join(__dirname, "dist/assets/js")

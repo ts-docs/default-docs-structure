@@ -1,9 +1,62 @@
 
-
-.union-member:not(:last-of-type):after {
-    content: ' | ';
+.collapsible-arrow {
+    border: solid black;
+    display: inline-block;
+    padding: 4px;
+    margin-left: 10px;
+    border-width: 0 3px 3px 0;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    margin-bottom: 0.5px;
+    margin-right: 10px;
 }
 
-.object-member:not(:last-of-type):after {
-    content: ', ';
+.collapsible-arrow:hover {
+    cursor: pointer;
+}
+
+.collapsible-arrow.open {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    margin-bottom: 2.5px;
+}
+
+.collapsible-body {
+    display: none;
+}
+
+.collapsible-body.open {
+    display: block;
+}
+
+.sidebar {
+    background-color: lightgrey;
+}
+
+.sidebar-category {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.sidebar-member {
+    margin-bottom: 10px;
+}
+
+.sidebar-category-member {
+    margin-bottom: 4px;
+}
+
+.sidebar-category-member a {
+    text-decoration: none;
+    color: black;
+}
+
+.sidebar-category-member a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.lib-name {
+    margin-top: 20px;
+    margin-left: 10px;
 }
