@@ -1,12 +1,12 @@
 <div class="item" id={{name}}>
+    {{#if isStatic}}<span class="modifier">static</span>{{/if}}
+    {{#if isProtected}}<span class="modifier">protected</span>{{/if}}
+    {{#if isAbstract}}<span class="modifier">abstract</span>{{/if}}
+    {{#if isPrivate}}<span class="modifier">private</span>{{/if}}
+    {{#if isReadonly}}<span class="modifier">readonly</span>{{/if}}
     <span class="item-name"><span class="property-name">{{name}}</span>
         {{~#if type}}<span>: {{{type}}}</span>{{/if~}}
     </span>
-    {{#if isStatic}}<span class="badge">static</span>{{/if}}
-    {{#if isProtected}}<span class="badge">protected</span>{{/if}}
-    {{#if isAbstract}}<span class="badge">abstract</span>{{/if}}
-    {{#if isPrivate}}<span class="badge">private</span>{{/if}}
-    {{#if isReadonly}}<span class="badge">readonly</span>{{/if}}
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     <div class="docblock">
         {{{comment}}}

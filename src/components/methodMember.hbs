@@ -1,21 +1,19 @@
 
 <div id={{name}}>
-    <div class="docblock">
-        {{{comment}}}
-    </div>
-    <span class="item-name">
-        <span class="method-name">{{name}}</span>{{~#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span> {{/if~}}
-    </span>
-    {{#if isStatic}}<span class="badge">static</span>{{/if}}
-    {{#if isAbstract}}<span class="badge">abstract</span>{{/if}}
-    {{#if isPrivate}}<span class="badge">private</span>{{/if}}
-    {{#if isReadonly}}<span class="badge">readonly</span>{{/if}}
-    {{#if isGetter}}<span class="badge">getter</span>{{/if}}
-    {{#if isSetter}}<span class="badge">setter</span>{{/if}}
-    <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
-    {{#each signatures}}
+    {{#resolveOverloads signatures}}
     <p>
-        <span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span> => {{{returnType}}}</span>{{/if~}}
+    {{#if ../isStatic}}<span class="modifier">static</span>{{/if}}
+    {{#if ../isAbstract}}<span class="modifier">abstract</span>{{/if}}
+    {{#if ../isPrivate}}<span class="modifier">private</span>{{/if}}
+    {{#if ../isReadonly}}<span class="modifier">readonly</span>{{/if}}
+    {{#if ../isGetter}}<span class="modifier">get</span>{{/if}}
+    {{#if ../isSetter}}<span class="modifier">set</span>{{/if}}
+    <a href={{../loc.sourceFile}}>{{> sourceCode}}</a>
+        <span class="item-name method-name">{{../name}}</span>{{~#if ../typeParameters}}<span>&lt;{{{join ../typeParameters ", "}}}&gt;</span> {{/if~}}
+        <span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span> <span class="symbol">=></span> {{{returnType}}}</span>{{/if~}}
+        <div class="docblock">
+        {{{comment}}}
+        </div>
     </p>
-    {{/each}}
+    {{/resolveOverloads}}
 </div>

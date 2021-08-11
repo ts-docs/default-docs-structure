@@ -1,11 +1,13 @@
 <div>
-    <h1>Function <span class="referenceLink method-name">{{name}}</span></h1>
+    <h1>Function <span class="referenceLink method-name">{{name}}</span>
+    <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
+    </h1>
 
     {{{comment}}}
 
     {{#each signatures}}
     <div>
-        ({{{join parameters ", "}}}) => {{{returnType}}}
+        ({{{join parameters ", "}}}) <span class="symbol">=></span> {{{returnType}}}
     </div>
     {{/each}}
 </div>

@@ -54,6 +54,24 @@ Handlebars.registerHelper("handleAssets", (mod) => {
     `
 });
 
+Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
+    const other = overloads.length - 3;
+    if (overloads.length > 3) {
+        return `
+        <div>
+        ${overloads.slice(0, 3).map(overload => options.fn(overload)).join("")}
+        <div style="margin-bottom: 15px">
+        <span class="collapsible-arrow"></span>
+        <span class="secondary-text">${other} more overload${other === 1 ? "":"s"}</span>
+        <div class="collapsible-body">
+        ${overloads.slice(3).map(overload => options.fn(overload)).join("")}
+        </div>
+        </div>
+        </div>
+        `
+    } else return overloads.map(overload => options.fn(overload)).join("");
+});
+
 Handlebars.registerHelper("handleReferenceClass", (ref) => {
     switch (ref.type.kind)  {
         case ReferenceTypes.CLASS: 

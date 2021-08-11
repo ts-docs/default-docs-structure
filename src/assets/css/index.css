@@ -21,6 +21,7 @@
     --primitiveName: #79C0FF;
     --propertyName: #9BBCFC;
     --constantName: #4fc3f7;
+    --modifierColor: #FF7B7B;
 }
 
 html, body {
@@ -119,6 +120,7 @@ body {
 .content {
     overflow-y: auto;
     max-height: 100vh;
+    padding-top: 15px;
     padding-bottom: 80px;
 }
 
@@ -126,7 +128,6 @@ body {
     font-weight: bold;
     text-decoration: none;
     color: var(--textColor);
-    
 }
 
 .module {
@@ -234,11 +235,6 @@ h5 {
     color: var(--functionParamName);
 }
 
-.badge {
-    background-color: var(--primaryDark);
-    color: var(--textColor);
-}
-
 .hljs {
     margin-left: 15px;
 }
@@ -246,4 +242,16 @@ h5 {
 .sourceCode {
     color: var(--primaryLight);
     cursor: pointer;
+}
+
+.symbol,
+.modifier {
+    color: var(--modifierColor);
+    font-family: var(--bs-font-monospace);
+}
+
+.secondary-text {
+    color: var(--textSecondaryColor);
+    font-family: var(--bs-font-monospace);
+    font-weight: bold;
 }
