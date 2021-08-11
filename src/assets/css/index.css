@@ -123,19 +123,8 @@ body {
 .referenceLink {
     font-weight: bold;
     text-decoration: none;
-    color: var(--secondaryLight);
-}
-
-.class {
-    color: var(--className);
-}
-
-.interface {
-    color: var(--interfaceName);
-}
-
-.enum {
-    color: var(--enumName);
+    color: var(--textColor);
+    
 }
 
 .module {
@@ -227,6 +216,10 @@ h5 {
 
 .primitive {
     color: var(--primitiveName);
+    text-decoration: none;
+}
+
+.external {
     text-decoration: none;
 }
 
