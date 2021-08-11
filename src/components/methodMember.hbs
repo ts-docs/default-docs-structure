@@ -7,9 +7,10 @@
     <div class="docblock">
         {{{comment}}}
     </div>
+    <p class="item-name"><span class="method-name">{{name}}</span>{{~#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span> {{/if~}}</p>
     {{#each signatures}}
     <p>
-        <span class="item-name">{{../name}}</span>{{~#if typeParameters}} <span>&lt;{{{join typeParameters ", "}}}&gt;</span> {{/if~}}<span>({{~{join parameters ", "}~}})</span>{{~#if returnType}} <span>=> {{{returnType}}}</span> {{/if~}}
+        <span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span> => {{{returnType}}}</span>{{/if~}}
     </p>
     {{/each}}
 </div>

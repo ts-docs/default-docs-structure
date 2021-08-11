@@ -1,23 +1,30 @@
 
-
 .dark-theme {
-    --backgroundColor: #181818;
+    --backgroundColor: #2F3035;
     --secondaryBackgroundColor: #121212;
     --textColor: rgba(255, 255, 255, 0.88);
     --textSecondaryColor: rgba(255, 255, 255, 0.56);
-    --primary: #3178c6;
+    --sidebarColor: #202125;
+    --navigationColor: #454546;
+    --searchColor: #5a5a5a;
     --primaryLight: #6ec6ff;
     --primaryDark: #0069c0;
     --secondary: #1a237e;
     --secondaryLight: #534bae;
     --secondaryDark: #000051;
     --moduleName: #c62828;
-    --className: #f06292;
-    --interfaceName: #ba68c8;
-    --enumName: #9575cd;
+    --objectName: #56D69C;
     --functionName: #64b5f6;
     --typeName: #7986cb;
+    --methodName: #DCDCAA;
+    --functionParamName: #9cdcfe;
+    --primitiveName: #79C0FF;
+    --propertyName: #9BBCFC;
     --constantName: #4fc3f7;
+}
+
+html, body {
+    height: 100%;
 }
 
 body {
@@ -25,10 +32,19 @@ body {
   "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
   background-color: var(--backgroundColor);
   color: var(--textColor);
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primaryLight); 
 }
 
 .navi {
-    background-color: var(--primary);
+    background-color: var(--navigationColor);
     padding-top: 10px;
     padding-bottom: 10px;
     width: 100%;
@@ -65,7 +81,9 @@ body {
 }
 
 .sidebar {
-    background-color: var(--secondaryBackgroundColor)
+    background-color: var(--sidebarColor);
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 .sidebar-category {
@@ -98,7 +116,8 @@ body {
 }
 
 .content {
-    margin-top: 20px;
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 .referenceLink {
@@ -139,7 +158,7 @@ body {
 .search:not(:hover),
 .search {
     color: var(--textColor);
-    background-color: var(--primaryDark);
+    background-color: var(--searchColor);
     border: none !important;
     outline: none !important;
     padding-top: 10px;
@@ -187,4 +206,44 @@ h5 {
 
 .item-name {
     font-weight: bold;
+    font-family: var(--bs-font-monospace)
+}
+
+.item {
+    margin-bottom: 20px;
+}
+
+.object {
+    color: var(--objectName);
+}
+
+.method-name {
+    color: var(--methodName);
+}
+
+.property-name {
+    color: var(--propertyName);
+}
+
+.primitive {
+    color: var(--primitiveName);
+    text-decoration: none;
+}
+
+.primitive:hover {
+    color: var(--primitiveName);
+    text-decoration: none;
+}
+
+.param-name {
+    color: var(--functionParamName);
+}
+
+.badge {
+    background-color: var(--primaryDark);
+    color: var(--textColor);
+}
+
+.hljs {
+    margin-left: 15px;
 }

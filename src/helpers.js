@@ -56,12 +56,14 @@ Handlebars.registerHelper("handleAssets", (mod) => {
 
 Handlebars.registerHelper("handleReferenceClass", (ref) => {
     switch (ref.type.kind)  {
-        case ReferenceTypes.CLASS: return "class";
-        case ReferenceTypes.INTERFACE: return "interface";
+        case ReferenceTypes.CLASS: 
+        case ReferenceTypes.INTERFACE:
         case ReferenceTypes.ENUM_MEMBER:
-        case ReferenceTypes.ENUM: return "enum";
-        case ReferenceTypes.TYPE_ALIAS: return "type";
-        case ReferenceTypes.FUNCTION: return "function";
+        case ReferenceTypes.ENUM: 
+        case ReferenceTypes.TYPE_ALIAS:
+        case ReferenceTypes.FUNCTION:
+        case ReferenceTypes.TYPE_PARAMETER:
+            return "object";
         default: return "item-name";
     }
 });
@@ -69,17 +71,17 @@ Handlebars.registerHelper("handleReferenceClass", (ref) => {
 
 function resolvePrimitive(ref) {
     switch (ref.kind) {
-        case Types.STRING: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
-        case Types.NUMBER: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
+        case Types.STRING: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
+        case Types.NUMBER: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
         case Types.TRUE:
         case Types.FALSE:
-        case Types.BOOLEAN: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
-        case Types.UNDEFINED: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
-        case Types.NULL: return "<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
+        case Types.BOOLEAN: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
+        case Types.UNDEFINED: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
+        case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
         case Types.UNIQUE_OPERATOR: return `unique ${resolvePrimitive(ref)}`
         case Types.KEYOF_OPERATOR: return `keyof ${resolvePrimitive(ref)}`
         case Types.READONLY_OPERATOR: return `readonly ${resolvePrimitive(ref)}`
-        default: return ref.name;
+        default: return `<span class='primitive'>${ref.name}</span>`;
     }
 }
 

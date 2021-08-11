@@ -1,14 +1,13 @@
-
-<div id={{name}}>
-    <span>
-        {{#if isStatic}}[static]{{/if}}
-        {{#if isProtected}}[protected]{{/if}}
-        {{#if isAbstract}}[abstract]{{/if}}
-        {{#if isPrivate}}[private]{{/if}}
-        {{#if isReadonly}}[readonly]{{/if}}
-        <span class="item-name">{{name}}</span>{{#if type}}<span>: {{{type}}}</span>{{/if}}
-        <div class="docblock">
-            {{{comment}}}
-        </div>
+<div class="item" id={{name}}>
+    <span class="item-name"><span class="property-name">{{name}}</span>
+        {{~#if type}}<span>: {{{type}}}</span>{{/if~}}
     </span>
+    {{#if isStatic}}<span class="badge">static</span>{{/if}}
+    {{#if isProtected}}<span class="badge">protected</span>{{/if}}
+    {{#if isAbstract}}<span class="badge">abstract</span>{{/if}}
+    {{#if isPrivate}}<span class="badge">private</span>{{/if}}
+    {{#if isReadonly}}<span class="badge">readonly</span>{{/if}}
+    <div class="docblock">
+        {{{comment}}}
+    </div>
 </div>
