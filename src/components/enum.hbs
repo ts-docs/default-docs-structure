@@ -1,16 +1,20 @@
-
 <div>
     <h1>Enum <span class="referenceLink enum">{{name}}</span></h1>
     <p>{{{comment}}}</p><br><br>
-    
-    {{#each members}}
-    <div id={{this.name}}>{{this.name}}
 
-        {{#if this.initializer}} 
-            <span>= {{{this.initializer}}}</span>
+    {{#if members}}
+    <h2>Members</h2>
+    {{#each members}}
+    <div id={{this.name}}>
+        <span class="item-name">{{this.name}}</span>
+
+        {{#if this.initializer}}
+        <span>= {{{this.initializer}}}</span>
         {{/if}}
 
     </div>
     {{/each}}
+    {{/if}}
+
 
 </div>

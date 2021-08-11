@@ -1,7 +1,7 @@
 
 <span>
         {{#if typeParameters}}
-        &lt;{{{join typeParameters ", "}}}&gt;
+        &lt;{{~{join typeParameters ", "}~}}&gt;
         {{/if}}
-        ({{{join parameters ", "}}}) => {{{returnType}}}
+        ({{~{join parameters ", "}~}}) => {{{returnType}}}
 </span>

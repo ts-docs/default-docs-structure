@@ -1,11 +1,11 @@
 <span>
-    <a href={{link}} class="referenceLink">
+    <a class="referenceLink" href={{link}}>
         <span class={{handleReferenceClass this}}>
-            {{#if type.displayName}}
+            {{~#if type.displayName}}
             {{type.displayName}}
             {{else}}
             {{type.name}}
-            {{/if}}
+            {{/if~}}
         </span>
-    </a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}
+    </a>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}
 </span>

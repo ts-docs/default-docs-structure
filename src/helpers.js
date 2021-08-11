@@ -40,14 +40,14 @@ const ReferenceTypes = {
 }
 Handlebars.registerHelper("join", (args, delimiter) => {
     if (!args) return "";
-    return args.join(delimiter);
+    return args.map(item => item.trim()).join(delimiter);
 });
 
 Handlebars.registerHelper("handleAssets", (mod) => {
     let depth = mod.moduleDepth || 0;
     if (mod.type === "class" || mod.type === "interface" || mod.type === "enum" || mod.realType === "function" || mod.realType === "type" || mod.realType === "constant") depth++;
     if (mod.isPage) depth += 2;
-    const dpth = "../".repeat(depth || 0);
+    const dpth = "../".repeat(depth);
     return `
     <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
     <script src="${dpth}assets/js/index.js"></script>
@@ -62,7 +62,7 @@ Handlebars.registerHelper("handleReferenceClass", (ref) => {
         case ReferenceTypes.ENUM: return "enum";
         case ReferenceTypes.TYPE_ALIAS: return "type";
         case ReferenceTypes.FUNCTION: return "function";
-        default: return "";
+        default: return "item-name";
     }
 });
 
@@ -111,14 +111,14 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const data = ctx.data.root;
     const res = [];
     if (data.type === "class") {
-        if (data.methods.length) res.push({
-            name: "Methods",
-            values: data.methods.map(m => `<a href="#${m.name}">${m.name}</a>`)
-        }); 
         if (data.properties.length) res.push({
             name: "Properties",
             values: data.properties.filter(p => !p.isPrivate).map(m => `<a href="#${m.name}">${m.name}</a>`)
         });
+        if (data.methods.length) res.push({
+            name: "Methods",
+            values: data.methods.map(m => `<a href="#${m.name}">${m.name}</a>`)
+        }); 
     } else if (data.type === "module") {
         const depth = "../".repeat(data.depth);
         if (data.pages) {

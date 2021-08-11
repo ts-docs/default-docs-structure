@@ -1,22 +1,29 @@
 
 <div>
-    <h1>Class <span class="referenceLink class">{{name}}</span></h1><h2>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}</h2> 
+    <h1>Class <span class="referenceLink class">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
     {{#if extends}}
-    <h2>extends {{{extends}}}</h2>
+    <p class="item-name">extends {{{extends}}}</p>
     {{/if}}
 
     {{#if implements}}
-    <h2>implements {{{join implements ", "}}}</h2>
+    <p class="item-name">implements {{{join implements ", "}}}</p>
     {{/if}}
 
     <p>{{{comment}}}</p><br><br>
     
+    {{#if properties}}
+    <h2>Properties</h2>
     {{#each properties}}
     <div>{{{this}}}</div>
     {{/each}}
+    {{/if}}
+
+    {{#if methods}}
+    <h2>Methods</h2>
 
     {{#each methods}}
     <div>{{{this}}}</div>
     {{/each}}
+    {{/if}}
 
 </div>

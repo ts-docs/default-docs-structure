@@ -1,10 +1,14 @@
 
-<p id={{name}}>
-    {{{comment}}}
-    {{#if isStatic}}[static]{{/if}}
-    {{#if isProtected}}[protected]{{/if}}
-    {{#if isAbstract}}[abstract]{{/if}}
-    {{#if isPrivate}}[private]{{/if}}
-    {{#if isReadonly}}[readonly]{{/if}}
-    {{name}}: {{{type}}}
-</p>
+<div id={{name}}>
+    <span>
+        {{#if isStatic}}[static]{{/if}}
+        {{#if isProtected}}[protected]{{/if}}
+        {{#if isAbstract}}[abstract]{{/if}}
+        {{#if isPrivate}}[private]{{/if}}
+        {{#if isReadonly}}[readonly]{{/if}}
+        <span class="item-name">{{name}}</span>{{#if type}}<span>: {{{type}}}</span>{{/if}}
+        <div class="docblock">
+            {{{comment}}}
+        </div>
+    </span>
+</div>

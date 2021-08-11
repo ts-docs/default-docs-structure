@@ -1,44 +1,46 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{#if name}}{{name}} | {{/if}} {{headerName}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/github-dark.min.css">
-    {{{handleAssets this}}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{#if name}}{{name}} | {{/if}} {{headerName}}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/github-dark.min.css">
+  {{{handleAssets this}}}
 </head>
 
 <body class="dark-theme">
 
-<nav class="container-fluid navi">
+  <nav class="container-fluid navi">
     <div class="row">
-          <div class="col-4">
-            <input class="form-control search" id="search" type="search" placeholder="Search" aria-label="Search">
-          </div>
-    </div>
-</nav>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-4 sidebar">
-
-          <h1 class="lib-name">{{headerName}}</h1>
-          {{#resolveSidebar}} {{/resolveSidebar}}
-        </div>
-        <div class="col-8 content">
-
-          {{#if path}}
-          {{#each path}}
-          <a href={{this.path}}>{{this.name}}</a> / 
-          {{/each}}
-          {{/if}}
-          {{{content}}}
-        </div>
+      <div class="col-4">
+        <input class="form-control search" id="search" type="search" placeholder="Search" aria-label="Search">
       </div>
     </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-4 sidebar">
+
+        <h1 class="lib-name">{{headerName}}</h1>
+        {{#resolveSidebar}} {{/resolveSidebar}}
+      </div>
+      <div class="col-8 content">
+
+        {{#if path}}
+        <div class="path">
+          {{#each path}}
+          <a class="path-member" href={{this.path}}>{{this.name}}</a> /
+          {{/each}}
+        </div>
+        {{/if}}
+        {{{content}}}
+      </div>
+    </div>
+  </div>
 
 
 </html>

@@ -4,6 +4,7 @@
     --backgroundColor: #181818;
     --secondaryBackgroundColor: #121212;
     --textColor: rgba(255, 255, 255, 0.88);
+    --textSecondaryColor: rgba(255, 255, 255, 0.56);
     --primary: #3178c6;
     --primaryLight: #6ec6ff;
     --primaryDark: #0069c0;
@@ -11,12 +12,12 @@
     --secondaryLight: #534bae;
     --secondaryDark: #000051;
     --moduleName: #c62828;
-    --className: #3949ab;
-    --interfaceName: #00897b;
-    --enumName: #43a047;
-    --functionName: #9c27b0;
-    --typeName: #e91e63;
-    --constantName: #8d6e63;
+    --className: #f06292;
+    --interfaceName: #ba68c8;
+    --enumName: #9575cd;
+    --functionName: #64b5f6;
+    --typeName: #7986cb;
+    --constantName: #4fc3f7;
 }
 
 body {
@@ -106,31 +107,31 @@ body {
     color: var(--secondaryLight);
 }
 
-.referenceLink .class {
+.class {
     color: var(--className);
 }
 
-.referenceLink .interface {
+.interface {
     color: var(--interfaceName);
 }
 
-.referenceLink .enum {
+.enum {
     color: var(--enumName);
 }
 
-.referenceLink .module {
+.module {
     color: var(--moduleName);
 }
 
-.referenceLink .function {
+.function {
     color: var(--functionName);
 }
 
-.referenceLink .type {
+.type {
     color: var(--typeName);
 }
 
-.referenceLink .constant {
+.constant {
     color: var(--constantName);
 }
 
@@ -143,4 +144,47 @@ body {
     outline: none !important;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.search::placeholder {
+    color: var(--textColor);
+}
+
+code {
+    color: var(--primaryLight)
+}
+
+h2, h3, h4, h5, h6 {
+    border-bottom: solid white 1px;
+    padding-bottom: 10px;
+}
+
+h3 {
+    margin-left: 15px;
+}
+
+h4 {
+    margin-left: 25px;
+}
+
+h5 {
+    margin-left: 35px;
+}
+
+.path-member {
+    color: var(--textSecondaryColor);
+    text-decoration: none;
+}
+
+.path-member:hover {
+    color: var(--textSecondaryColor);
+    text-decoration: underline;
+}
+
+.docblock {
+    margin-left: 24px;
+}
+
+.item-name {
+    font-weight: bold;
 }
