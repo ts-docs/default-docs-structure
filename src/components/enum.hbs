@@ -1,6 +1,12 @@
 <div>
-    <h1>Enum <span class="referenceLink object">{{name}}</span></h1>
-    <p>{{{comment}}}</p><br><br>
+    <h1>Enum <span class="referenceLink object">{{name}}</span>
+    
+    {{#each loc}}
+        <a href={{this.sourceFile}}>{{> sourceCode}}</a>
+    {{/each}}
+    </h1>
+
+    {{{comment}}}
 
     {{#if members}}
     <h2>Members</h2>

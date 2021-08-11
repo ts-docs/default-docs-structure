@@ -4,6 +4,9 @@
         {{#if typeParameters}}<span>
             <{{~{join typeParameters ", "}~}}>
         </span>{{/if}}
+        {{#each loc}}
+        <a href={{this.sourceFile}}>{{> sourceCode}}</a>
+        {{/each}}
     </h1>
 
     {{#if extends}}

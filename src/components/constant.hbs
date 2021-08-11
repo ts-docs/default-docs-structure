@@ -1,5 +1,7 @@
 <div>
-    <h1>Constant <span class="referenceLink constant">{{name}}</span></h1>
+    <h1>Constant <span class="referenceLink constant">{{name}}</span>
+    <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
+    </h1>
 
     {{#if type}}
     <span>Type: {{{type}}}</span>

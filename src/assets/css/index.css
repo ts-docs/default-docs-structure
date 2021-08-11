@@ -84,6 +84,7 @@ body {
     background-color: var(--sidebarColor);
     overflow-y: auto;
     max-height: 100vh;
+    padding-bottom: 80px;
 }
 
 .sidebar-category {
@@ -118,6 +119,7 @@ body {
 .content {
     overflow-y: auto;
     max-height: 100vh;
+    padding-bottom: 80px;
 }
 
 .referenceLink {
@@ -239,4 +241,9 @@ h5 {
 
 .hljs {
     margin-left: 15px;
+}
+
+.sourceCode {
+    color: var(--primaryLight);
+    cursor: pointer;
 }

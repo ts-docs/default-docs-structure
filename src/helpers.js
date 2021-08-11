@@ -115,7 +115,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     if (data.type === "class") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.filter(p => !p.isPrivate).map(m => `<a href="#${m.name}">${m.name}</a>`)
+            values: data.properties.map(m => `<a href="#${m.name}">${m.name}</a>`)
         });
         if (data.methods.length) res.push({
             name: "Methods",
