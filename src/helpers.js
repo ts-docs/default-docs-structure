@@ -76,18 +76,20 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
     } else return overloads.map(overload => options.fn(overload)).join("");
 });
 
-Handlebars.registerHelper("handleReferenceClass", (ref) => {
-    switch (ref.type.kind)  {
-        case ReferenceTypes.CLASS: 
-        case ReferenceTypes.INTERFACE:
-        case ReferenceTypes.ENUM_MEMBER:
-        case ReferenceTypes.ENUM: 
-        case ReferenceTypes.TYPE_ALIAS:
-        case ReferenceTypes.FUNCTION:
-        case ReferenceTypes.TYPE_PARAMETER:
-            return "object";
-        default: return "item-name";
+Handlebars.registerHelper("handleReferenceKind", (ref) => {
+    let type = "";
+    const name = ref.type.displayName || ref.type.name;
+    switch (ref.type.kind) {
+        case ReferenceTypes.CLASS: type = "class"; break;
+        case ReferenceTypes.INTERFACE: type = "interface"; break;
+        case ReferenceTypes.ENUM_MEMBER: type = "enum member"; break;
+        case ReferenceTypes.ENUM: type = "enum"; break;
+        case ReferenceTypes.TYPE_ALIAS: type = "type alias"; break;
+        case ReferenceTypes.FUNCTION: type = "function"; break;
+        case ReferenceTypes.TYPE_PARAMETER: type = "type parameter"; break;
+        default: return `<span class="reference-link item-name">${name}</span>`
     }
+    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${name}</span></span></span>`
 });
 
 
@@ -216,9 +218,9 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         <span class="collapsible-arrow open"></span>
         <span class="sidebar-category">${thing.name}</span>
         </div>
-        <ul class="collapsible-body open"> 
-        ${thing.values.map(v => `<p class="sidebar-category-member">${v}</p>`).join("")}
-        </ul>
+        <div class="collapsible-body open"> 
+        ${thing.values.map(v => `<span class="sidebar-category-member">${v}</span><br>`).join("")}
+        </div>
         </div>
     `).join("")}
     </div>

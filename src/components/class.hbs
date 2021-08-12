@@ -1,7 +1,6 @@
 
 <div>
-    <h1>Class <span class="referenceLink object">{{name}}</span>
-    {{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}
+    <h1>Class <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     </h1>
     {{#if extends}}

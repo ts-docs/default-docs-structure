@@ -24,6 +24,7 @@
     --modifierColor: #FF7B7B;
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
+    --keywordColor: #245db4;
 }
 
 html, body {
@@ -77,6 +78,9 @@ body {
 
 .collapsible-body {
     display: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: 15px;
 }
 
 .collapsible-body.open {
@@ -126,7 +130,7 @@ body {
     padding-bottom: 80px;
 }
 
-.referenceLink {
+.reference-link {
     font-weight: bold;
     text-decoration: none;
     color: var(--textColor);
@@ -213,6 +217,7 @@ h5 {
 
 .object:hover {
     text-decoration: underline;
+    color: var(--objectName);
 }
 
 .method-name {
@@ -276,4 +281,29 @@ h5 {
 .number-literal:hover,
 .number-literal {
     color: var(--numberColor)
+}
+
+.keyword {
+    color: var(--keywordColor);
+    font-weight: bold;
+    font-family: var(--bs-font-monospace);
+}
+
+.c-tooltip {
+    position: relative;
+}
+
+.c-tooltip-content {
+    position: absolute;
+    display: none;
+    background-color: var(--sidebarColor);
+    padding: 5px 5px 5px 5px;
+    transform: translate(-75%, -100%);
+    border: solid 1px var(--textSecondaryColor);
+    overflow: visible;
+    white-space: nowrap;
+}
+
+.c-tooltip-content.open {
+    display: inline-block;
 }

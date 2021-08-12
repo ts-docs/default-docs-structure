@@ -1,6 +1,13 @@
 
 
 <div>
-    <h1>Module <span class="referenceLink module">{{name}}</span></h1>
-    <a href={{repository}}>Repository</a>
+    <h1>
+    {{#if isNamespace}}Namespace{{else}}Module{{/if}}
+    <span class="referenceLink module">{{name}}</span>
+    <a href={{this.repository}}>{{> sourceCode}}</a>
+    </h1>
+
+    {{#if readme}}
+    {{{readme}}}
+    {{/if}}
 </div>
