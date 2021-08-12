@@ -1,14 +1,14 @@
 
 window.onload = () => {
-    const els = document.getElementsByClassName("collapsible-arrow") as HTMLCollectionOf<HTMLSpanElement>;
-    console.log(els.length);
+    const els = document.getElementsByClassName("collapsible-trigger") as HTMLCollectionOf<HTMLSpanElement>;
     for (let i=0; i < els.length; i++) {
-        els[i].onclick = function(ev: MouseEvent) {
-            const el = ev.target as HTMLSpanElement;
+        const el = els[i];
+        el.onclick = function(ev: MouseEvent) {
             const body = el.parentElement?.getElementsByClassName("collapsible-body")[0];
             if (!body) return;
             body.classList.toggle("open");
-            el.classList.toggle("open");
+            const arrow = el.getElementsByClassName("collapsible-arrow")[0];
+            if (arrow) arrow.classList.toggle("open");
         }
     }
 }

@@ -20,6 +20,8 @@ const Types = {
     UNDEFINED: 18,
     NULL: 19,
     ANY: 20,
+    NUMBER_LITERAL: 21,
+    STRING_LITERAL: 22
 };
 
 const ReferenceTypes = {
@@ -61,8 +63,10 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
         <div>
         ${overloads.slice(0, 3).map(overload => options.fn(overload)).join("")}
         <div style="margin-bottom: 15px">
+        <div class="collapsible-trigger">
         <span class="collapsible-arrow"></span>
         <span class="secondary-text">${other} more overload${other === 1 ? "":"s"}</span>
+        </div>
         <div class="collapsible-body">
         ${overloads.slice(3).map(overload => options.fn(overload)).join("")}
         </div>
@@ -96,6 +100,8 @@ function resolvePrimitive(ref) {
         case Types.BOOLEAN: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
         case Types.UNDEFINED: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
         case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
+        case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
+        case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
         case Types.UNIQUE_OPERATOR: return `unique ${resolvePrimitive(ref)}`
         case Types.KEYOF_OPERATOR: return `keyof ${resolvePrimitive(ref)}`
         case Types.READONLY_OPERATOR: return `readonly ${resolvePrimitive(ref)}`
@@ -206,8 +212,10 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     <div class="sidebar-members">
     ${res.map(thing => `
         <div class="sidebar-member">
+        <div class="collapsible-trigger">
         <span class="collapsible-arrow open"></span>
         <span class="sidebar-category">${thing.name}</span>
+        </div>
         <ul class="collapsible-body open"> 
         ${thing.values.map(v => `<p class="sidebar-category-member">${v}</p>`).join("")}
         </ul>

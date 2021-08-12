@@ -22,6 +22,8 @@
     --propertyName: #9BBCFC;
     --constantName: #4fc3f7;
     --modifierColor: #FF7B7B;
+    --stringColor: #CE9178;
+    --numberColor: #B5CEA8;
 }
 
 html, body {
@@ -51,6 +53,10 @@ body {
     width: 100%;
 }
 
+.collapsible-trigger {
+    cursor: pointer;
+}
+
 .collapsible-arrow {
     border: solid var(--primaryLight);
     display: inline-block;
@@ -61,10 +67,6 @@ body {
     -webkit-transform: rotate(-45deg);
     margin-bottom: 0.5px;
     margin-right: 10px;
-}
-
-.collapsible-arrow:hover {
-    cursor: pointer;
 }
 
 .collapsible-arrow.open {
@@ -209,6 +211,10 @@ h5 {
     color: var(--objectName);
 }
 
+.object:hover {
+    text-decoration: underline;
+}
+
 .method-name {
     color: var(--methodName);
 }
@@ -222,13 +228,19 @@ h5 {
     text-decoration: none;
 }
 
-.external {
-    text-decoration: none;
-}
-
 .primitive:hover {
     color: var(--primitiveName);
+    text-decoration: underline;
+}
+
+.external {
     text-decoration: none;
+    color: var(--objectName);
+}
+
+.external:hover {
+    text-decoration: underline;
+    color: var(--objectName);
 }
 
 .param-name {
@@ -254,4 +266,14 @@ h5 {
     color: var(--textSecondaryColor);
     font-family: var(--bs-font-monospace);
     font-weight: bold;
+}
+
+.string-literal:hover,
+.string-literal {
+    color: var(--stringColor);
+}
+
+.number-literal:hover,
+.number-literal {
+    color: var(--numberColor)
 }
