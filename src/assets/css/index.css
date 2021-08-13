@@ -25,6 +25,7 @@
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
     --keywordColor: #245db4;
+    --linkColor: #58a6ff;
 }
 
 html, body {
@@ -37,6 +38,16 @@ body {
   background-color: var(--backgroundColor);
   color: var(--textColor);
   overflow: hidden;
+}
+
+a {
+    color: var(--linkColor);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--linkColor);
+    text-decoration: underline;
 }
 
 ::-webkit-scrollbar {
@@ -306,4 +317,40 @@ h5 {
 
 .c-tooltip-content.open {
     display: inline-block;
+}
+
+.c-checkbox {
+    margin-right: 10px;
+}
+
+.c-checkbox[type="checkbox"]:before{
+    display: block;
+    width: 15px;
+    height: 15px;
+    content: "";
+}
+
+.c-checkbox[type="checkbox"]:after{
+    position: relative;
+    display: block;
+    left: 0px;
+    top: -15px;
+    width: 15px;
+    height: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.56);
+    content: "";
+    background-color: #202125;
+}
+
+.c-checkbox[type="checkbox"]:checked:after{
+    content: "✓";
+    color: #6ec6ff;
+    font-size: 10px;
+    text-align: center;
+}
+
+.mini-header {
+    font-size: 1.5em;
 }

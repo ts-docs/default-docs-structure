@@ -2,7 +2,7 @@
     <h1>
         Interface <span class="referenceLink object">{{name}}</span>
         {{#if typeParameters}}<span>
-            <{{~{join typeParameters ", "}~}}>
+            &lt;{{~{join typeParameters ", "}~}}&gt;
         </span>{{/if}}
         {{#each loc}}
         <a href={{this.sourceFile}}>{{> sourceCode}}</a>

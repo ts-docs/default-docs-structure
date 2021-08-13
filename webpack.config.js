@@ -1,5 +1,6 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const config = {
     mode: "production",
@@ -16,12 +17,22 @@ const config = {
                 loader: "ts-loader",
                 exclude: /node_modules/,
             },
+            {
+                test: /.s?css$/,
+                use: ["css-loader"],
+            },
         ],
     },
     
     output: {
         filename: "index.js",
         path: path.join(__dirname, "dist/assets/js")
+    },
+
+    optimization: {
+        minimizer: [
+            new CssMinimizerPlugin()
+        ]
     },
 
     plugins: [

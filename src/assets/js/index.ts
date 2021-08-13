@@ -1,3 +1,11 @@
+import { initSearch } from "./search";
+
+declare global {
+
+    interface Window {
+        depth: string
+    }
+}
 
 window.onload = () => {
     for (const el of (document.getElementsByClassName("collapsible-trigger") as unknown as Array<HTMLSpanElement>)) {
@@ -11,7 +19,7 @@ window.onload = () => {
     }
 
     for (const tooltip of (document.getElementsByClassName("c-tooltip") as unknown as Array<HTMLSpanElement>)) {
-        let timeout: NodeJS.Timeout;
+        let timeout: any;
         const tooltipContent = tooltip.getElementsByClassName("c-tooltip-content")[0];
         if (!tooltipContent || tooltipContent.classList.contains("open")) return;
         tooltip.onmouseover = () => {
@@ -25,4 +33,7 @@ window.onload = () => {
             tooltipContent.classList.remove("open");
         }
     }
+
+    initSearch();
 }
+

@@ -5,6 +5,7 @@
   "main": "index.js",
   "devDependencies": {
     "copy-webpack-plugin": "^9.0.1",
+    "css-minimizer-webpack-plugin": "^3.0.2",
     "eslint": "^7.32.0",
     "highlight.js": "^11.1.0",
     "ts-loader": "^9.2.4",

@@ -27,19 +27,23 @@
           <h1 class="lib-name">{{headerName}}</h1>
           {{#resolveSidebar}} {{/resolveSidebar}}
       </div>
-      <div class="col-9 content">
-
-        {{#if path}}
+      <div class="col-9 content" id="content">
+        {{> searchMenu}}
+       <div id="content-main">
+          {{#if path}}
         <div class="path">
           {{#each path}}
-          <a class="path-member" href={{this.path}}>{{this.name}}</a> /
+          <a class="path-member" {{#if this.path}}href={{this.path}}{{/if}}>{{this.name}}</a> /
           {{/each}}
         </div>
         {{/if}}
         {{{content}}}
+        </div>
+
       </div>
     </div>
   </div>
 
+</body>
 
 </html>

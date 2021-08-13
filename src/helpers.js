@@ -52,7 +52,8 @@ Handlebars.registerHelper("handleAssets", (mod) => {
     const dpth = "../".repeat(depth);
     return `
     <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
-    <script src="${dpth}assets/js/index.js"></script>
+    <script src="${dpth}assets/js/index.js" defer></script>
+    <script>window.depth="${dpth}"</script>
     `
 });
 
@@ -89,7 +90,8 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.TYPE_PARAMETER: type = "type parameter"; break;
         default: return `<span class="reference-link item-name">${name}</span>`
     }
-    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${name}</span></span></span>`
+    const path = ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${name}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${name}`;
+    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${name}</span><span style="display:block">${path}</span></span></span>`
 });
 
 
