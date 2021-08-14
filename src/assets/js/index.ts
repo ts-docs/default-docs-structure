@@ -3,7 +3,8 @@ import { initSearch } from "./search";
 declare global {
 
     interface Window {
-        depth: string
+        depth: string,
+        lm?: string
     }
 }
 
@@ -34,6 +35,11 @@ window.onload = () => {
         }
     }
 
-    initSearch();
+    const contentMain = document.getElementById("content-main")!;
+    const searchMenu = document.getElementById("search-menu")!;
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has("search")) searchMenu.classList.remove("d-none");
+    else contentMain.classList.remove("d-none");
+    initSearch(searchParams, contentMain, searchMenu);
 }
 

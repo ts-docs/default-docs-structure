@@ -213,6 +213,11 @@ h5 {
     margin-left: 24px;
 }
 
+.docblock.secondary {
+    color: var(--textSecondaryColor);
+    font-size: 12px;
+}
+
 .item-name {
     font-weight: bold;
     font-family: var(--bs-font-monospace)
@@ -235,7 +240,15 @@ h5 {
     color: var(--methodName);
 }
 
+.method-name:hover {
+    color: var(--methodName);
+}
+
 .property-name {
+    color: var(--propertyName);
+}
+
+.property-name:hover {
     color: var(--propertyName);
 }
 
@@ -353,4 +366,8 @@ h5 {
 
 .mini-header {
     font-size: 1.5em;
+}
+
+.search-result {
+    margin-top: 10px;
 }

@@ -53,7 +53,7 @@ Handlebars.registerHelper("handleAssets", (mod) => {
     return `
     <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
     <script src="${dpth}assets/js/index.js" defer></script>
-    <script>window.depth="${dpth}"</script>
+    <script>window.depth="${dpth}";${mod.currentGlobalModuleName ? `window.lm="${mod.currentGlobalModuleName}"`:""}</script>
     `
 });
 
