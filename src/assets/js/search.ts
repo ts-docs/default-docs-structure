@@ -225,6 +225,10 @@ function formatResult(res: SearchResult) : string {
 
 function displayResults(results: Array<SearchResult>) {
     const searchResults = document.getElementById("search-result-list")!;
+    if (!results.length) {
+       searchResults.innerHTML = `<h1 class="text-center">No results!</h1>`;
+       return;
+    }
     const mid = Math.ceil(results.length / 2);
     searchResults.innerHTML = `
     <div class="row">

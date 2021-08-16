@@ -106,9 +106,9 @@ function resolvePrimitive(ref) {
         case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
         case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
         case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
-        case Types.UNIQUE_OPERATOR: return `unique ${resolvePrimitive(ref)}`
-        case Types.KEYOF_OPERATOR: return `keyof ${resolvePrimitive(ref)}`
-        case Types.READONLY_OPERATOR: return `readonly ${resolvePrimitive(ref)}`
+        case Types.UNIQUE_OPERATOR: return `unique ${resolvePrimitive(ref.type)}`
+        case Types.KEYOF_OPERATOR: return `keyof ${resolvePrimitive(ref.type)}`
+        case Types.READONLY_OPERATOR: return `readonly ${resolvePrimitive(ref.type)}`
         default: return `<span class='primitive'>${ref.name}</span>`;
     }
 }
