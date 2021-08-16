@@ -63,6 +63,8 @@ a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
     width: 100%;
+    position: fixed;
+    z-index: 100;
 }
 
 .collapsible-trigger {
@@ -103,6 +105,7 @@ a:hover {
     overflow-y: auto;
     max-height: 100vh;
     padding-bottom: 80px;
+    padding-top: 80px;
 }
 
 .sidebar-category {
@@ -137,7 +140,7 @@ a:hover {
 .content {
     overflow-y: auto;
     max-height: 100vh;
-    padding-top: 15px;
+    padding-top: 80px;
     padding-bottom: 80px;
 }
 
@@ -172,10 +175,15 @@ a:hover {
     outline: none !important;
     padding-top: 10px;
     padding-bottom: 10px;
+    box-shadow: none;
 }
 
 .search::placeholder {
     color: var(--textColor);
+}
+
+.search::-webkit-search-cancel-button {
+    -webkit-appearance: none;
 }
 
 code {
@@ -225,6 +233,7 @@ h5 {
 
 .item {
     margin-bottom: 20px;
+    scroll-margin-top: 80px;
 }
 
 .object {

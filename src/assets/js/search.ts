@@ -40,17 +40,18 @@ let searchResults: Array<SearchResult>|undefined;
 
 
 export async function initSearch(search: URLSearchParams, contentMain: HTMLElement, searchMenu: HTMLElement) {
-    const searchBar = document.getElementById("search");
+    const searchBar = document.getElementById("search") as HTMLInputElement;
     if (searchBar) {
         const options = getSearchOptions();
         window.onpopstate = (event: PopStateEvent) => {
-            if (event.state && event.state.search) {
+           if (event.state && event.state.search) {
                 contentMain.classList.add("d-none");
                 searchMenu.classList.remove("d-none");
+                searchBar.value = event.state.search;
                 evaluateSearch(event.state.search, options);
             } else {
-                contentMain.classList.add("d-none");
-                searchMenu.classList.remove("d-none");
+                contentMain.classList.remove("d-none");
+                searchMenu.classList.add("d-none");
             }
         }
         if (search.has("search")) {
@@ -83,7 +84,7 @@ function search(term: string, filteredResults: Array<SearchResult>): Array<Searc
     if (!searchData) return [];
     const res = go(term, filteredResults, { key: "name", allowTypo: true, limit: 150, threshold: -5000 });
     return res.map(r => {
-        r.obj.highlighted = highlight(r, '<span style="text-decoration:underline">', "</span>");
+        r.obj.highlighted = highlight(r, '<span style="border-bottom: dotted 2px var(--primaryLight)">', "</span>");
         return r.obj;
     });
 }
@@ -138,7 +139,7 @@ function getSearchOptions(): SearchOptions {
     return options;
 }
 
-function formatResult(res: SearchResult) : HTMLDivElement {
+function formatResult(res: SearchResult) : string {
     const path = res.path.slice();
     let content = "";
     switch (res.type) {
@@ -219,18 +220,22 @@ function formatResult(res: SearchResult) : HTMLDivElement {
             break;
         }
     }
-    const div = document.createElement("div");
-    div.className = "search-result";
-    div.innerHTML = content;
-    return div;
+    return `<div class="search-result">${content}</div>`;
 }
 
 function displayResults(results: Array<SearchResult>) {
     const searchResults = document.getElementById("search-result-list")!;
-    searchResults.innerHTML = "";
-    for (const result of results) {
-        searchResults.appendChild(formatResult(result))
-    }
+    const mid = Math.ceil(results.length / 2);
+    searchResults.innerHTML = `
+    <div class="row">
+    <div class="col-lg-6">
+    ${results.slice(0, mid).map(h => formatResult(h)).join("")}
+    </div>
+    <div class="col-lg-6">
+    ${results.slice(-mid).map(h => formatResult(h)).join("")}
+    </div>
+    </div>
+    `;
 }
 
 async function loadSearchData() {
