@@ -1,4 +1,5 @@
 import { initSearch } from "./search";
+import { initTheme } from "./theme";
 
 declare global {
 
@@ -8,7 +9,10 @@ declare global {
     }
 }
 
+initTheme(); 
+
 window.onload = () => {
+
     for (const el of (document.getElementsByClassName("collapsible-trigger") as unknown as Array<HTMLSpanElement>)) {
         el.onclick = () => {
             const body = el.parentElement?.getElementsByClassName("collapsible-body")[0];

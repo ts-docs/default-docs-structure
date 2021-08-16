@@ -1,17 +1,12 @@
 
 .dark-theme {
     --backgroundColor: #2F3035;
-    --secondaryBackgroundColor: #121212;
     --textColor: rgba(255, 255, 255, 0.88);
     --textSecondaryColor: rgba(255, 255, 255, 0.56);
     --sidebarColor: #202125;
     --navigationColor: #454546;
     --searchColor: #5a5a5a;
     --primaryLight: #6ec6ff;
-    --primaryDark: #0069c0;
-    --secondary: #1a237e;
-    --secondaryLight: #534bae;
-    --secondaryDark: #000051;
     --moduleName: #c62828;
     --objectName: #56D69C;
     --functionName: #64b5f6;
@@ -22,6 +17,30 @@
     --propertyName: #9BBCFC;
     --constantName: #4fc3f7;
     --modifierColor: #FF7B7B;
+    --stringColor: #CE9178;
+    --numberColor: #B5CEA8;
+    --keywordColor: #245db4;
+    --linkColor: #58a6ff;
+}
+
+.light-theme {
+    --backgroundColor: #ffff;
+    --textColor: black;
+    --textSecondaryColor: rgba(0, 0, 0, 0.63);
+    --sidebarColor: #cfcfcf;
+    --navigationColor: #DFDFDF;
+    --searchColor: #cfcfcf;
+    --primaryLight: #202125;
+    --moduleName: #c62828;
+    --objectName: #3daa79;
+    --functionName: #64b5f6;
+    --typeName: #7986cb;
+    --methodName: #cc9a55;
+    --functionParamName: #53c1fc;
+    --primitiveName: #4baaff;
+    --propertyName: #3d7cf5;
+    --constantName: #4fc3f7;
+    --modifierColor: #ff2a2a;
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
     --keywordColor: #245db4;
@@ -191,7 +210,7 @@ code {
 }
 
 h2, h3, h4, h5, h6 {
-    border-bottom: solid white 1px;
+    border-bottom: solid var(--textColor) 1px;
     padding-bottom: 10px;
 }
 
@@ -363,12 +382,12 @@ h5 {
     border-style: solid;
     border-color: rgba(255, 255, 255, 0.56);
     content: "";
-    background-color: #202125;
+    background-color: var(--sidebarColor);
 }
 
 .c-checkbox[type="checkbox"]:checked:after{
     content: "✓";
-    color: #6ec6ff;
+    color: var(--primaryLight);
     font-size: 10px;
     text-align: center;
 }
@@ -379,4 +398,9 @@ h5 {
 
 .search-result {
     margin-top: 10px;
+}
+
+.clickable-icon {
+    cursor: pointer;
+    color: var(--textColor);
 }

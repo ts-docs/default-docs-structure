@@ -143,11 +143,11 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     if (data.type === "class") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#${m.name}">${m.name}</a>`)
+            values: data.properties.map(m => `<a href="#prop.${m.name}">${m.name}</a>`)
         });
         if (data.methods.length) res.push({
             name: "Methods",
-            values: data.methods.map(m => `<a href="#${m.name}">${m.name}</a>`)
+            values: data.methods.map(m => `<a href="#method.${m.name}">${m.name}</a>`)
         }); 
     } else if (data.type === "module") {
         const depth = "../".repeat(data.depth);
@@ -195,7 +195,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     } else if (data.type === "enum") {
         if (data.members.length) res.push({
             name: "Members",
-            values: data.members.map(m => `<a href="#${m.name}">${m.name}</a>`)
+            values: data.members.map(m => `<a href="#enum.${m.name}">${m.name}</a>`)
         });
     } else if (data.type === "index") {
         const depth = "../".repeat(data.depth);
