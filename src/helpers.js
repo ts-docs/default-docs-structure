@@ -34,9 +34,6 @@ const ReferenceTypes = {
     TYPE_PARAMETER: 6,
     UNKNOWN: 7,
     STRINGIFIED_UNKNOWN: 8,
-    UNIQUE_OPERATOR: 9,
-    READONLY_OPERATOR: 10,
-    KEYOF_OPERATOR: 11,
     ENUM_MEMBER: 12,
     DEFAULT_API: 13,
 }
@@ -53,7 +50,6 @@ Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
 
 Handlebars.registerHelper("handleAssets", (mod) => {
     let depth = mod.moduleDepth || 0;
-    if (mod.type === "class" || mod.type === "interface" || mod.type === "enum" || mod.realType === "function" || mod.realType === "type" || mod.realType === "constant") depth++;
     if (mod.isPage) depth += 2;
     const dpth = "../".repeat(depth);
     return `
@@ -100,8 +96,7 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
     return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${name}</span><span style="display:block">${path}</span></span></span>`
 });
 
-
-function resolvePrimitive(ref) {
+Handlebars.registerHelper("linkPrimitive", (ref) => {
     switch (ref.kind) {
         case Types.STRING: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
         case Types.NUMBER: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
@@ -112,14 +107,9 @@ function resolvePrimitive(ref) {
         case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
         case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
         case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
-        case Types.UNIQUE_OPERATOR: return `unique ${resolvePrimitive(ref.type)}`
-        case Types.KEYOF_OPERATOR: return `keyof ${resolvePrimitive(ref.type)}`
-        case Types.READONLY_OPERATOR: return `readonly ${resolvePrimitive(ref.type)}`
         default: return `<span class='primitive'>${ref.name}</span>`;
     }
-}
-
-Handlebars.registerHelper("linkPrimitive", resolvePrimitive);
+});
 
 Handlebars.registerHelper("linkDefault", (ref) => {
     switch (ref.type.name) {
