@@ -40,9 +40,15 @@ const ReferenceTypes = {
     ENUM_MEMBER: 12,
     DEFAULT_API: 13,
 }
+
 Handlebars.registerHelper("join", (args, delimiter) => {
     if (!args) return "";
     return args.map(item => item.trim()).join(delimiter);
+});
+
+Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
+     if (!func.paramComments) return "";
+     return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - ${p.comment}</li>`).join("")}</ul>`
 });
 
 Handlebars.registerHelper("handleAssets", (mod) => {

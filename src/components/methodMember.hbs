@@ -13,6 +13,7 @@
         <span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span> <span class="symbol">=></span> {{{returnType}}}</span>{{/if~}}
         <div class="docblock">
         {{{comment}}}
+        {{{formatFunctionParameterComments this}}}
         </div>
     </p>
     {{/resolveOverloads}}
