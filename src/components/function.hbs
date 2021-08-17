@@ -3,13 +3,12 @@
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     </h1>
 
-    {{{comment}}}
-
     {{#each signatures}}
     <div>
         ({{{join parameters ", "}}}) {{#if returnType}}<span class="symbol">=></span> {{{returnType}}}{{/if}}
         <div class="docblock">
             {{{formatFunctionParameterComments this}}}
+            {{{comment}}}
         </div>
     </div>
     {{/each}}

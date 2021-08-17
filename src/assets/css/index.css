@@ -404,3 +404,9 @@ h5 {
     cursor: pointer;
     color: var(--textColor);
 }
+
+.badge.danger {
+    background-color: #ff1919;
+    color: white;
+    margin-left: 15px;
+}
