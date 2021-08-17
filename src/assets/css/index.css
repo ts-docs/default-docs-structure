@@ -1,5 +1,5 @@
 
-.dark-theme {
+html[data-theme="dark"] {
     --backgroundColor: #2F3035;
     --textColor: rgba(255, 255, 255, 0.88);
     --textSecondaryColor: rgba(255, 255, 255, 0.56);
@@ -23,7 +23,7 @@
     --linkColor: #58a6ff;
 }
 
-.light-theme {
+html[data-theme="light"] {
     --backgroundColor: #ffff;
     --textColor: black;
     --textSecondaryColor: rgba(0, 0, 0, 0.63);

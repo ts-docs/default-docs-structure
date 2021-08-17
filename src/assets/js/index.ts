@@ -11,7 +11,7 @@ declare global {
 
 initTheme(); 
 
-window.onload = () => {
+window.addEventListener("load", () => {
 
     for (const el of (document.getElementsByClassName("collapsible-trigger") as unknown as Array<HTMLSpanElement>)) {
         el.onclick = () => {
@@ -45,5 +45,4 @@ window.onload = () => {
     if (searchParams.has("search")) searchMenu.classList.remove("d-none");
     else contentMain.classList.remove("d-none");
     initSearch(searchParams, contentMain, searchMenu);
-}
-
+}); 

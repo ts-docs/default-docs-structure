@@ -52,7 +52,7 @@ Handlebars.registerHelper("handleAssets", (mod) => {
     const dpth = "../".repeat(depth);
     return `
     <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
-    <script src="${dpth}assets/js/index.js" defer></script>
+    <script src="${dpth}assets/js/index.js"></script>
     <script>window.depth="${dpth}";${mod.currentGlobalModuleName ? `window.lm="${mod.currentGlobalModuleName}"`:""}</script>
     `
 });
