@@ -350,7 +350,7 @@ h5 {
     display: none;
     background-color: var(--sidebarColor);
     padding: 5px 5px 5px 5px;
-    transform: translate(-75%, -100%);
+    transform: translate(-45%, -100%);
     border: solid 1px var(--textSecondaryColor);
     overflow: visible;
     white-space: nowrap;
@@ -400,7 +400,7 @@ h5 {
     margin-top: 10px;
 }
 
-.clickable-icon {
+.clickable-icon, .clickable-icon:hover {
     cursor: pointer;
     color: var(--textColor);
 }

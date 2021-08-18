@@ -50,6 +50,7 @@ Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
 
 Handlebars.registerHelper("handleAssets", (mod) => {
     let depth = mod.moduleDepth || 0;
+    if (mod.type !== "index" || mod.type !== "mdoule") depth++;
     if (mod.isPage) depth += 2;
     const dpth = "../".repeat(depth);
     return `
