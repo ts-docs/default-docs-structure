@@ -93,6 +93,11 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.TYPE_PARAMETER: type = "type parameter"; break;
         default: return `<span class="reference-link item-name">${name}</span>`
     }
+    if (ref.hash) {
+        const isMethod = ref.hash.endsWith("()");
+        if (isMethod) ref.hash = ref.hash.slice(0, -2);
+        return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
+    }
     const path = ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${name}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${name}`;
     return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${name}</span><span style="display:block">${path}</span></span></span>`
 });
@@ -137,15 +142,17 @@ Handlebars.registerHelper("linkDefault", (ref) => {
 Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const data = ctx.data.root;
     const res = [];
+    let currentThing;
     if (data.type === "class") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#prop.${m.name}">${m.name}</a>`)
+            values: data.properties.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         });
         if (data.methods.length) res.push({
             name: "Methods",
-            values: data.methods.map(m => `<a href="#method.${m.name}">${m.name}</a>`)
+            values: data.methods.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         }); 
+        currentThing = `<p class="current-thing">class <span class="object">${data.name}</span></p>`;
     } else if (data.type === "module") {
         const depth = "../".repeat(data.depth);
         if (data.pages) {
@@ -156,6 +163,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
                 })
             }
         }
+        currentThing = `<p class="current-thing">module <span class="module">${data.module.name}</span></p>`;
         if (data.module.modules.size) res.push({
             name: "Modules",
             values: [...data.module.modules.values()].map(c => `<a href="${depth}m.${c.name}/index.html">${c.name}</a>`)
@@ -187,13 +195,15 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     } else if (data.type === "interface") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#${m.name}">${m.name}</a>`)
+            values: data.properties.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         });
+        currentThing = `<p class="current-thing">interface <span class="object">${data.name}</span></p>`;
     } else if (data.type === "enum") {
         if (data.members.length) res.push({
             name: "Members",
-            values: data.members.map(m => `<a href="#enum.${m.name}">${m.name}</a>`)
+            values: data.members.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         });
+        currentThing = `<p class="current-thing">enum <span class="object">${data.name}</span></p>`;
     } else if (data.type === "index") {
         const depth = "../".repeat(data.depth);
         if (data.pages) {
@@ -210,6 +220,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         });
     }
     return `
+    ${currentThing ? currentThing:""}
     <div class="sidebar-members">
     ${res.map(thing => `
         <div class="sidebar-member">

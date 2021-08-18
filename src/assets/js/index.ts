@@ -45,4 +45,17 @@ window.addEventListener("load", () => {
     if (searchParams.has("search")) searchMenu.classList.remove("d-none");
     else contentMain.classList.remove("d-none");
     initSearch(searchParams, contentMain, searchMenu);
+
+    const scrollToTopBtn = document.getElementById("to-top")!;
+    const contentCol = document.getElementById("content")!;
+
+    contentCol.addEventListener("scroll", () => {
+        if (contentCol.scrollTop > 600 || contentCol.scrollTop > 600) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    });
+
+    scrollToTopBtn.onclick = () => contentCol.scroll({top: 0, behavior: "smooth" });
 }); 

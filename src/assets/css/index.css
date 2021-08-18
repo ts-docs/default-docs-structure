@@ -410,3 +410,21 @@ h5 {
     color: white;
     margin-left: 15px;
 }
+
+.current-thing {
+    font-weight: bold;
+    margin-left: 10px;
+    font-family: var(--bs-font-monospace);
+}
+
+.btn-to-top {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    z-index: 1000;
+    background-color: var(--sidebarColor);
+    color: var(--textColor);
+    padding: 20px;
+    cursor: pointer;
+}

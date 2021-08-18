@@ -1,5 +1,5 @@
 
-<div id="method.{{name}}" class="item">
+<div id=".{{name}}" class="item">
     {{#resolveOverloads signatures}}
     <p class="item-name">
     {{#if ../isStatic}}<span class="modifier">static</span>{{/if}}
@@ -10,7 +10,7 @@
     {{#if ../isSetter}}<span class="modifier">set</span>{{/if}}
     <a href={{../loc.sourceFile}}>{{> sourceCode}}</a>
         <span class="item-name method-name">{{../name}}</span>{{~#if ../typeParameters}}<span>&lt;{{{join ../typeParameters ", "}}}&gt;</span> {{/if~}}
-        <span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span> <span class="symbol">=></span> {{{returnType}}}</span>{{/if~}}
+        <span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span> <span class="symbol">:</span> {{{returnType}}}</span>{{/if~}}
         {{#if ../isDeprecated}}<span class="badge danger">deprecated</span>{{/if}}
         <div class="docblock">
         {{{formatFunctionParameterComments this}}}

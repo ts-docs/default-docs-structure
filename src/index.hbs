@@ -46,11 +46,11 @@
 
   <div class="container-fluid h-100">
     <div class="row h-100">
-      <div class="col-3 sidebar">
+      <div class="col-lg-auto sidebar">
         <h1 class="lib-name">{{headerName}}</h1>
         {{#resolveSidebar}} {{/resolveSidebar}}
       </div>
-      <div class="col-9 content" id="content">
+      <div class="col content" id="content">
         {{> searchMenu}}
         <div id="content-main" class="d-none">
           {{#if path}}
@@ -67,6 +67,11 @@
     </div>
   </div>
 
+  <div id="to-top" class="btn-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+  </svg>
+  </div>
 </body>
 
 </html>

@@ -193,28 +193,28 @@ function formatResult(res: SearchResult) : string {
         }
         case SearchResultType.Property: {
             content = `<div>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#prop.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name property-name">${res.highlighted}</span></a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name property-name">${res.highlighted}</span></a>
             <p class="docblock secondary">In ${path.join("/")}</p>
             </div>`;
             break;
         }
         case SearchResultType.Method: {
             content = `<div>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#method.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
             <p class="docblock secondary">In ${path.join("/")}</p>
             </div>`;
             break;
         }
         case SearchResultType.InterfaceProperty: {
             content = `<div>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/interface/${res.obj}.html#prop.${res.name}" class="item-name property-name"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name property-name">${res.highlighted}</span></a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/interface/${res.obj}.html#.${res.name}" class="item-name property-name"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name property-name">${res.highlighted}</span></a>
             <p class="docblock secondary">In ${path.join("/")}</p>
             </div>`;
             break;
         }
         case SearchResultType.EnumMember: {
             content = `<div>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/enum/${res.obj}.html#enum.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name item-name">${res.highlighted}</span></a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/enum/${res.obj}.html#.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name item-name">${res.highlighted}</span></a>
             <p class="docblock secondary">In ${path.join("/")}</p>
             </div>`;
             break;

@@ -5,7 +5,7 @@
 
     {{#each signatures}}
     <div>
-        ({{{join parameters ", "}}}) {{#if returnType}}<span class="symbol">=></span> {{{returnType}}}{{/if}}
+        ({{{join parameters ", "}}}) {{#if returnType}}<span class="symbol">:</span> {{{returnType}}}{{/if}}
         <div class="docblock">
             {{{formatFunctionParameterComments this}}}
             {{{comment}}}
