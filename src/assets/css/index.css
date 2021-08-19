@@ -21,6 +21,7 @@ html[data-theme="dark"] {
     --numberColor: #B5CEA8;
     --keywordColor: #245db4;
     --linkColor: #58a6ff;
+    --warningColor: #f1686a50;
 }
 
 html[data-theme="light"] {
@@ -45,6 +46,7 @@ html[data-theme="light"] {
     --numberColor: #B5CEA8;
     --keywordColor: #245db4;
     --linkColor: #58a6ff;
+    --warningColor: #c72b2d50;
 }
 
 html, body {
@@ -112,7 +114,7 @@ a:hover {
     display: none;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding-left: 15px;
+    padding-left: 35px;
 }
 
 .collapsible-body.open {
@@ -214,17 +216,15 @@ h2, h3, h4, h5, h6 {
     padding-bottom: 10px;
 }
 
-h3 {
-    margin-left: 15px;
+h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.section-header {
+    margin-top: 10px;
+    color: var(--primaryLight)
 }
 
-h4 {
-    margin-left: 25px;
+h1.section-header {
+    display: none;
 }
 
-h5 {
-    margin-left: 35px;
-}
 
 .path-member {
     color: var(--textSecondaryColor);
@@ -238,6 +238,10 @@ h5 {
 
 .docblock {
     margin-left: 24px;
+}
+
+.dockblock .section-header, .docblock .section-header, .docblock .section-header, .docblock .section-header, .docblock .section-header {
+    font-size: 16px !important;
 }
 
 .docblock.secondary {
@@ -302,10 +306,6 @@ h5 {
 
 .param-name {
     color: var(--functionParamName);
-}
-
-.hljs {
-    margin-left: 15px;
 }
 
 .sourceCode {
@@ -427,4 +427,12 @@ h5 {
     color: var(--textColor);
     padding: 10px;
     cursor: pointer;
+}
+
+.text-warning {
+    background-color: var(--warningColor);
+    color: var(--textColor) !important;
+    border-left: 5px solid red;
+    padding: 5px 5px;
+    width: 80%;
 }
