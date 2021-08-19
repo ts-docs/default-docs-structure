@@ -55,9 +55,7 @@
         <div id="content-main" class="d-none">
           {{#if path}}
           <div class="path">
-            {{#each path}}
-            <a class="path-member" {{#if this.path}}href={{this.path}}{{/if}}>{{this.name}}</a> /
-            {{/each}}
+            {{{handlePaths path}}}
           </div>
           {{/if}}
           {{{content}}}

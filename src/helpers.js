@@ -43,6 +43,12 @@ Handlebars.registerHelper("join", (args, delimiter) => {
     return args.map(item => item.trim()).join(delimiter);
 });
 
+Handlebars.registerHelper("handlePaths", (paths) => {
+    return paths.map(p => {
+        return `<a class="path-member" href="${p.path || ""}">${p.name}</a>`
+    }).join(" / ");
+});
+
 Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
      if (!func.paramComments) return "";
      return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - ${p.comment}</li>`).join("")}</ul>`
