@@ -12,7 +12,7 @@
     <h2>Members</h2>
     {{#each members}}
     <div id=".{{this.name}}">
-        <span class="item-name">{{this.name}}</span>
+        <a class="item-name" href="#.{{name}}">{{this.name}}</a>
 
         {{#if this.initializer}}
         <span>= {{{this.initializer}}}</span>

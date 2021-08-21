@@ -42,6 +42,12 @@ let searchResults: Array<SearchResult>|undefined;
 export async function initSearch(search: URLSearchParams, contentMain: HTMLElement, searchMenu: HTMLElement) {
     const searchBar = document.getElementById("search") as HTMLInputElement;
     if (searchBar) {
+        window.onkeypress = (event) => {
+            if (event.key === "/") {
+                event.preventDefault();
+                searchBar.focus();
+            }
+        }
         const options = getSearchOptions();
         window.onpopstate = (event: PopStateEvent) => {
            if (event.state && event.state.search) {

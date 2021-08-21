@@ -2,7 +2,7 @@
   "name": "@ts-docs/default-docs-structure",
   "version": "1.0.0",
   "description": "The default docs structure for the ts-docs generator.",
-  "main": "index.js",
+  "main": "./dist",
   "devDependencies": {
     "copy-webpack-plugin": "^9.0.1",
     "css-minimizer-webpack-plugin": "^3.0.2",

@@ -37,7 +37,7 @@ html[data-theme="light"] {
     --functionName: #64b5f6;
     --typeName: #7986cb;
     --methodName: #cc9a55;
-    --functionParamName: #202125;
+    --functionParamName: #5c56d6;
     --primitiveName: #4baaff;
     --propertyName: #3d7cf5;
     --constantName: #4fc3f7;
@@ -45,7 +45,7 @@ html[data-theme="light"] {
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
     --keywordColor: #245db4;
-    --linkColor: #58a6ff;
+    --linkColor: #1783ff;
     --warningColor: #c72b2d50;
 }
 
@@ -58,7 +58,7 @@ body {
   "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
   background-color: var(--backgroundColor);
   color: var(--textColor);
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 a {
@@ -84,8 +84,8 @@ a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
     width: 100%;
-    position: fixed;
     z-index: 100;
+    height: 65px;
 }
 
 .collapsible-trigger {
@@ -124,9 +124,9 @@ a:hover {
 .sidebar {
     background-color: var(--sidebarColor);
     overflow-y: auto;
-    max-height: 100vh;
-    padding-bottom: 80px;
-    padding-top: 80px;
+    height: calc(100vh - 65px);
+    padding-right: 25px;
+    max-width: 28%;
 }
 
 .sidebar-category {
@@ -159,10 +159,9 @@ a:hover {
 }
 
 .content {
-    overflow-y: auto;
-    max-height: 100vh;
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 10px;
+    height: calc(100vh - 65px);
+    overflow-y: scroll;
 }
 
 .reference-link {
@@ -196,7 +195,7 @@ a:hover {
     outline: none !important;
     padding-top: 10px;
     padding-bottom: 10px;
-    box-shadow: none;
+    box-shadow: 6px 9px 18px -3px rgba(0,0,0,0.25);
 }
 
 .search::placeholder {
@@ -208,7 +207,10 @@ a:hover {
 }
 
 code {
-    color: var(--primaryLight)
+    color: var(--primaryLight);
+    background-color: rgba(110, 118, 129, 0.4);
+    padding: 3px 3px;
+    border-radius: 6px;
 }
 
 h2, h3, h4, h5, h6 {
@@ -220,11 +222,6 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     margin-top: 10px;
     color: var(--primaryLight)
 }
-
-h1.section-header {
-    display: none;
-}
-
 
 .path-member {
     color: var(--textSecondaryColor);
@@ -251,12 +248,12 @@ h1.section-header {
 
 .item-name {
     font-weight: bold;
-    font-family: var(--bs-font-monospace)
+    font-family: var(--bs-font-monospace);
+    text-decoration: none;
 }
 
 .item {
     margin-bottom: 20px;
-    scroll-margin-top: 80px;
 }
 
 .object {
@@ -291,7 +288,7 @@ h1.section-header {
 
 .primitive:hover {
     color: var(--primitiveName);
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .external {

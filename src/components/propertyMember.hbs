@@ -4,7 +4,7 @@
     {{#if isAbstract}}<span class="modifier">abstract</span>{{/if}}
     {{#if isPrivate}}<span class="modifier">private</span>{{/if}}
     {{#if isReadonly}}<span class="modifier">readonly</span>{{/if}}
-    <span class="item-name"><span class="property-name">{{name}}</span>
+    <span class="item-name"><a class="property-name" href="#.{{name}}">{{name}}</a>
         {{~#if type}}<span>: {{{type}}}</span>{{/if~}}
     </span>
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>

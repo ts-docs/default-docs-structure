@@ -47,15 +47,15 @@ window.addEventListener("load", () => {
     initSearch(searchParams, contentMain, searchMenu);
 
     const scrollToTopBtn = document.getElementById("to-top")!;
-    const contentCol = document.getElementById("content")!;
+    const content = document.getElementById("content")!;
 
-    contentCol.addEventListener("scroll", () => {
-        if (contentCol.scrollTop > 600 || contentCol.scrollTop > 600) {
+    content.addEventListener("scroll", () => {
+        if (content.scrollTop > 600 || content.scrollTop > 600) {
             scrollToTopBtn.style.display = "block";
         } else {
             scrollToTopBtn.style.display = "none";
         }
     });
 
-    scrollToTopBtn.onclick = () => contentCol.scroll({top: 0, behavior: "smooth" });
+    scrollToTopBtn.onclick = () => content.scroll({top: 0, behavior: "smooth" });
 }); 

@@ -34,8 +34,8 @@ const ReferenceTypes = {
     TYPE_PARAMETER: 6,
     UNKNOWN: 7,
     STRINGIFIED_UNKNOWN: 8,
-    ENUM_MEMBER: 12,
-    DEFAULT_API: 13,
+    ENUM_MEMBER: 9,
+    DEFAULT_API: 10,
 }
 
 Handlebars.registerHelper("join", (args, delimiter) => {
@@ -55,9 +55,8 @@ Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
 });
 
 Handlebars.registerHelper("handleAssets", (mod) => {
-    let depth = mod.moduleDepth || 0;
-    if (mod.type !== "index" || mod.type !== "mdoule") depth++;
-    if (mod.isPage) depth += 2;
+    let depth = mod.depth;
+    if (mod.type === "module") depth++;
     const dpth = "../".repeat(depth);
     return `
     <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
@@ -88,7 +87,8 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
 
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let type = "";
-    const name = ref.type.displayName || ref.type.name;
+    const name = ref.displayName || ref.type.displayName || ref.type.name;
+    const realName = ref.type.name;
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
         case ReferenceTypes.INTERFACE: type = "interface"; break;
@@ -104,8 +104,8 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    const path = ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${name}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${name}`;
-    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${name}</span><span style="display:block">${path}</span></span></span>`
+    const path = ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`;
+    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${realName}</span><span style="display:block">${path}</span></span></span>`
 });
 
 Handlebars.registerHelper("linkPrimitive", (ref) => {
@@ -114,11 +114,12 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.NUMBER: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
         case Types.TRUE:
         case Types.FALSE:
-        case Types.BOOLEAN: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>"
+        case Types.BOOLEAN: return `<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">${ref.name}</a>`
         case Types.UNDEFINED: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
         case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
         case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
         case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
+        case Types.VOID: return "<a class='primitive' href=\"https://www.typescriptlang.org/docs/handbook/2/functions.html#void\">void</a>"
         default: return `<span class='primitive'>${ref.name}</span>`;
     }
 });
@@ -135,7 +136,7 @@ Handlebars.registerHelper("linkDefault", (ref) => {
             ref.typeParameters.length = 0;
             return val;
         }
-        case "Function": return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\">Function</a>"
+        case "Function": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\">Function</a>"
         case "Record": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype\">Record</a>"
         case "Omit": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys\">Omit</a>"
         case "Symbol": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">Symbol</a>"
@@ -144,6 +145,20 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         default: return ref.type.name
     }
 });
+
+function generateHeadings(heading) {
+    return heading.subHeadings.length ? `
+    <div>
+    <div class="collapsible-trigger">
+    <span class="collapsible-arrow" style="margin-left:0px"></span>
+    <a class="fw-bold" href="#${heading.id}">${heading.name}</a>
+    </div>
+    <div class="collapsible-body" style="padding-left:15px"> 
+    ${heading.subHeadings.map(s => generateHeadings(s)).join("")}
+    </div>
+    </div>
+    `: `<a href="#${heading.id}">${heading.name}</a>`;
+}
 
 Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const data = ctx.data.root;
@@ -211,19 +226,31 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         });
         currentThing = `<p class="current-thing">enum <span class="object">${data.name}</span></p>`;
     } else if (data.type === "index") {
-        const depth = "../".repeat(data.depth);
         if (data.pages) {
             for (const category of data.pages) {
                 res.push({
                     name: category.name,
-                    values: category.pages.map(p => `<a href="${depth}pages/${category.name}/${p.name}.html">${p.name}</a>`)
+                    values: category.pages.map(p => `<a href="./pages/${category.name}/${p.name}.html">${p.name}</a>`)
                 })
             }
         }
         res.push({
             name: "Modules",
-            values: data.packages.map(c => `<a href="${depth}m.${c.module.name}/index.html">${c.module.name}</a>`)
+            values: data.packages.map(c => `<a href="./m.${c.module.name}/index.html">${c.module.name}</a>`)
         });
+    } else if (data.type === "page") {
+        for (const heading of data.headings) {
+            res.push({
+                name: `<a id="#${heading.id}">${heading.name}</a>`,
+                values: heading.subHeadings.map(sub => generateHeadings(sub))
+            });
+        }
+        for (const category of data.pages) {
+            res.push({
+                name: category.name,
+                values: category.pages.map(p => `<a href="../${category.name}/${p.name}.html">${p.name}</a>`)
+            })
+        }
     }
     return `
     ${currentThing ? currentThing:""}
