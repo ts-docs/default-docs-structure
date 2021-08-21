@@ -21,7 +21,13 @@ const Types = {
     NULL: 19,
     ANY: 20,
     NUMBER_LITERAL: 21,
-    STRING_LITERAL: 22
+    STRING_LITERAL: 22,
+    MAPPED_TYPE: 23,
+    CONDITIONAL_TYPE: 24,
+    TEMPLATE_LITERAL: 25,
+    INDEX_ACCESS: 26,
+    TYPEOF_OPERATOR: 27,
+    SYMBOL: 28
 };
 
 const ReferenceTypes = {
@@ -44,8 +50,9 @@ Handlebars.registerHelper("join", (args, delimiter) => {
 });
 
 Handlebars.registerHelper("handlePaths", (paths) => {
-    return paths.map(p => {
-        return `<a class="path-member" href="${p.path || ""}">${p.name}</a>`
+    return paths.map((p, i) => {
+        if (i === 1 && p.name === "pages") return `<span class="path-member">${p.name}</span>`;
+        return `<a class="path-member" href="${p.path || ""}">${p.name}</a>`;
     }).join(" / ");
 });
 
@@ -104,8 +111,8 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    const path = ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`;
-    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${realName}</span><span style="display:block">${path}</span></span></span>`
+    const path = ref.type.path ? ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`:"";
+    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${realName}</span><span style="display:block" class="monospace fw-bold">${path}</span></span></span>`
 });
 
 Handlebars.registerHelper("linkPrimitive", (ref) => {
@@ -120,6 +127,7 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
         case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
         case Types.VOID: return "<a class='primitive' href=\"https://www.typescriptlang.org/docs/handbook/2/functions.html#void\">void</a>"
+        case Types.SYMBOL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">symbol</a>"
         default: return `<span class='primitive'>${ref.name}</span>`;
     }
 });
@@ -131,6 +139,9 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         case "Promise": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\">Promise</a>"
         case "Set": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set\">Set</a>"
         case "Map": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map\">Map</a>"
+        case "URL": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URL/URL\">URL</a>"
+        case "Buffer": return "<a class='external' href=\"https://nodejs.org/api/buffer.html\">Buffer</a>"
+        case "RegExp": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp\">RegExp</a>"
         case "Array": {
             const val = `${ref.typeParameters[0]}[]`;
             ref.typeParameters.length = 0;
@@ -144,6 +155,39 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         case "URLSearchParams": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams\">URLSearchParams</a>"
         default: return ref.type.name
     }
+});
+
+Handlebars.registerHelper("handleModuleIndex", (mod) => {
+    return `
+    ${mod.modules.size ? `
+    <h2>Modules</h2>
+    ${[...mod.modules.values()].map(m => `<div><a class="module-item module" href="m.${m.name}/index.html">${m.name}</a></div>`).join("")}
+    `:""}
+    ${mod.classes.size ? `
+    <h2>Classes</h2>
+    ${[...mod.classes.values()].map(c => `<div><a class="module-item object" href="class/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    `:""}
+    ${mod.interfaces.size ? `
+    <h2>Interfaces</h2>
+    ${[...mod.interfaces.values()].map(c => `<div><a class="module-item object" href="interface/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    `:""}
+    ${mod.enums.size ? `
+    <h2>Enums</h2>
+    ${[...mod.enums.values()].map(c => `<div><a class="module-item object" href="enum/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    `:""}
+    ${mod.functions.size ? `
+    <h2>Functions</h2>
+    ${[...mod.functions.values()].map(c => `<div><a class="module-item method-name" href="function/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    `:""}
+    ${mod.types.size ? `
+    <h2>Types</h2>
+    ${[...mod.types.values()].map(c => `<div><a class="module-item object" href="type/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    `:""}
+    ${mod.constants.size ? `
+    <h2>Constants</h2>
+    ${[...mod.constants.values()].map(c => `<div><a class="module-item constant" href="constant/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    `:""}
+    `;
 });
 
 function generateHeadings(heading) {
@@ -173,7 +217,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
             name: "Methods",
             values: data.methods.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         }); 
-        currentThing = `<p class="current-thing">class <span class="object">${data.name}</span></p>`;
+        currentThing = `<p class="current-thing text-center">class <span class="object">${data.name}</span></p>`;
     } else if (data.type === "module") {
         const depth = "../".repeat(data.depth);
         if (data.pages) {
@@ -184,34 +228,34 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
                 })
             }
         }
-        currentThing = `<p class="current-thing">module <span class="module">${data.module.name}</span></p>`;
+        currentThing = `<p class="current-thing text-center">module <span class="module">${data.module.name}</span></p>`;
         if (data.module.modules.size) res.push({
             name: "Modules",
-            values: [...data.module.modules.values()].map(c => `<a href="${depth}m.${c.name}/index.html">${c.name}</a>`)
+            values: [...data.module.modules.values()].map(c => `<a href="${data.realType ? "../":""}m.${c.name}/index.html">${c.name}</a>`)
         });
         if (data.module.classes.size) res.push({
             name: "Classes",
-            values: [...data.module.classes.values()].map(c => `<a href="${depth}class/${c.name}.html">${c.name}</a>`)
+            values: [...data.module.classes.values()].map(c => `<a href="${data.realType ? "../":""}class/${c.name}.html">${c.name}</a>`)
         });
         if (data.module.interfaces.size) res.push({
             name: "Interfaces",
-            values: [...data.module.interfaces.values()].map(c => `<a href="${depth}interface/${c.name}.html">${c.name}</a>`)
-        });
-        if (data.module.functions.size) res.push({
-            name: "Functions",
-            values: [...data.module.functions.values()].map(c => `<a href="${depth}function/${c.name}.html">${c.name}</a>`)
+            values: [...data.module.interfaces.values()].map(c => `<a href="${data.realType ? "../":""}interface/${c.name}.html">${c.name}</a>`)
         });
         if (data.module.enums.size) res.push({
             name: "Enums",
-            values: [...data.module.enums.values()].map(c => `<a href="${depth}enum/${c.name}.html">${c.name}</a>`)
+            values: [...data.module.enums.values()].map(c => `<a href="${data.realType ? "../":""}enum/${c.name}.html">${c.name}</a>`)
         }); 
+        if (data.module.functions.size) res.push({
+            name: "Functions",
+            values: [...data.module.functions.values()].map(c => `<a href="${data.realType ? "../":""}function/${c.name}.html">${c.name}</a>`)
+        });
         if (data.module.types.size) res.push({
             name: "Types",
-            values: [...data.module.types.values()].map(c => `<a href="${depth}type/${c.name}.html">${c.name}</a>`)
+            values: [...data.module.types.values()].map(c => `<a href="${data.realType ? "../":""}type/${c.name}.html">${c.name}</a>`)
         });
-        if (data.module.constants.length) res.push({
+        if (data.module.constants.size) res.push({
             name: "Constants",
-            values: data.module.constants.map(c => `<a href="${depth}constant/${c.name}.html">${c.name}</a>`)
+            values: [...data.module.constants.values()].map(c => `<a href="${data.realType ? "../":""}constant/${c.name}.html">${c.name}</a>`)
         });
     } else if (data.type === "interface") {
         if (data.properties.length) res.push({
@@ -224,7 +268,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
             name: "Members",
             values: data.members.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         });
-        currentThing = `<p class="current-thing">enum <span class="object">${data.name}</span></p>`;
+        currentThing = `<p class="current-thing text-center">enum <span class="object">${data.name}</span></p>`;
     } else if (data.type === "index") {
         if (data.pages) {
             for (const category of data.pages) {
@@ -253,6 +297,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         }
     }
     return `
+    ${data.logo ? `<img src="${"../".repeat(data.depth + (data.type === "module" ? 1:0))}${data.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
     ${currentThing ? currentThing:""}
     <div class="sidebar-members">
     ${res.map(thing => `

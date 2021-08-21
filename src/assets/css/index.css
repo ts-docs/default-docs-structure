@@ -170,7 +170,7 @@ a:hover {
     color: var(--textColor);
 }
 
-.module {
+.module, .module:hover {
     color: var(--moduleName);
 }
 
@@ -432,4 +432,15 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     border-left: 5px solid red;
     padding: 5px 5px;
     width: 80%;
+}
+
+.monospace {
+    font-family: var(--bs-font-monospace);
+}
+
+.module-item {
+    font-weight: bold;
+    font-family: var(--bs-font-monospace);
+    text-decoration: none;
+    padding-right: 50px;
 }
