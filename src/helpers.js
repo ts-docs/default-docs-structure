@@ -160,32 +160,56 @@ Handlebars.registerHelper("linkDefault", (ref) => {
 Handlebars.registerHelper("handleModuleIndex", (mod) => {
     return `
     ${mod.modules.size ? `
-    <h2>Modules</h2>
+    <h3>Modules</h3>
     ${[...mod.modules.values()].map(m => `<div><a class="module-item module" href="m.${m.name}/index.html">${m.name}</a></div>`).join("")}
     `:""}
     ${mod.classes.size ? `
-    <h2>Classes</h2>
-    ${[...mod.classes.values()].map(c => `<div><a class="module-item object" href="class/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    <h3>Classes</h3>
+    <table>
+    <tbody>
+    ${[...mod.classes.values()].map(c => `<tr><td><a class="module-item object" href="class/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    </tbody>
+    </table>
     `:""}
     ${mod.interfaces.size ? `
-    <h2>Interfaces</h2>
-    ${[...mod.interfaces.values()].map(c => `<div><a class="module-item object" href="interface/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    <h3>Interfaces</h3>
+    <table>
+    <tbody>
+    ${[...mod.interfaces.values()].map(c => `<tr><td><a class="module-item object" href="interface/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    </tbody>
+    </table>
     `:""}
     ${mod.enums.size ? `
-    <h2>Enums</h2>
-    ${[...mod.enums.values()].map(c => `<div><a class="module-item object" href="enum/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    <h3>Enums</h3>
+    <table>
+    <tbody>
+    ${[...mod.enums.values()].map(c => `<tr><td><a class="module-item object" href="enum/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    </tbody>
+    </table>
     `:""}
     ${mod.functions.size ? `
-    <h2>Functions</h2>
-    ${[...mod.functions.values()].map(c => `<div><a class="module-item method-name" href="function/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    <h3>Functions</h3>
+    <table>
+    <tbody>
+    ${[...mod.functions.values()].map(c => `<tr><td><a class="module-item method-name" href="function/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    </tbody>
+    </table>
     `:""}
     ${mod.types.size ? `
-    <h2>Types</h2>
-    ${[...mod.types.values()].map(c => `<div><a class="module-item object" href="type/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    <h3>Types</h3>
+    <table>
+    <tbody>
+    ${[...mod.types.values()].map(c => `<tr><td><a class="module-item object" href="type/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    </tbody>
+    </table>
     `:""}
     ${mod.constants.size ? `
-    <h2>Constants</h2>
-    ${[...mod.constants.values()].map(c => `<div><a class="module-item constant" href="constant/${c.name}.html">${c.name}</a>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</div>`).join("")}
+    <h3>Constants</h3>
+    <table>
+    <tbody>
+    ${[...mod.constants.values()].map(c => `<tr><td><a class="module-item constant" href="constant/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    </tbody>
+    </table>
     `:""}
     `;
 });

@@ -1,4 +1,5 @@
 import { initSearch } from "./search";
+import { initSidebar } from "./sidebar";
 import { initTheme } from "./theme";
 
 declare global {
@@ -58,4 +59,7 @@ window.addEventListener("load", () => {
     });
 
     scrollToTopBtn.onclick = () => content.scroll({top: 0, behavior: "smooth" });
+
+
+    initSidebar(contentMain);
 }); 

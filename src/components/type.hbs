@@ -1,5 +1,5 @@
 <div>
-    <h1>Type alias <span class="referenceLink object">{{name}}</span>
+    <h1>Type alias <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     </h1>
     

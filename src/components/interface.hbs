@@ -1,9 +1,6 @@
 <div>
     <h1>
-        Interface <span class="referenceLink object">{{name}}</span>
-        {{#if typeParameters}}<span>
-            &lt;{{~{join typeParameters ", "}~}}&gt;
-        </span>{{/if}}
+        Interface <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}
         {{#each loc}}
         <a href={{this.sourceFile}}>{{> sourceCode}}</a>
         {{/each}}
