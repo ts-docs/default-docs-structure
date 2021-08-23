@@ -1,6 +1,6 @@
 
 <div id="class.constructor" class="item">
-    <p class="item-name"><span class="keyword">constructor</span><span>({{~{join parameters ", "}~}})</span></p>
+    <span class="item-name"><span class="keyword">constructor</span><span>({{#if paramsOnNewLine}}<div class="left-fn-param">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span></span>
 
     <div class="docblock">
     {{{formatFunctionParameterComments this}}}

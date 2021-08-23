@@ -94,8 +94,7 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
 
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let type = "";
-    const name = ref.displayName || ref.type.displayName || ref.type.name;
-    const realName = ref.type.name;
+    const name = ref.displayName || ref.type.name;
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
         case ReferenceTypes.INTERFACE: type = "interface"; break;
@@ -103,7 +102,7 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.ENUM: type = "enum"; break;
         case ReferenceTypes.TYPE_ALIAS: type = "type alias"; break;
         case ReferenceTypes.FUNCTION: type = "function"; break;
-        case ReferenceTypes.TYPE_PARAMETER: type = "type parameter"; break;
+        case ReferenceTypes.TYPE_PARAMETER: return `<span class="c-tooltip"><a class="reference-link object">${name}</a><span class="c-tooltip-content"><span class="keyword">type parameter</span> <span class="item-name object">${ref.type.name}</span></span></span>`;
         default: return `<span class="reference-link item-name">${name}</span>`
     }
     if (ref.hash) {
@@ -111,8 +110,12 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    const path = ref.type.path ? ref.type.external ? `${ref.type.external}/${ref.type.path.join("/")}${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`:`${ref.type.path.join("/")}/${ref.type.displayName ? `<span class="item-name object">${ref.type.name}</span>.`:""}${realName}`:"";
-    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${realName}</span><span style="display:block" class="monospace fw-bold">${path}</span></span></span>`
+    let path = "";
+    if (ref.type.external) path += `${ref.type.external}`;
+    if (ref.type.path) path += ref.type.path.join("/");
+    if (ref.type.displayName) path += `/<span class="item-name object">${ref.type.name}</span>.${ref.type.displayName}`;
+    else path += `/<span class="item-name object">${ref.type.name}</span>`;
+    return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}</span></span></span>`
 });
 
 Handlebars.registerHelper("linkPrimitive", (ref) => {
@@ -225,7 +228,7 @@ function generateHeadings(heading) {
     ${heading.subHeadings.map(s => generateHeadings(s)).join("")}
     </div>
     </div>
-    `: `<a href="#${heading.id}">${heading.name}</a>`;
+    `: `<a href="#${heading.id}" class="sidebar-category-member">${heading.name}</a>`;
 }
 
 Handlebars.registerHelper("resolveSidebar", (ctx) => {
@@ -331,7 +334,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         <span class="sidebar-category">${thing.name}</span>
         </div>
         <div class="collapsible-body open"> 
-        ${thing.values.map(v => `<span class="sidebar-category-member">${v}</span><br>`).join("")}
+        ${thing.values.map(v => `<span class="sidebar-category-member">${v}</span>`).join("")}
         </div>
         </div>
     `).join("")}

@@ -33,17 +33,17 @@ html[data-theme="light"] {
     --searchColor: #cfcfcf;
     --primaryLight: #202125;
     --moduleName: #c62828;
-    --objectName: #3daa79;
+    --objectName: #238d5e;
     --functionName: #64b5f6;
     --typeName: #7986cb;
-    --methodName: #cc9a55;
+    --methodName: #9a6e31;
     --functionParamName: #5c56d6;
-    --primitiveName: #4baaff;
-    --propertyName: #3d7cf5;
-    --constantName: #4fc3f7;
-    --modifierColor: #ff2a2a;
-    --stringColor: #CE9178;
-    --numberColor: #B5CEA8;
+    --primitiveName: #0576db;
+    --propertyName: #365fae;
+    --constantName: #007fb8;
+    --modifierColor: #e20000;
+    --stringColor: #b63600;
+    --numberColor: #407d27;
     --keywordColor: #245db4;
     --linkColor: #1783ff;
     --warningColor: #c72b2d50;
@@ -141,6 +141,7 @@ a:hover {
 
 .sidebar-category-member {
     margin-bottom: 4px;
+    display: block;
 }
 
 .sidebar-category-member a {
@@ -196,7 +197,7 @@ a:hover {
     outline: none !important;
     padding-top: 10px;
     padding-bottom: 10px;
-    box-shadow: 6px 9px 18px -3px rgba(0,0,0,0.25);
+    box-shadow: 6px 9px 18px -8px var(--sidebarColor);
 }
 
 .search::placeholder {
@@ -221,6 +222,7 @@ h2, h3, h4, h5, h6 {
 
 h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.section-header {
     margin-top: 10px;
+    margin-bottom: 15px;
     color: var(--primaryLight)
 }
 
@@ -236,6 +238,7 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
 
 .docblock {
     margin-left: 24px;
+    margin-top: 10px;
 }
 
 .dockblock .section-header, .docblock .section-header, .docblock .section-header, .docblock .section-header, .docblock .section-header {
@@ -458,6 +461,9 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     cursor: pointer;
 }
 
+.left-fn-param {
+    margin-left: 20px;
+}
 
 @media only screen and (max-width: 680px) {
     .sidebar {
@@ -473,6 +479,10 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     .content {
         margin-top: 50px;
         height: calc(100vh - (65px * 2));
+    }
+
+    .search {
+        min-width: 50vw;
     }
 }
 

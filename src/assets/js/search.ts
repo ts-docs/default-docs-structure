@@ -53,7 +53,6 @@ export async function initSearch(search: URLSearchParams, contentMain: HTMLEleme
            if (event.state && event.state.search) {
                 contentMain.classList.add("d-none");
                 searchMenu.classList.remove("d-none");
-                searchBar.value = event.state.search;
                 evaluateSearch(event.state.search, options);
             } else {
                 contentMain.classList.remove("d-none");
@@ -61,8 +60,10 @@ export async function initSearch(search: URLSearchParams, contentMain: HTMLEleme
             }
         }
         if (search.has("search")) {
+            const val = search.get("search")!;
+            searchBar.value = val;
             await loadSearchData();
-            evaluateSearch(search.get("search")!, options);
+            evaluateSearch(val, options);
         } else await loadSearchData();
 
         let timeout: any;

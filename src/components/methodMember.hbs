@@ -1,7 +1,7 @@
 
 <div id=".{{name}}" class="item">
     {{#resolveOverloads signatures}}
-    <p class="monospace">
+    <span class="monospace">
     {{#if ../isStatic}}<span class="modifier">static</span>{{/if}}
     {{#if ../isAbstract}}<span class="modifier">abstract</span>{{/if}}
     {{#if ../isPrivate}}<span class="modifier">private</span>{{/if}}
@@ -9,12 +9,12 @@
     {{#if ../isGetter}}<span class="modifier">get</span>{{/if}}
     {{#if ../isSetter}}<span class="modifier">set</span>{{/if}}
     <a href={{../loc.sourceFile}}>{{> sourceCode}}</a>
-        <a class="item-name method-name" href="#.{{../name}}">{{../name}}</a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}<span>({{~{join parameters ", "}~}})</span>{{~#if returnType}}<span><span class="symbol">:</span> {{{returnType}}}</span>{{/if~}}
+        <a class="item-name method-name" href="#.{{../name}}">{{../name}}</a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}<span>({{#if paramsOnNewLine}}<div class="left-fn-param">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span>{{~#if returnType}}<span><span class="symbol">:</span> {{{returnType}}}</span>{{/if~}}
         {{#if ../isDeprecated}}<span class="badge danger">deprecated</span>{{/if}}
-        <div class="docblock">
+    </span>
+    <div class="docblock">
         {{{formatFunctionParameterComments this}}}
         {{{comment}}}
-        </div>
-    </p>
+    </div>
     {{/resolveOverloads}}
 </div>
