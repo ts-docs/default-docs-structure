@@ -11,7 +11,10 @@ interface SearchOptions {
     properties: HTMLInputElement,
     methods: HTMLInputElement,
     enumMembers: HTMLInputElement,
-    thisModuleOnly: HTMLInputElement
+    thisModuleOnly: HTMLInputElement,
+    setters: HTMLInputElement,
+    getters: HTMLInputElement,
+    privates: HTMLInputElement
 }
 
 const enum SearchResultType {
@@ -32,9 +35,23 @@ interface SearchResult {
     highlighted?: string|null,
     path: Array<string>,
     obj?: string,
-    type: SearchResultType
+    type: SearchResultType,
+    isGetter?: boolean,
+    isSetter?: boolean,
+    isPrivate?: boolean
 };
 
+const enum ClassMemberFlags {
+    IS_GETTER = 1 << 0,
+    IS_SETTER = 1 << 1,
+    IS_PRIVATE = 1 << 2
+}
+
+function hasBit(bits: number, bit: number) {
+    return (bits & bit) === bit;
+}
+
+let searchTerm = "";
 let searchData: Array<SearchResult> = [];
 let searchResults: Array<SearchResult>|undefined;
 
@@ -42,11 +59,8 @@ let searchResults: Array<SearchResult>|undefined;
 export async function initSearch(search: URLSearchParams, contentMain: HTMLElement, searchMenu: HTMLElement) {
     const searchBar = document.getElementById("search") as HTMLInputElement;
     if (searchBar) {
-        window.onkeypress = (event) => {
-            if (event.key === "/") {
-                event.preventDefault();
+        window.onkeypress = () => {
                 searchBar.focus();
-            }
         }
         const options = getSearchOptions();
         window.onpopstate = (event: PopStateEvent) => {
@@ -82,7 +96,7 @@ export async function initSearch(search: URLSearchParams, contentMain: HTMLEleme
                 await evaluateSearch(searchTerm, options);
                 contentMain.classList.add("d-none");
                 searchMenu.classList.remove("d-none");
-            }, 500);
+            }, 400);
         }
     }
 }
@@ -98,6 +112,7 @@ function search(term: string, filteredResults: Array<SearchResult>): Array<Searc
 
 async function evaluateSearch(term: string, options: SearchOptions): Promise<void> {
     if (!searchData) return;
+    searchTerm = term;
     searchResults = search(term, filterResults(options, searchData));
     displayResults(searchResults);
 }
@@ -106,6 +121,7 @@ function filterResults(options: SearchOptions, data: Array<SearchResult>) : Arra
     const newRes = [];
     for (const res of data) {
         if (options.thisModuleOnly.checked && window.lm && res.path[0] !== window.lm) continue;
+        if (!options.privates.checked && res.isPrivate) continue;
         if (!options.classes.checked && res.type === SearchResultType.Class) continue;
         if (!options.interfaces.checked && res.type === SearchResultType.Interface) continue;
         if (!options.enums.checked && res.type === SearchResultType.Enum) continue;
@@ -113,7 +129,11 @@ function filterResults(options: SearchOptions, data: Array<SearchResult>) : Arra
         if (!options.types.checked && res.type === SearchResultType.Type) continue;
         if (!options.constants.checked && res.type === SearchResultType.Constant) continue;
         if (!options.properties.checked && (res.type === SearchResultType.Property || res.type === SearchResultType.InterfaceProperty)) continue;
-        if (!options.methods.checked && res.type === SearchResultType.Method) continue;
+        if (res.type === SearchResultType.Method) {
+            if (!options.methods.checked) continue;
+            if (!options.setters.checked && res.isSetter) continue;
+            if (!options.getters.checked && res.isGetter) continue;
+        }
         if (!options.enumMembers.checked && res.type === SearchResultType.EnumMember) continue;
         newRes.push(res);
     }
@@ -131,7 +151,10 @@ function getSearchOptions(): SearchOptions {
         properties: document.getElementById("search-option-properties")! as HTMLInputElement,
         methods: document.getElementById("search-option-methods")! as HTMLInputElement,
         enumMembers: document.getElementById("search-option-enum-members")! as HTMLInputElement,
-        thisModuleOnly: document.getElementById("search-option-this-module-only")! as HTMLInputElement
+        thisModuleOnly: document.getElementById("search-option-this-module-only")! as HTMLInputElement,
+        setters: document.getElementById("search-option-setters")! as HTMLInputElement,
+        getters: document.getElementById("search-option-getters")! as HTMLInputElement,
+        privates: document.getElementById("search-option-privates")! as HTMLInputElement
     }
     options.classes.onchange =
         options.interfaces.onchange =
@@ -142,7 +165,10 @@ function getSearchOptions(): SearchOptions {
         options.properties.onchange =
         options.methods.onchange =
         options.enumMembers.onchange =
-        options.thisModuleOnly.onchange = () => searchResults && displayResults(filterResults(options, searchResults))
+        options.setters.onchange = 
+        options.getters.onchange =
+        options.privates.onchange =
+        options.thisModuleOnly.onchange = () => evaluateSearch(searchTerm, options);
     return options;
 }
 
@@ -207,7 +233,7 @@ function formatResult(res: SearchResult) : string {
         }
         case SearchResultType.Method: {
             content = `<div>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}">${res.isGetter ? '<span class="keyword">get</span> ':""}${res.isSetter ? '<span class="keyword">set</span> ':""}<span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -255,13 +281,13 @@ async function loadSearchData() {
             'Content-Type': 'application/json',
         }
     });
-    const data = await req.json() as [Array<[number, Array<[string, Array<string>, Array<string>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>]>, Array<string>];
+    const data = await req.json() as [Array<[number, Array<[string, Array<[string, number]>, Array<[string, number]>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>]>, Array<string>];
     const moduleNames = data[1];
     for (const module of data[0]) {
         searchData.push(...module[1].map(cl => {
             const path = cl[3].map(p => moduleNames[p]);
-            searchData.push(...cl[1].map(p => ({ name: p, path, obj: cl[0], type: SearchResultType.Property })));
-            searchData.push(...cl[2].map(p => ({ name: p, path, obj: cl[0], type: SearchResultType.Method })));
+            searchData.push(...cl[1].map(([name, bits]) => ({ name, path, obj: cl[0], type: SearchResultType.Property, isPrivate: hasBit(bits, ClassMemberFlags.IS_PRIVATE) })));
+            searchData.push(...cl[2].map(([name, bits]) => ({ name, path, obj: cl[0], type: SearchResultType.Method, isGetter: hasBit(bits, ClassMemberFlags.IS_GETTER), isSetter: hasBit(bits, ClassMemberFlags.IS_SETTER), isPrivate: hasBit(bits, ClassMemberFlags.IS_PRIVATE) })));
             return {
                 name: cl[0],
                 path,

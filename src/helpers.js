@@ -94,7 +94,7 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
 
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let type = "";
-    const name = ref.displayName || ref.type.name;
+    const name = ref.displayName || ref.type.displayName || ref.type.name;
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
         case ReferenceTypes.INTERFACE: type = "interface"; break;
@@ -111,10 +111,10 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
     let path = "";
-    if (ref.type.external) path += `${ref.type.external}`;
+    if (ref.type.external) path += `${ref.type.external}/`;
     if (ref.type.path) path += ref.type.path.join("/");
-    if (ref.type.displayName) path += `/<span class="item-name object">${ref.type.name}</span>.${ref.type.displayName}`;
-    else path += `/<span class="item-name object">${ref.type.name}</span>`;
+    if (ref.type.displayName) path += `${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name object">${ref.type.name}</span>.${ref.type.displayName}`;
+    else path += `${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name object">${ref.type.name}</span>`;
     return `<span class="c-tooltip"><a class="reference-link object" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name object">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}</span></span></span>`
 });
 
@@ -145,12 +145,8 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         case "URL": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URL/URL\">URL</a>"
         case "Buffer": return "<a class='external' href=\"https://nodejs.org/api/buffer.html\">Buffer</a>"
         case "RegExp": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp\">RegExp</a>"
-        case "Array": {
-            const val = `${ref.typeParameters[0]}[]`;
-            ref.typeParameters.length = 0;
-            return val;
-        }
-        case "Function": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\">Function</a>"
+        case "Array": return "<a class='object' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array\">Array</a>"
+        case "Function": return "<a class='object' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\">Function</a>"
         case "Record": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype\">Record</a>"
         case "Omit": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys\">Omit</a>"
         case "Symbol": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">Symbol</a>"

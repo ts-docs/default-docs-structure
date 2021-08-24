@@ -19,7 +19,7 @@ html[data-theme="dark"] {
     --modifierColor: #FF7B7B;
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
-    --keywordColor: #245db4;
+    --keywordColor: #5b9afc;
     --linkColor: #58a6ff;
     --warningColor: #f1686a50;
 }
