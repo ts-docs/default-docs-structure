@@ -27,7 +27,12 @@ const Types = {
     TEMPLATE_LITERAL: 25,
     INDEX_ACCESS: 26,
     TYPEOF_OPERATOR: 27,
-    SYMBOL: 28
+    SYMBOL: 28,
+    BIGINT: 29,
+    TYPE_PREDICATE: 30,
+    THIS: 31,
+    NEVER: 32,
+    OBJECT: 33
 };
 
 const ReferenceTypes = {
@@ -58,7 +63,7 @@ Handlebars.registerHelper("handlePaths", (paths) => {
 
 Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
      if (!func.paramComments) return "";
-     return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - ${p.comment}</li>`).join("")}</ul>`
+     return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - <span class="d-inline-block">${p.comment}</span></li>`).join("")}</ul>`
 });
 
 Handlebars.registerHelper("handleAssets", (mod) => {
@@ -130,7 +135,11 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
         case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
         case Types.VOID: return "<a class='primitive' href=\"https://www.typescriptlang.org/docs/handbook/2/functions.html#void\">void</a>"
-        case Types.SYMBOL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">symbol</a>"
+        case Types.SYMBOL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">symbol</a>";
+        case Types.THIS: return "<span class='keyword'>this</a>";
+        case Types.BIGINT: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt\">bigint</a>";
+        case Types.OBJECT: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\">object</a>";
+        case Types.NEVER: return "<a class='primitive'>never</a>"
         default: return `<span class='primitive'>${ref.name}</span>`;
     }
 });
@@ -138,7 +147,7 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
 Handlebars.registerHelper("linkDefault", (ref) => {
     switch (ref.type.name) {
         case "Date": "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date\">Date</a>"
-        case "Bigint": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt\">Bigint</a>"
+        case "Bigint": return "<a class='object' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt\">Bigint</a>"
         case "Promise": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\">Promise</a>"
         case "Set": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set\">Set</a>"
         case "Map": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map\">Map</a>"
@@ -151,8 +160,10 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         case "Omit": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys\">Omit</a>"
         case "Symbol": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">Symbol</a>"
         case "Error": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\">Error</a>"
-        case "URLSearchParams": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams\">URLSearchParams</a>"
-        default: return ref.type.name
+        case "URLSearchParams": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams\">URLSearchParams</a>";
+        case "ReadonlyArray": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/2/objects.html#the-readonlyarray-type\">ReadonlyArray</a>";
+        case "Pick": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys\">Pick</a>";
+        default: return `<span class='primitive'>${ref.type.name}</span>`
     }
 });
 
