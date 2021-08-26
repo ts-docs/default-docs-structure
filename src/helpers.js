@@ -47,6 +47,7 @@ const ReferenceTypes = {
     STRINGIFIED_UNKNOWN: 8,
     ENUM_MEMBER: 9,
     DEFAULT_API: 10,
+    NAMESPACE_OR_MODULE: 11
 }
 
 Handlebars.registerHelper("join", (args, delimiter) => {
@@ -63,7 +64,7 @@ Handlebars.registerHelper("handlePaths", (paths) => {
 
 Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
      if (!func.paramComments) return "";
-     return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - <span class="d-inline-block">${p.comment}</span></li>`).join("")}</ul>`
+     return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - <span>${p.comment}</span></li>`).join("")}</ul>`
 });
 
 Handlebars.registerHelper("handleAssets", (mod) => {
@@ -82,7 +83,7 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
     if (overloads.length > 3) {
         return `
         <div>
-        ${overloads.slice(0, 3).map(overload => options.fn(overload)).join("")}
+        ${overloads.slice(0, 3).map(overload => options.fn({...overload, renderSourceFile: true})).join("")}
         <div style="margin-bottom: 15px">
         <div class="collapsible-trigger">
         <span class="collapsible-arrow"></span>
@@ -94,7 +95,7 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
         </div>
         </div>
         `
-    } else return overloads.map(overload => options.fn(overload)).join("");
+    } else return overloads.map(overload => options.fn({...overload, renderSourceFile: true})).join("");
 });
 
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
@@ -107,6 +108,7 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.ENUM: type = "enum"; break;
         case ReferenceTypes.TYPE_ALIAS: type = "type alias"; break;
         case ReferenceTypes.FUNCTION: type = "function"; break;
+        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">namespace</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.external ? `${ref.type.external}/`:""}${ref.type.path.join("/")}</span></span></span>`
         case ReferenceTypes.TYPE_PARAMETER: return `<span class="c-tooltip"><a class="reference-link object">${name}</a><span class="c-tooltip-content"><span class="keyword">type parameter</span> <span class="item-name object">${ref.type.name}</span></span></span>`;
         default: return `<span class="reference-link item-name">${name}</span>`
     }
@@ -163,6 +165,7 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         case "URLSearchParams": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams\">URLSearchParams</a>";
         case "ReadonlyArray": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/2/objects.html#the-readonlyarray-type\">ReadonlyArray</a>";
         case "Pick": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys\">Pick</a>";
+        case "Iterable": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/iterators-and-generators.html#iterable-interface\">Iterable</a>";
         default: return `<span class='primitive'>${ref.type.name}</span>`
     }
 });
@@ -227,11 +230,8 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
 function generateHeadings(heading) {
     return heading.subHeadings.length ? `
     <div>
-    <div class="collapsible-trigger">
-    <span class="collapsible-arrow" style="margin-left:0px"></span>
     <a class="fw-bold" href="#${heading.id}">${heading.name}</a>
-    </div>
-    <div class="collapsible-body" style="padding-left:15px"> 
+    <div style="padding-left:15px"> 
     ${heading.subHeadings.map(s => generateHeadings(s)).join("")}
     </div>
     </div>
@@ -294,7 +294,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     } else if (data.type === "interface") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#.${m.name}">${m.name}</a>`)
+            values: data.properties.map(m => `<a href="#.${m.name || "[key]"}">${m.name || "[key]"}</a>`)
         });
         currentThing = `<p class="current-thing">interface <span class="object">${data.name}</span></p>`;
     } else if (data.type === "enum") {

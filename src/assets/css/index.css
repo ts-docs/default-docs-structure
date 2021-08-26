@@ -239,6 +239,7 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
 .docblock {
     margin-left: 24px;
     margin-top: 10px;
+    max-width: 90%;
 }
 
 .dockblock .section-header, .docblock .section-header, .docblock .section-header, .docblock .section-header, .docblock .section-header {

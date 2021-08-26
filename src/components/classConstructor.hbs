@@ -1,4 +1,5 @@
 
+{{#each signatures}}
 <div id="class.constructor" class="item">
     <span class="item-name"><span class="keyword">constructor</span><span>({{#if paramsOnNewLine}}<div class="left-fn-param">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span></span>
 
@@ -6,3 +7,4 @@
     {{{formatFunctionParameterComments this}}}
     </div>
 </div>
+{{/each}}
