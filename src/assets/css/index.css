@@ -261,6 +261,11 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     margin-bottom: 20px;
 }
 
+.item:target {
+    background-color: var(--sidebarColor);
+    padding: 5px 5px;
+}
+
 .object {
     color: var(--objectName);
 }
@@ -467,8 +472,7 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
 }
 
 .fn-param-comment {
-    display: inline-block;
-    
+    display: inline-block;   
 }
 
 @media only screen and (max-width: 680px) {
@@ -476,6 +480,7 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
         display: none;
         max-width: 70%;
         position: absolute;
+        z-index: 1000;
     }
 
     .sidebar-arrow {
