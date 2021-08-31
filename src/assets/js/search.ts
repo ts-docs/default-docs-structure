@@ -38,8 +38,9 @@ interface SearchResult {
     type: SearchResultType,
     isGetter?: boolean,
     isSetter?: boolean,
-    isPrivate?: boolean
-};
+    isPrivate?: boolean,
+    oldName?: string
+}
 
 const enum ClassMemberFlags {
     IS_GETTER = 1 << 0,
@@ -103,11 +104,18 @@ export async function initSearch(search: URLSearchParams, contentMain: HTMLEleme
 
 function search(term: string, filteredResults: Array<SearchResult>): Array<SearchResult> {
     if (!searchData) return [];
-    const res = go(term, filteredResults, { key: "name", allowTypo: true, limit: 150, threshold: -5000 });
-    return res.map(r => {
-        r.obj.highlighted = highlight(r, '<span style="border-bottom: dotted 2px var(--primaryLight)">', "</span>");
-        return r.obj;
-    });
+    if (term.includes(".")) {
+        return go(term, filteredResults.map(r => ({...r, oldName: r.name, name: `${r.obj || ""}.${r.name}`})), { key: "name", allowTypo: true, limit: 150, threshold: -5000 }).map(item => {
+          item.obj.highlighted = item.obj.oldName;
+          item.obj.name = item.obj.oldName;
+          return item.obj;   
+        });
+    } else {
+        return go(term, filteredResults, { key: "name", allowTypo: true, limit: 150, threshold: -5000 }).map(item => {
+            item.obj.highlighted = highlight(item, '<span style="border-bottom: dotted 2px var(--primaryLight)">', "</span>");
+            return item.obj;
+        });
+    }
 }
 
 async function evaluateSearch(term: string, options: SearchOptions): Promise<void> {
@@ -233,7 +241,7 @@ function formatResult(res: SearchResult) : string {
         }
         case SearchResultType.Method: {
             content = `<div>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}">${res.isGetter ? '<span class="keyword">get</span> ':""}${res.isSetter ? '<span class="keyword">set</span> ':""}<span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}">${res.isGetter ? '<span class="keyword">getter</span> ':""}${res.isSetter ? '<span class="keyword">setter</span> ':""}<span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;

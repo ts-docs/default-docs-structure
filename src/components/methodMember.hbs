@@ -11,12 +11,12 @@
         <a class="item-name method-name" href="#.{{../name}}">{{../name}}</a>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}<span>({{#if paramsOnNewLine}}<div class="left-fn-param">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span>{{~#if returnType}}<span><span class="symbol">:</span> {{{returnType}}}</span>{{/if~}}
         {{#if ../isDeprecated}}<span class="badge danger">deprecated</span>{{/if}}
     </span>
-    <div class="docblock">
-        {{{formatFunctionParameterComments this}}}
-        {{{comment}}}
-    </div>
     {{#if renderSourceFile}}
     <a href={{../loc.sourceFile}}>{{> sourceCode}}</a>
     {{/if}}
+        <div class="docblock">
+        {{{formatFunctionParameterComments this}}}
+        {{{comment}}}
+    </div>
     {{/resolveOverloads}}
 </div>
