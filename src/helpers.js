@@ -332,7 +332,8 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         }
     }
     return `
-    ${data.logo ? `<img src="${"../".repeat(data.depth + (data.type === "module" ? 1:0))}${data.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
+    <h1 class="lib-name text-center"><a href="${"../".repeat(data.depth)}index.html">${data.headerName}</a></h1>
+    ${data.logo ? `<img src="${"../".repeat(data.depth)}${data.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
     ${currentThing ? currentThing:""}
     <div class="sidebar-members">
     ${res.map(thing => `

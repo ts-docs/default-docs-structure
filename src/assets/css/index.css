@@ -160,10 +160,16 @@ a:hover {
     margin-bottom: 20px;
 }
 
+.lib-name a, .lib-name a:hover {
+    color: var(--textColor);
+    text-decoration: none;
+}
+
 .content {
     padding-top: 10px;
     height: calc(100vh - 65px);
     overflow-y: scroll;
+    margin-left: 5px;
 }
 
 .reference-link {
@@ -463,7 +469,7 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     cursor: pointer;
 }
 
-.left-fn-param {
+.left-item {
     margin-left: 20px;
 }
 

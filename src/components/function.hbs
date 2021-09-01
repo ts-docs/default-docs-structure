@@ -5,7 +5,7 @@
 
     {{#each signatures}}
     <div>
-        ({{#if paramsOnNewLine}}<div class="left-fn-param">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}}){{#if returnType}}<span class="symbol">:</span> {{{returnType}}}{{/if}}
+        ({{#if isLarge}}<div class="left-item">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}}){{#if returnType}}<span class="symbol">:</span> {{{returnType}}}{{/if}}
         <div class="docblock">
             {{{formatFunctionParameterComments this}}}
             {{{comment}}}
