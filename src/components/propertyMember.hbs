@@ -6,6 +6,7 @@
     {{#if isReadonly}}<span class="modifier">readonly</span>{{/if}}
     <span class="item-name"><a class="property-name" href="#.{{name}}">{{name}}</a>
         {{~#if type}}<span>: {{{type}}}</span>{{/if~}}
+        {{#if initializer}} <span class="symbol">=</span> {{{initializer}}}{{/if}}
     </span>
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     <div class="docblock">

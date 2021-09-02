@@ -98,14 +98,14 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
 
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let type = "";
-    const name = ref.displayName || ref.type.displayName || ref.type.name;
+    const name = ref.displayName || ref.type.name;
     let typeClass = "object";
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
         case ReferenceTypes.INTERFACE: type = "interface"; break;
-        case ReferenceTypes.ENUM_MEMBER: type = "enum member"; break;
+        case ReferenceTypes.ENUM_MEMBER:
         case ReferenceTypes.ENUM: type = "enum"; break;
-        case ReferenceTypes.TYPE_ALIAS: type = "type alias"; break;
+        case ReferenceTypes.TYPE_ALIAS: type = "type"; break;
         case ReferenceTypes.FUNCTION: type = "function"; typeClass = "method-name"; break;
         case ReferenceTypes.CONSTANT: type = "const"; typeClass = "constant"; break;
         case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">namespace</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.external ? `${ref.type.external}/`:""}${ref.type.path.join("/")}</span></span></span>`
@@ -120,9 +120,8 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let path = "";
     if (ref.type.external) path += `${ref.type.external}/`;
     if (ref.type.path) path += ref.type.path.join("/");
-    if (ref.type.displayName) path += `${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span>.${ref.type.displayName}`;
-    else path += `${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span>`;
-    return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}</span></span></span>`
+    if (ref.type.displayName) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}<span class="symbol">.</span>${ref.type.displayName}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span><span class="symbol">.</span>${ref.type.displayName}</span></span></span>`
+    return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
 });
 
 Handlebars.registerHelper("linkPrimitive", (ref) => {
