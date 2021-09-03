@@ -77,23 +77,22 @@ Handlebars.registerHelper("handleAssets", (mod) => {
 });
 
 Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
-    const other = overloads.length - 3;
-    if (overloads.length > 3) {
-        return `
+    if (overloads.length === 1) return options.fn({...overloads[0], renderSourceFile: true});
+    const first = overloads.shift();
+    return `
         <div>
-        ${overloads.slice(0, 3).map(overload => options.fn({...overload, renderSourceFile: true})).join("")}
+        ${options.fn({...first, renderSourceFile: true})}
         <div style="margin-bottom: 15px">
         <div class="collapsible-trigger">
         <span class="collapsible-arrow"></span>
-        <span class="secondary-text">${other} more overload${other === 1 ? "":"s"}</span>
+        <span class="secondary-text">${overloads.length} more overload${overloads.length === 1 ? "":"s"}</span>
         </div>
         <div class="collapsible-body">
-        ${overloads.slice(3).map(overload => options.fn(overload)).join("")}
+        ${overloads.map(overload => options.fn(overload)).join("")}
         </div>
         </div>
         </div>
-        `
-    } else return overloads.map(overload => options.fn({...overload, renderSourceFile: true})).join("");
+    `
 });
 
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
