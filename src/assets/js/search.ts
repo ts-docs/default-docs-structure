@@ -270,6 +270,13 @@ function displayResults(results: Array<SearchResult>) {
        searchResults.innerHTML = `<h1 class="text-center">No results!</h1>`;
        return;
     }
+    if (results.length === 1) {
+        searchResults.innerHTML = `
+         <div>
+         ${results.map(h => formatResult(h)).join("")}
+         </div>
+        `
+    } else {
     const mid = Math.ceil(results.length / 2);
     searchResults.innerHTML = `
     <div class="row">
@@ -281,6 +288,7 @@ function displayResults(results: Array<SearchResult>) {
     </div>
     </div>
     `;
+    }
 }
 
 async function loadSearchData() {

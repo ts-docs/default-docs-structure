@@ -1,7 +1,9 @@
 <div>
-    <h1>Const <span class="referenceLink constant">{{name}}</span>
-    <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
-    </h1>
+    <h1>Const <span class="referenceLink constant">{{name}}</span></h1>
+
+    {{#if definedIn}}
+    <p><a class="secondary-text" href={{loc.sourceFile}}>Defined in {{definedIn}}.ts</a></p>
+    {{/if}}
 
     {{#if type}}
     <span>{{{type}}}</span>

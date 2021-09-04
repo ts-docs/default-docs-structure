@@ -1,7 +1,9 @@
 <div>
-    <h1>Type alias <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}
-    <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
-    </h1>
+    <h1>Type alias <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
+
+    {{#if definedIn}}
+    <p><a class="secondary-text" href={{loc.sourceFile}}>Defined in {{definedIn}}.ts</a></p>
+    {{/if}}
     
     <p>{{{comment}}}</p>
     

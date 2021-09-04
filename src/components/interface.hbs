@@ -1,10 +1,9 @@
 <div>
-    <h1>
-        Interface <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}
-        {{#each loc}}
-        <a href={{this.sourceFile}}>{{> sourceCode}}</a>
-        {{/each}}
-    </h1>
+    <h1>Interface <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
+
+    {{#each definedIn}}
+        <p><a class="secondary-text" href={{../loc.sourceFile}}>Defined in {{this}}.ts</a></p>
+    {{/each}}
 
     {{#if extends}}
     <p class="item-name"><span class="keyword">extends</span> {{{join extends ", "}}}</p>
