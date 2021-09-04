@@ -3,6 +3,11 @@
     <h1>Class <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     </h1>
+    
+    {{#if isAbstract}}
+    <p class="item-name"><span class="keyword">abstract class</span></p>
+    {{/if}}
+
     {{#if extends}}
     <p class="item-name"><span class="keyword">extends</span> {{{extends}}}</p>
     {{/if}}
