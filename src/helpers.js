@@ -47,7 +47,8 @@ const ReferenceTypes = {
     STRINGIFIED_UNKNOWN: 8,
     ENUM_MEMBER: 9,
     DEFAULT_API: 10,
-    NAMESPACE_OR_MODULE: 11
+    NAMESPACE_OR_MODULE: 11,
+    EXTERNAL: 12
 }
 
 Handlebars.registerHelper("join", (args, delimiter) => {
@@ -109,8 +110,10 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.CONSTANT: type = "const"; typeClass = "constant"; break;
         case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">namespace</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.external ? `${ref.type.external}/`:""}${ref.type.path.join("/")}</span></span></span>`
         case ReferenceTypes.TYPE_PARAMETER: return `<span class="c-tooltip"><a class="reference-link object">${name}</a><span class="c-tooltip-content"><span class="keyword">type parameter</span> <span class="item-name object">${ref.type.name}</span></span></span>`;
+        case ReferenceTypes.EXTERNAL: type = "item";
         default: return `<span class="reference-link item-name">${name}</span>`
     }
+    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external ${type || "item"}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.external}/<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
     if (ref.hash) {
         const isMethod = ref.hash.endsWith("()");
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
@@ -164,6 +167,7 @@ Handlebars.registerHelper("linkDefault", (ref) => {
         case "ReadonlyArray": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/2/objects.html#the-readonlyarray-type\">ReadonlyArray</a>";
         case "Pick": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys\">Pick</a>";
         case "Iterable": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/iterators-and-generators.html#iterable-interface\">Iterable</a>";
+        case "ArrayBuffer": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\">ArrayBuffer</a>"         
         default: return `<span class='primitive'>${ref.type.name}</span>`
     }
 });
