@@ -21,7 +21,12 @@
 
     <div>
         {{#each properties}}
-        <div class="item">{{{this}}}</div>
+            <div class="item">{{{value}}}</div>
+            {{#if comment}}
+            <div class="docblock">
+                {{{comment}}}
+            </div>
+            {{/if}}
         {{/each}}
     </div>
     {{/if}}

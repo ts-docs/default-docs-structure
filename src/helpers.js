@@ -46,9 +46,8 @@ const ReferenceTypes = {
     UNKNOWN: 7,
     STRINGIFIED_UNKNOWN: 8,
     ENUM_MEMBER: 9,
-    DEFAULT_API: 10,
-    NAMESPACE_OR_MODULE: 11,
-    EXTERNAL: 12
+    NAMESPACE_OR_MODULE: 10,
+    EXTERNAL: 11
 }
 
 Handlebars.registerHelper("join", (args, delimiter) => {
@@ -108,20 +107,18 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.TYPE_ALIAS: type = "type"; break;
         case ReferenceTypes.FUNCTION: type = "function"; typeClass = "method-name"; break;
         case ReferenceTypes.CONSTANT: type = "const"; typeClass = "constant"; break;
-        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">namespace</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.external ? `${ref.type.external}/`:""}${ref.type.path.join("/")}</span></span></span>`
+        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">namespace</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.moduleName}${ref.type.path.join("/")}</span></span></span>`
         case ReferenceTypes.TYPE_PARAMETER: return `<span class="c-tooltip"><a class="reference-link object">${name}</a><span class="c-tooltip-content"><span class="keyword">type parameter</span> <span class="item-name object">${ref.type.name}</span></span></span>`;
         case ReferenceTypes.EXTERNAL: type = "item";
         default: return `<span class="reference-link item-name">${name}</span>`
     }
-    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external ${type || "item"}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.external}/<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
+    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external ${type || "item"}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.moduleName}/<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
     if (ref.hash) {
         const isMethod = ref.hash.endsWith("()");
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    let path = "";
-    if (ref.type.external) path += `${ref.type.external}/`;
-    if (ref.type.path) path += ref.type.path.join("/");
+    let path = `${ref.type.moduleName}/${ref.type.path?.join("/") || ""}`;
     if (ref.type.displayName) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}<span class="symbol">.</span>${ref.type.displayName}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span><span class="symbol">.</span>${ref.type.displayName}</span></span></span>`
     return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
 });
@@ -174,55 +171,55 @@ Handlebars.registerHelper("linkDefault", (ref) => {
 
 Handlebars.registerHelper("handleModuleIndex", (mod) => {
     return `
-    ${mod.modules.size ? `
+    ${mod.modules.length ? `
     <h3>Modules</h3>
-    ${[...mod.modules.values()].map(m => `<div><a class="module-item module" href="m.${m.name}/index.html">${m.name}</a></div>`).join("")}
+    ${[...mod.modules].map(m => `<div><a class="module-item module" href="m.${m.name}/index.html">${m.name}</a></div>`).join("")}
     `:""}
-    ${mod.classes.size ? `
+    ${mod.classes.length ? `
     <h3>Classes</h3>
     <table>
     <tbody>
-    ${[...mod.classes.values()].map(c => `<tr><td><a class="module-item object" href="class/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    ${mod.classes.map(c => `<tr><td><a class="module-item object" href="class/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
     </tbody>
     </table>
     `:""}
-    ${mod.interfaces.size ? `
+    ${mod.interfaces.length ? `
     <h3>Interfaces</h3>
     <table>
     <tbody>
-    ${[...mod.interfaces.values()].map(c => `<tr><td><a class="module-item object" href="interface/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    ${mod.interfaces.map(c => `<tr><td><a class="module-item object" href="interface/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
     </tbody>
     </table>
     `:""}
-    ${mod.enums.size ? `
+    ${mod.enums.length ? `
     <h3>Enums</h3>
     <table>
     <tbody>
-    ${[...mod.enums.values()].map(c => `<tr><td><a class="module-item object" href="enum/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    ${mod.enums.map(c => `<tr><td><a class="module-item object" href="enum/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
     </tbody>
     </table>
     `:""}
-    ${mod.functions.size ? `
+    ${mod.functions.length ? `
     <h3>Functions</h3>
     <table>
     <tbody>
-    ${[...mod.functions.values()].map(c => `<tr><td><a class="module-item method-name" href="function/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    ${mod.functions.map(c => `<tr><td><a class="module-item method-name" href="function/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
     </tbody>
     </table>
     `:""}
-    ${mod.types.size ? `
+    ${mod.types.length ? `
     <h3>Types</h3>
     <table>
     <tbody>
-    ${[...mod.types.values()].map(c => `<tr><td><a class="module-item object" href="type/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    ${mod.types.map(c => `<tr><td><a class="module-item object" href="type/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
     </tbody>
     </table>
     `:""}
-    ${mod.constants.size ? `
+    ${mod.constants.length ? `
     <h3>Constants</h3>
     <table>
     <tbody>
-    ${[...mod.constants.values()].map(c => `<tr><td><a class="module-item constant" href="constant/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
+    ${mod.constants.map(c => `<tr><td><a class="module-item constant" href="constant/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
     </tbody>
     </table>
     `:""}
@@ -270,34 +267,34 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
             name: "Modules",
             values: [...data.module.modules.values()].map(c => `<a href="${goBack}m.${c.name}/index.html">${c.name}</a>`)
         });
-        if (data.module.classes.size) res.push({
+        if (data.module.classes.length) res.push({
             name: "Classes",
-            values: [...data.module.classes.values()].map(c => `<a href="${goBack}class/${c.name}.html">${c.name}</a>`)
+            values: data.module.classes.map(c => `<a href="${goBack}class/${c.name}.html">${c.name}</a>`)
         });
-        if (data.module.interfaces.size) res.push({
+        if (data.module.interfaces.length) res.push({
             name: "Interfaces",
-            values: [...data.module.interfaces.values()].map(c => `<a href="${goBack}interface/${c.name}.html">${c.name}</a>`)
+            values: data.module.interfaces.map(c => `<a href="${goBack}interface/${c.name}.html">${c.name}</a>`)
         });
-        if (data.module.enums.size) res.push({
+        if (data.module.enums.length) res.push({
             name: "Enums",
-            values: [...data.module.enums.values()].map(c => `<a href="${goBack}enum/${c.name}.html">${c.name}</a>`)
+            values: data.module.enums.map(c => `<a href="${goBack}enum/${c.name}.html">${c.name}</a>`)
         }); 
-        if (data.module.functions.size) res.push({
+        if (data.module.functions.length) res.push({
             name: "Functions",
-            values: [...data.module.functions.values()].map(c => `<a href="${goBack}function/${c.name}.html">${c.name}</a>`)
+            values: data.module.functions.map(c => `<a href="${goBack}function/${c.name}.html">${c.name}</a>`)
         });
-        if (data.module.types.size) res.push({
+        if (data.module.types.length) res.push({
             name: "Types",
-            values: [...data.module.types.values()].map(c => `<a href="${goBack}type/${c.name}.html">${c.name}</a>`)
+            values: data.module.types.map(c => `<a href="${goBack}type/${c.name}.html">${c.name}</a>`)
         });
-        if (data.module.constants.size) res.push({
+        if (data.module.constants.length) res.push({
             name: "Constants",
-            values: [...data.module.constants.values()].map(c => `<a href="${goBack}constant/${c.name}.html">${c.name}</a>`)
+            values: data.module.constants.map(c => `<a href="${goBack}constant/${c.name}.html">${c.name}</a>`)
         });
     } else if (data.type === "interface") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#.${m.name || "[key]"}">${m.name || "[key]"}</a>`)
+            values: data.properties.map(m => `<a href="#.${m.value.name || "[key]"}">${m.value.name || "[key]"}</a>`)
         });
         currentThing = `<p class="current-thing">interface <span class="object">${data.name}</span></p>`;
     } else if (data.type === "enum") {
@@ -317,7 +314,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         }
         res.push({
             name: "Modules",
-            values: data.packages.map(c => `<a href="./m.${c.module.name}/index.html">${c.module.name}</a>`)
+            values: data.projects.map(c => `<a href="./m.${c.module.name}/index.html">${c.module.name}</a>`)
         });
     } else if (data.type === "page") {
         for (const heading of data.headings) {
