@@ -2,7 +2,7 @@
     <h1>Enum <span class="referenceLink object">{{name}}</span></h1>
 
     {{#each definedIn}}
-        <p><a class="secondary-text" href={{../loc.sourceFile}}>Defined in {{this}}.ts</a></p>
+        <p><a class="secondary-text" href={{link}}>Defined in {{filename}}.ts</a></p>
     {{/each}}
 
     {{{comment}}}
@@ -15,6 +15,12 @@
 
         {{#if this.initializer}}
         <span>= {{{this.initializer}}}</span>
+        {{/if}}
+
+        {{#if comment}}
+        <div class="docblock">
+            {{{comment}}}
+        </div>
         {{/if}}
 
     </div>

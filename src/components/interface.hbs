@@ -2,7 +2,7 @@
     <h1>Interface <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
 
     {{#each definedIn}}
-        <p><a class="secondary-text" href={{../loc.sourceFile}}>Defined in {{this}}.ts</a></p>
+        <p><a class="secondary-text" href={{link}}>Defined in {{filename}}.ts</a></p>
     {{/each}}
 
     {{#if extends}}
@@ -21,7 +21,12 @@
 
     <div>
         {{#each properties}}
-        <div class="item">{{{this}}}</div>
+            <div class="item">{{{value}}}</div>
+            {{#if comment}}
+            <div class="docblock">
+                {{{comment}}}
+            </div>
+            {{/if}}
         {{/each}}
     </div>
     {{/if}}
