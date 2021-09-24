@@ -107,18 +107,18 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.TYPE_ALIAS: type = "type"; break;
         case ReferenceTypes.FUNCTION: type = "function"; typeClass = "method-name"; break;
         case ReferenceTypes.CONSTANT: type = "const"; typeClass = "constant"; break;
-        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">namespace</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.moduleName}${ref.type.path.join("/")}</span></span></span>`
+        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">module</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.path.join("/")}</span></span></span>`
         case ReferenceTypes.TYPE_PARAMETER: return `<span class="c-tooltip"><a class="reference-link object">${name}</a><span class="c-tooltip-content"><span class="keyword">type parameter</span> <span class="item-name object">${ref.type.name}</span></span></span>`;
         case ReferenceTypes.EXTERNAL: type = "item";
         default: return `<span class="reference-link item-name">${name}</span>`
     }
-    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external ${type || "item"}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.moduleName}/<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
+    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external ${type || "item"}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span class="item-name ${typeClass}">${ref.type.name}</span></span></span>`
     if (ref.hash) {
         const isMethod = ref.hash.endsWith("()");
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    let path = `${ref.type.moduleName}/${ref.type.path?.join("/") || ""}`;
+    let path = ref.type.path.join("/");
     if (ref.type.displayName) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}<span class="symbol">.</span>${ref.type.displayName}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span><span class="symbol">.</span>${ref.type.displayName}</span></span></span>`
     return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
 });
@@ -171,57 +171,28 @@ Handlebars.registerHelper("linkDefault", (ref) => {
 
 Handlebars.registerHelper("handleModuleIndex", (mod) => {
     return `
-    ${mod.modules.length ? `
-    <h3>Modules</h3>
-    ${[...mod.modules].map(m => `<div><a class="module-item module" href="m.${m.name}/index.html">${m.name}</a></div>`).join("")}
+    ${mod.exports.length ? `
+    <h2>Exports</h2>
+    ${mod.exports.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span></div>`:""}`).join("")}
     `:""}
-    ${mod.classes.length ? `
-    <h3>Classes</h3>
-    <table>
-    <tbody>
-    ${mod.classes.map(c => `<tr><td><a class="module-item object" href="class/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
-    </tbody>
-    </table>
-    `:""}
-    ${mod.interfaces.length ? `
-    <h3>Interfaces</h3>
-    <table>
-    <tbody>
-    ${mod.interfaces.map(c => `<tr><td><a class="module-item object" href="interface/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
-    </tbody>
-    </table>
-    `:""}
-    ${mod.enums.length ? `
-    <h3>Enums</h3>
-    <table>
-    <tbody>
-    ${mod.enums.map(c => `<tr><td><a class="module-item object" href="enum/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
-    </tbody>
-    </table>
-    `:""}
-    ${mod.functions.length ? `
-    <h3>Functions</h3>
-    <table>
-    <tbody>
-    ${mod.functions.map(c => `<tr><td><a class="module-item method-name" href="function/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
-    </tbody>
-    </table>
-    `:""}
-    ${mod.types.length ? `
-    <h3>Types</h3>
-    <table>
-    <tbody>
-    ${mod.types.map(c => `<tr><td><a class="module-item object" href="type/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
-    </tbody>
-    </table>
-    `:""}
-    ${mod.constants.length ? `
-    <h3>Constants</h3>
-    <table>
-    <tbody>
-    ${mod.constants.map(c => `<tr><td><a class="module-item constant" href="constant/${c.name}.html">${c.name}</a></td><td>${c.jsDoc ? c.jsDoc.map(c => c.comment || "").join("").slice(0, 256):""}</td></tr>`).join("")}
-    </tbody>
-    </table>
+    ${mod.reExports.length ? `
+    <h2>Re-Exports</h2>
+    ${mod.reExports.map(ex => {
+        if (ex.references.length > 3) return `
+        <div>
+        <span class="keyword">exports</span>
+        <span class="collapsible-trigger">
+        <span class="collapsible-arrow"></span>
+        <span class="keyword">${ex.references.length} things from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}
+        </span>
+        <div class="collapsible-body"> 
+        ${ex.references.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
+        </div>
+        </div>
+        `
+        else if (ex.references.length === 0) return `<div><span class="keyword">exports</span> <span class="symbol">*</span> <span class="keyword">from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+        else return `<div><span class="keyword">exports</span> ${ex.references.map(ex => `${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}`).join(", ")}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+    }).join("")}
     `:""}
     `;
 });
