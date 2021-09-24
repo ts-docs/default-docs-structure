@@ -39,7 +39,8 @@ interface SearchResult {
     isGetter?: boolean,
     isSetter?: boolean,
     isPrivate?: boolean,
-    oldName?: string
+    oldName?: string,
+    comment?: string
 }
 
 const enum ClassMemberFlags {
@@ -235,6 +236,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Property: {
             content = `<div>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name property-name">${res.highlighted}</span></a>
+            ${res.comment ? `<p class="docblock">${res.comment}...</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -242,6 +244,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Method: {
             content = `<div>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}">${res.isGetter ? '<span class="keyword">getter</span> ':""}${res.isSetter ? '<span class="keyword">setter</span> ':""}<span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
+            ${res.comment ? `<p class="docblock">${res.comment}...</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -297,13 +300,13 @@ async function loadSearchData() {
             'Content-Type': 'application/json',
         }
     });
-    const data = await req.json() as [Array<[number, Array<[string, Array<[string, number]>, Array<[string, number]>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>]>, Array<string>];
+    const data = await req.json() as [Array<[number, Array<[string, Array<[string, number, string|undefined]>, Array<[string, number, string|undefined]>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>]>, Array<string>];
     const moduleNames = data[1];
     for (const module of data[0]) {
         searchData.push(...module[1].map(cl => {
             const path = cl[3].map(p => moduleNames[p]);
-            searchData.push(...cl[1].map(([name, bits]) => ({ name, path, obj: cl[0], type: SearchResultType.Property, isPrivate: hasBit(bits, ClassMemberFlags.IS_PRIVATE) })));
-            searchData.push(...cl[2].map(([name, bits]) => ({ name, path, obj: cl[0], type: SearchResultType.Method, isGetter: hasBit(bits, ClassMemberFlags.IS_GETTER), isSetter: hasBit(bits, ClassMemberFlags.IS_SETTER), isPrivate: hasBit(bits, ClassMemberFlags.IS_PRIVATE) })));
+            searchData.push(...cl[1].map(([name, bits, comment]) => ({ name, path, obj: cl[0], type: SearchResultType.Property, isPrivate: hasBit(bits, ClassMemberFlags.IS_PRIVATE), comment })));
+            searchData.push(...cl[2].map(([name, bits, comment]) => ({ name, path, obj: cl[0], type: SearchResultType.Method, isGetter: hasBit(bits, ClassMemberFlags.IS_GETTER), isSetter: hasBit(bits, ClassMemberFlags.IS_SETTER), isPrivate: hasBit(bits, ClassMemberFlags.IS_PRIVATE), comment })));
             return {
                 name: cl[0],
                 path,
