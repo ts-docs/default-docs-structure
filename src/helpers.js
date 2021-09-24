@@ -98,6 +98,7 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let type = "";
     const name = ref.displayName || ref.type.name;
+    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link object" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external item</span> <span class="item-name object">${ref.type.name}</span></span></span>`
     let typeClass = "object";
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
@@ -112,7 +113,6 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.EXTERNAL: type = "item";
         default: return `<span class="reference-link item-name">${name}</span>`
     }
-    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external ${type || "item"}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span class="item-name ${typeClass}">${ref.type.name}</span></span></span>`
     if (ref.hash) {
         const isMethod = ref.hash.endsWith("()");
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
@@ -141,31 +141,6 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.OBJECT: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\">object</a>";
         case Types.NEVER: return "<a class='primitive'>never</a>"
         default: return `<span class='primitive'>${ref.name}</span>`;
-    }
-});
-
-Handlebars.registerHelper("linkDefault", (ref) => {
-    switch (ref.type.name) {
-        case "Date": "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date\">Date</a>"
-        case "Bigint": return "<a class='object' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt\">Bigint</a>"
-        case "Promise": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\">Promise</a>"
-        case "Set": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set\">Set</a>"
-        case "Map": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map\">Map</a>"
-        case "URL": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URL/URL\">URL</a>"
-        case "Buffer": return "<a class='external' href=\"https://nodejs.org/api/buffer.html\">Buffer</a>"
-        case "RegExp": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp\">RegExp</a>"
-        case "Array": return "<a class='object' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array\">Array</a>"
-        case "Function": return "<a class='object' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\">Function</a>"
-        case "Record": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype\">Record</a>"
-        case "Omit": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys\">Omit</a>"
-        case "Symbol": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">Symbol</a>"
-        case "Error": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\">Error</a>"
-        case "URLSearchParams": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams\">URLSearchParams</a>";
-        case "ReadonlyArray": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/2/objects.html#the-readonlyarray-type\">ReadonlyArray</a>";
-        case "Pick": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys\">Pick</a>";
-        case "Iterable": return "<a class='external' href=\"https://www.typescriptlang.org/docs/handbook/iterators-and-generators.html#iterable-interface\">Iterable</a>";
-        case "ArrayBuffer": return "<a class='external' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\">ArrayBuffer</a>"         
-        default: return `<span class='primitive'>${ref.type.name}</span>`
     }
 });
 
