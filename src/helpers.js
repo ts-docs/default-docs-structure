@@ -214,31 +214,31 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         const goBack = data.realType ? "../":"";
         if (data.module.modules.size) res.push({
             name: "Modules",
-            values: [...data.module.modules.values()].map(c => `<a href="${goBack}m.${c.name}/index.html">${c.name}</a>`)
+            values: [...data.module.modules.values()].map(c => `<a href="${goBack}m.${c.name}${c.id ? `_${c.id}`:""}/index.html">${c.name}</a>`)
         });
         if (data.module.classes.length) res.push({
             name: "Classes",
-            values: data.module.classes.map(c => `<a href="${goBack}class/${c.name}.html">${c.name}</a>`)
+            values: data.module.classes.map(c => `<a href="${goBack}class/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         });
         if (data.module.interfaces.length) res.push({
             name: "Interfaces",
-            values: data.module.interfaces.map(c => `<a href="${goBack}interface/${c.name}.html">${c.name}</a>`)
+            values: data.module.interfaces.map(c => `<a href="${goBack}interface/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         });
         if (data.module.enums.length) res.push({
             name: "Enums",
-            values: data.module.enums.map(c => `<a href="${goBack}enum/${c.name}.html">${c.name}</a>`)
+            values: data.module.enums.map(c => `<a href="${goBack}enum/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         }); 
         if (data.module.functions.length) res.push({
             name: "Functions",
-            values: data.module.functions.map(c => `<a href="${goBack}function/${c.name}.html">${c.name}</a>`)
+            values: data.module.functions.map(c => `<a href="${goBack}function/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         });
         if (data.module.types.length) res.push({
             name: "Types",
-            values: data.module.types.map(c => `<a href="${goBack}type/${c.name}.html">${c.name}</a>`)
+            values: data.module.types.map(c => `<a href="${goBack}type/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         });
         if (data.module.constants.length) res.push({
             name: "Constants",
-            values: data.module.constants.map(c => `<a href="${goBack}constant/${c.name}.html">${c.name}</a>`)
+            values: data.module.constants.map(c => `<a href="${goBack}constant/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         });
     } else if (data.type === "interface") {
         if (data.properties.length) res.push({
