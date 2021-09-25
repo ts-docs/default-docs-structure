@@ -165,7 +165,10 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
         </div>
         </div>
         `
-        else if (ex.references.length === 0) return `<div><span class="keyword">exports</span> <span class="symbol">*</span> <span class="keyword">from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+        else if (ex.references.length === 0) {
+            if (ex.reExportsReExport) return `<div><span class="keyword">exports</span> <span class="item-name object">${ex.reExportsReExport}</span> <span class="keyword">from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+            return `<div><span class="keyword">exports</span> <span class="symbol">*</span> <span class="keyword">from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+        }
         else return `<div><span class="keyword">exports</span> ${ex.references.map(ex => `${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}`).join(", ")}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
     }).join("")}
     `:""}
