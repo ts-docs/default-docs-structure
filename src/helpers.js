@@ -158,7 +158,7 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
         <span class="keyword">exports</span>
         <span class="collapsible-trigger">
         <span class="collapsible-arrow"></span>
-        <span class="keyword">${ex.references.length} things from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}
+        <span class="keyword">${ex.references.length} things</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span> <span class="keyword">from</span> ${ex.module}`:""}
         </span>
         <div class="collapsible-body"> 
         ${ex.references.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
@@ -166,10 +166,10 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
         </div>
         `
         else if (ex.references.length === 0) {
-            if (ex.reExportsReExport) return `<div><span class="keyword">exports</span> <span class="item-name object">${ex.reExportsReExport}</span> <span class="keyword">from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
-            return `<div><span class="keyword">exports</span> <span class="symbol">*</span> <span class="keyword">from</span> ${ex.module}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+            if (ex.reExportsReExport) return `<div><span class="keyword">exports</span> <span class="item-name object">${ex.reExportsReExport}</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
+            return `<div><span class="keyword">exports</span> <span class="symbol">*</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
         }
-        else return `<div><span class="keyword">exports</span> ${ex.references.map(ex => `${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}`).join(", ")}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`;
+        else return `<div><span class="keyword">exports</span> ${ex.references.map(ex => `${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}`).join(", ")}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
     }).join("")}
     `:""}
     `;
@@ -197,7 +197,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         });
         if (data.methods.length) res.push({
             name: "Methods",
-            values: data.methods.map(m => `<a href="#.${m.name}">${m.name}</a>`)
+            values: data.methods.map(m => `<a href="#.${m.realName || m.name}">${m.realName || m.name}</a>`)
         }); 
         currentThing = `<p class="current-thing text-center">class <span class="object">${data.name}</span></p>`;
     } else if (data.type === "module") {

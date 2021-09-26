@@ -27,7 +27,7 @@ window.addEventListener("load", () => {
     for (const tooltip of (document.getElementsByClassName("c-tooltip") as unknown as Array<HTMLSpanElement>)) {
         let timeout: any;
         const tooltipContent = tooltip.getElementsByClassName("c-tooltip-content")[0];
-        if (!tooltipContent || tooltipContent.classList.contains("open")) return;
+        if (!tooltipContent) continue;
         tooltip.onmouseover = () => {
             if (timeout) clearTimeout(timeout);
             timeout = setTimeout(() => {
@@ -59,7 +59,6 @@ window.addEventListener("load", () => {
     });
 
     scrollToTopBtn.onclick = () => content.scroll({top: 0, behavior: "smooth" });
-
 
     initSidebar(contentMain);
 }); 

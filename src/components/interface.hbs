@@ -1,8 +1,11 @@
 <div>
     <h1>Interface <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
 
+
     {{#each definedIn}}
+        {{#if filename}}
         <p><a class="secondary-text" href={{link}}>Defined in {{filename}}.ts</a></p>
+        {{/if}}
     {{/each}}
 
     {{#if extends}}
