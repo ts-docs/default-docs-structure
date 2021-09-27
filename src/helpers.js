@@ -98,7 +98,10 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
 Handlebars.registerHelper("handleReferenceKind", (ref) => {
     let type = "";
     const name = ref.displayName || ref.type.name;
-    if (ref.type.link) return `<span class="c-tooltip"><a class="reference-link object" href="${ref.type.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">external item</span> <span class="item-name object">${ref.type.name}</span></span></span>`
+    if (ref.type.link) {
+        const display = ref.type.displayName ? `<span class="symbol">.</span><span>${ref.type.displayName}</span>` : "";
+        return `<span class="c-tooltip"><a class="reference-link object" href="${ref.type.link}">${name}${display}</a><span class="c-tooltip-content"><span class="keyword">external item</span> <span class="item-name object">${ref.type.name}${display}</span></span></span>`
+    }
     let typeClass = "object";
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
