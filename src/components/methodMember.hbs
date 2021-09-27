@@ -1,7 +1,6 @@
 
 <div id=".{{rawName}}" class="item">
     {{#resolveOverloads signatures}}
-    <span class="monospace">
     {{#if ../isStatic}}<span class="modifier">static</span>{{/if}}
     {{#if ../isAbstract}}<span class="modifier">abstract</span>{{/if}}
     {{#if ../isPrivate}}<span class="modifier">private</span>{{/if}}
@@ -10,7 +9,6 @@
     {{#if ../isSetter}}<span class="modifier">set</span>{{/if}}
         {{#if ../realName}}[<a class="item-name method-name" href="#.{{../rawName}}">{{{../name}}}</a>]{{else}}<a class="item-name method-name" href="#.{{../rawName}}">{{{../name}}}</a>{{/if}}{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}<span>({{#if isLarge}}<div class="left-item">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span>{{~#if returnType}}<span><span class="symbol">:</span> {{{returnType}}}</span>{{/if~}}
         {{#if ../isDeprecated}}<span class="badge danger">deprecated</span>{{/if}}
-    </span>
     {{#if renderSourceFile}}
     <a href={{../loc.sourceFile}}>{{> sourceCode}}</a>
     {{/if}}

@@ -178,6 +178,7 @@ a:hover {
 .reference-link {
     font-weight: bold;
     text-decoration: none;
+    font-family: var(--bs-font-monospace);
     color: var(--textColor);
 }
 
@@ -461,10 +462,6 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
 .text-block.text-block-success {
     background-color: var(--successColor);
     border-left-color: #009908;
-}
-
-.monospace {
-    font-family: var(--bs-font-monospace);
 }
 
 .module-item {
