@@ -72,7 +72,7 @@ Handlebars.registerHelper("handleAssets", (mod) => {
     return `
     <link href="${dpth}assets/css/index.css" type="text/css" rel="stylesheet">
     <script src="${dpth}assets/js/index.js"></script>
-    <script>window.depth="${dpth}";${mod.currentGlobalModuleName ? `window.lm="${mod.currentGlobalModuleName}"`:""}</script>
+    <script>window.depth="${dpth}";window.ab=${mod.activeBranch !== "main"};${mod.currentGlobalModuleName ? `window.lm="${mod.currentGlobalModuleName}";`:""}</script>
     `
 });
 
@@ -256,6 +256,12 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         });
         currentThing = `<p class="current-thing text-center">enum <span class="object">${data.name}</span></p>`;
     } else if (data.type === "index") {
+        if (data.branches) {
+            res.push({
+                name: "Branches",
+                values: [`<select id="branch-select" class="form-select"><option ${data.activeBranch === "main" ? "selected":""}>main</option>${data.branches.map(br => `<option ${data.activeBranch === br.displayName ? "selected":""}>${br.displayName}</option>`)}</select>`]
+            })
+        }
         if (data.pages) {
             for (const category of data.pages) {
                 res.push({

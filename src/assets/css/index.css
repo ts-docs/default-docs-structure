@@ -158,7 +158,7 @@ a:hover {
 }
 
 .lib-name {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 10px;
     margin-bottom: 20px;
 }
@@ -489,6 +489,20 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
 
 .fn-param-comment {
     display: inline-block;   
+}
+
+.monospace {
+    font-family: var(--bs-font-monospace);
+}
+
+.form-select {
+    background-color: var(--navigationColor);
+    color: var(--textColor);
+    background-image: none;
+    padding: 5px 5px;
+    margin-top: 10px;
+    transition: none;
+    border-color: transparent;
 }
 
 @media only screen and (max-width: 680px) {

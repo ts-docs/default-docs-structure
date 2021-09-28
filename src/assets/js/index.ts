@@ -6,7 +6,8 @@ declare global {
 
     interface Window {
         depth: string,
-        lm?: string
+        lm?: string, // Latest Module
+        ab?: boolean // Alternate Branch
     }
 }
 
@@ -37,6 +38,16 @@ window.addEventListener("load", () => {
         tooltip.onmouseleave = () => {
             clearTimeout(timeout);
             tooltipContent.classList.remove("open");
+        }
+    }
+
+    const branchSelect = document.getElementById("branch-select");
+    if (branchSelect) {
+        branchSelect.onchange = (ev) => {
+            const target = ev.target as HTMLSelectElement;
+            if (window.ab) window.depth += "../";
+            if (target.value === "main") location.href = `${window.depth}index.html`;
+            else location.href = `${window.depth}b.${target.value}/index.html`
         }
     }
 
