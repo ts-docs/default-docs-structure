@@ -76,6 +76,10 @@ Handlebars.registerHelper("handleAssets", (mod) => {
     `
 });
 
+Handlebars.registerHelper("resolveDepth", (mod) => {
+    return "../".repeat(mod.depth);
+})
+
 Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
     if (overloads.length === 1) return options.fn({...overloads[0], renderSourceFile: true});
     const first = overloads.shift();
@@ -161,8 +165,7 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
         <span class="keyword">exports</span>
         <span class="collapsible-trigger">
         <span class="collapsible-arrow"></span>
-        <span class="keyword">${ex.references.length} things</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span> <span class="keyword">from</span> ${ex.module}`:""}
-        </span>
+        <span class="keyword">${ex.references.length} things</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</span>
         <div class="collapsible-body"> 
         ${ex.references.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
         </div>
@@ -205,6 +208,12 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         currentThing = `<p class="current-thing text-center">class <span class="object">${data.name}</span></p>`;
     } else if (data.type === "module") {
         const depth = "../".repeat(data.depth);
+        if (data.branches) {
+            res.push({
+                name: "Branches",
+                values: [`<select id="branch-select" class="form-select"><option ${data.activeBranch === "main" ? "selected":""}>main</option>${data.branches.map(br => `<option ${data.activeBranch === br.displayName ? "selected":""}>${br.displayName}</option>`)}</select>`]
+            })
+        }
         if (data.pages) {
             for (const category of data.pages) {
                 res.push({
