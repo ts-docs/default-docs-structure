@@ -55,11 +55,19 @@ Handlebars.registerHelper("join", (args, delimiter) => {
     return args.map(item => item.trim()).join(delimiter);
 });
 
-Handlebars.registerHelper("handlePaths", (paths) => {
-    return paths.map((p, i) => {
-        if (i === 1 && p.name === "pages") return `<span class="path-member">${p.name}</span>`;
-        return `<a class="path-member" href="${p.path || ""}">${p.name}</a>`;
-    }).join(" / ");
+Handlebars.registerHelper("handlePaths", ([path, final]) => {
+    // Special cases
+    if (path === "" && final === "changelog") return `<a href="./index.html" class="path-member">index</a> / <a href="" class="path-member">changelog</a>`;
+    if (path === "pages") return `<a href="../../index.html" class="path-member">index</a> / <span class="path-member">pages</span> / <a href="" class="path-member">${final}</a>`;
+    path = path.split("/").slice(1);
+    const len = path.length;
+    let res = `<a href="${"../".repeat(len + 1)}index.html" class="path-member">index</a> / `;
+    for (let i=0; i < len; i++) {
+        const part = path[i];
+        res += `<a href="${"../".repeat(len - i)}index.html" class="path-member">${part.slice(2)}</a> / `
+    } 
+    res += `<a class="path-member" href="">${final.startsWith("m.") ? final.slice(2) : final}</a>`;
+    return res;
 });
 
 Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
