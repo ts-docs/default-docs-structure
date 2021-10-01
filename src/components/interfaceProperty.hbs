@@ -1,6 +1,10 @@
 
-{{#if key}} 
-<span class="item-name">[key<span class="symbol">:</span> {{{key}}}]<span class="symbol">:</span> {{{type}}}</span>
+{{#if key}}
+<div class="item">
+    <span class="item-name">[key<span class="symbol">:</span> {{{key}}}]<span class="symbol">:</span> {{{type}}}</span>
+</div>
 {{else}}
-<div class="item-name item" id=".{{name}}"><a class="property-name" href="#.{{name}}">{{name}}</a>{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</span>
+<div class="item" id=".{{name}}">
+<div class="item-name"><a class="property-name">{{name}}</a>{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</span>
+</div>
 {{/if}}
