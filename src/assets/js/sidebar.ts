@@ -9,22 +9,21 @@ export function initSidebar(contentMain: HTMLElement) {
     // sidebar button always starts off as ->
     arrowRight = sidebarBtn.innerHTML;
     const sidebar = document.getElementById("sidebar")!;
-
     
     sidebarBtn.onclick = () => { 
-        if (sidebar.classList.contains("d-block")) {
-            sidebar.classList.remove("d-block");
+        if (sidebar.style.display === "block") {
+            sidebar.style.display = "none";
             sidebarBtn.innerHTML = arrowRight;
         } else {
-            sidebar.classList.add("d-block");
+            sidebar.style.display = "block";
             sidebarBtn.innerHTML = arrowLeft;
         }
     }
 
-    contentMain.addEventListener("click", () => {
-        if (window.innerWidth > 680) return;
-        sidebar.classList.remove("d-block");
-        sidebarBtn.classList.remove("d-none");
+    contentMain.addEventListener("click", (event) => {
+        if (window.innerWidth > 680 || event.target === sidebarBtn) return;
+        sidebar.style.display = "none";
+        sidebarBtn.innerHTML = arrowRight;
     });
     
 }
