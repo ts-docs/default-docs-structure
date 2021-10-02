@@ -49,6 +49,22 @@ const enum ClassMemberFlags {
     IS_PRIVATE = 1 << 2
 }
 
+export type SearchDataComment = string|undefined;
+
+export type PackedSearchData = [
+    Array<[
+        number, // Module ID,
+        Array<[string, Array<[string, number, SearchDataComment]>, Array<[string, number, SearchDataComment]>, Array<number>, SearchDataComment]>, // Classes
+        Array<[string, Array<string>, Array<number>, SearchDataComment]>, // Interfaces,
+        Array<[string, Array<string>, Array<number>, SearchDataComment]>, // Enums,
+        Array<[string, Array<number>]>, // Types
+        Array<[string, Array<number>]>, // Functions
+        Array<[string, Array<number>]> // Constants
+    ]>,
+    Array<string> // Module names
+];
+
+
 function hasBit(bits: number, bit: number) {
     return (bits & bit) === bit;
 }
@@ -189,6 +205,7 @@ function formatResult(res: SearchResult) : string {
             content = `<div>
             <span class="keyword">class</span>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -197,6 +214,7 @@ function formatResult(res: SearchResult) : string {
             content = `<div>
             <span class="keyword">interface</span>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/interface/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -205,6 +223,7 @@ function formatResult(res: SearchResult) : string {
             content = `<div>
             <span class="keyword">enum</span>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/enum/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -236,7 +255,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Property: {
             content = `<div>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}"><span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name property-name">${res.highlighted}</span></a>
-            ${res.comment ? `<p class="docblock">${res.comment}...</p>`:""}
+            ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -244,7 +263,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Method: {
             content = `<div>
             <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.obj}.html#.${res.name}">${res.isGetter ? '<span class="keyword">getter</span> ':""}${res.isSetter ? '<span class="keyword">setter</span> ':""}<span class="item-name object">${res.obj}</span><span class="symbol">.</span><span class="item-name method-name">${res.highlighted}</span></a>
-            ${res.comment ? `<p class="docblock">${res.comment}...</p>`:""}
+            ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -300,7 +319,7 @@ async function loadSearchData() {
             'Content-Type': 'application/json',
         }
     });
-    const data = await req.json() as [Array<[number, Array<[string, Array<[string, number, string|undefined]>, Array<[string, number, string|undefined]>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<string>, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>, Array<[string, Array<number>]>]>, Array<string>];
+    const data = await req.json() as PackedSearchData;
     const moduleNames = data[1];
     for (const module of data[0]) {
         searchData.push(...module[1].map(cl => {
@@ -310,7 +329,8 @@ async function loadSearchData() {
             return {
                 name: cl[0],
                 path,
-                type: SearchResultType.Class
+                type: SearchResultType.Class,
+                comment: cl[4]
             }
         }));
         searchData.push(...module[2].map(inter => {
@@ -319,7 +339,8 @@ async function loadSearchData() {
             return {
                 name: inter[0],
                 path,
-                type: SearchResultType.Interface
+                type: SearchResultType.Interface,
+                comment: inter[3]
             }
         }));
         searchData.push(...module[3].map(en => {
@@ -328,7 +349,8 @@ async function loadSearchData() {
             return {
                 name: en[0],
                 path, 
-                type: SearchResultType.Enum
+                type: SearchResultType.Enum,
+                comment: en[3]
             }
         }));
         searchData.push(...module[4].map(t => ({name: t[0], path: t[1].map(p => moduleNames[p]), type: SearchResultType.Type})));

@@ -163,7 +163,7 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
     return `
     ${mod.exports.length ? `
     <h2>Exports</h2>
-    ${mod.exports.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span></div>`:""}`).join("")}
+    ${mod.exports.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
     `:""}
     ${mod.reExports.length ? `
     <h2>Re-Exports</h2>

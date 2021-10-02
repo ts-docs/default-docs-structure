@@ -10,19 +10,19 @@ export function initSidebar(contentMain: HTMLElement) {
     arrowRight = sidebarBtn.innerHTML;
     const sidebar = document.getElementById("sidebar")!;
     
-    sidebarBtn.onclick = () => { 
-        if (sidebar.style.display === "block") {
-            sidebar.style.display = "none";
+    sidebarBtn.addEventListener("click", () => {
+        if (sidebar.classList.contains("d-block")) {
+            sidebar.classList.remove("d-block");
             sidebarBtn.innerHTML = arrowRight;
         } else {
-            sidebar.style.display = "block";
+            sidebar.classList.add("d-block");
             sidebarBtn.innerHTML = arrowLeft;
         }
-    }
+    });
 
     contentMain.addEventListener("click", (event) => {
-        if (window.innerWidth > 680 || event.target === sidebarBtn) return;
-        sidebar.style.display = "none";
+        if (window.innerWidth > 680) return;
+        sidebar.classList.remove("d-block");
         sidebarBtn.innerHTML = arrowRight;
     });
     
