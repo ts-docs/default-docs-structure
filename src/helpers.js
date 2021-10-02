@@ -266,7 +266,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     } else if (data.type === "interface") {
         if (data.properties.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#.${m.value.name || "[key]"}">${m.value.name || "[key]"}</a>`)
+            values: data.properties.filter(prop => prop.prop).map(m => `<a href="#.${m.prop.name}">${m.prop.name}</a>`)
         });
         currentThing = `<p class="current-thing">interface <span class="object">${data.name}</span></p>`;
     } else if (data.type === "enum") {

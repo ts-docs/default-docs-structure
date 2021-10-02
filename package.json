@@ -1,6 +1,6 @@
 {
   "name": "@ts-docs/default-docs-structure",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "The default docs structure for the ts-docs generator.",
   "main": "./dist",
   "devDependencies": {
@@ -12,7 +12,8 @@
     "ts-loader": "^9.2.4",
     "typescript": "^4.3.5",
     "webpack": "^5.47.1",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "fuzzysort": "^1.1.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,8 +30,5 @@
   "bugs": {
     "url": "https://github.com/ts-docs/default-docs-structure/issues"
   },
-  "homepage": "https://github.com/ts-docs/default-docs-structure#readme",
-  "dependencies": {
-    "fuzzysort": "^1.1.4"
-  }
+  "homepage": "https://github.com/ts-docs/default-docs-structure#readme"
 }

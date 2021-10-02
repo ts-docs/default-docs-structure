@@ -24,12 +24,7 @@
 
     <div>
         {{#each properties}}
-            {{{value}}}
-            {{#if comment}}
-            <div class="docblock">
-                {{{comment}}}
-            </div>
-            {{/if}}
+            {{{this}}}
         {{/each}}
     </div>
     {{/if}}

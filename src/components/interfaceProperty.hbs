@@ -1,10 +1,26 @@
 
-{{#if key}}
-<div class="item">
-    <span class="item-name">[key<span class="symbol">:</span> {{{key}}}]<span class="symbol">:</span> {{{type}}}</span>
+<div>
+    {{#if isProperty}}
+        <div class="item" id=".{{name}}">
+             <div class="item-name">{{#if isReadonly}}<span class="modifier">readonly </span>{{/if}}<a class="property-name" href="#.{{name}}">{{name}}</a>{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</div>
+        </div>
+    {{/if}}
+    {{#if isIndex}}
+    <div>
+        <div class="item">
+            <span class="item-name">[key<span class="symbol">:</span> {{{key}}}]<span class="symbol">:</span> {{{type}}}</span>
+        </div>
+    </div>
+    {{/if}}
+    {{#if isCall}} 
+    {{{content}}}
+    {{/if}}
+    {{#if isConstruct}}
+    {{{content}}}
+    {{/if}}
+    {{#if comment}}
+        <div class="docblock">
+            {{{comment}}}
+        </div>
+    {{/if}}
 </div>
-{{else}}
-<div class="item" id=".{{name}}">
-<div class="item-name"><a class="property-name" href="#.{{name}}">{{name}}</a>{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</div>
-</div>
-{{/if}}
