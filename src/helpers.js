@@ -32,7 +32,9 @@ const Types = {
     TYPE_PREDICATE: 30,
     THIS: 31,
     NEVER: 32,
-    OBJECT: 33
+    OBJECT: 33,
+    INFER_TYPE: 34,
+    REGEX_LITERAL: 35
 };
 
 const ReferenceTypes = {
@@ -154,7 +156,8 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.THIS: return "<span class='keyword'>this</a>";
         case Types.BIGINT: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt\">bigint</a>";
         case Types.OBJECT: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\">object</a>";
-        case Types.NEVER: return "<a class='primitive'>never</a>"
+        case Types.NEVER: return "<a class='primitive'>never</a>";
+        case Types.REGEX_LITERAL: return `<a class="primitive regex-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">${ref.name}</a>`;
         default: return `<span class='primitive'>${ref.name}</span>`;
     }
 });

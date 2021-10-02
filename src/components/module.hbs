@@ -4,14 +4,8 @@
     <h1>
     {{#if isNamespace}}Namespace{{else}}Module{{/if}}
     <span class="referenceLink module">{{name}}</span>
-    {{#unless definedIn}}
-        <a href={{repository}}>{{> sourceCode}}</a>
-    {{/unless}}
+    <a href={{repository}}>{{> sourceCode}}</a>
     </h1>
-
-    {{#if definedIn}}
-        <p><a class="secondary-text" href={{repository}}>Defined in {{definedIn}}.ts</a></p>
-    {{/if}}
 
     {{#if readme}}
     {{{readme}}}

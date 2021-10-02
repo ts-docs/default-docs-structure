@@ -19,6 +19,7 @@ html[data-theme="dark"] {
     --modifierColor: #FF7B7B;
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
+    --regexColor: #bf2b0d;
     --keywordColor: #5b9afc;
     --linkColor: #58a6ff;
     --warningColor: #f1686a50;
@@ -46,6 +47,7 @@ html[data-theme="light"] {
     --modifierColor: #e20000;
     --stringColor: #b63600;
     --numberColor: #407d27;
+    --regexColor: #bf2b0d;
     --keywordColor: #245db4;
     --linkColor: #005bc3;
     --warningColor: #c72b2d50;
@@ -345,6 +347,11 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
 .number-literal:hover,
 .number-literal {
     color: var(--numberColor)
+}
+
+.regex-literal:hover,
+.regex-literal {
+    color: var(--regexColor)
 }
 
 .keyword {
