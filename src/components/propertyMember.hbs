@@ -4,10 +4,14 @@
     {{#if isAbstract}}<span class="modifier">abstract</span>{{/if}}
     {{#if isPrivate}}<span class="modifier">private</span>{{/if}}
     {{#if isReadonly}}<span class="modifier">readonly</span>{{/if}}
+    {{#if key}}
+    <span class="item-name">[key<span class="symbol">:</span> {{{key}}}]<span class="symbol">:</span> {{{type}}}</span>
+    {{else}}
     <span class="item-name"><a class="property-name" href="#.{{name}}">{{name}}</a>
         {{~#if type}}<span>: {{{type}}}</span>{{/if~}}
         {{#if initializer}} <span class="symbol">=</span> {{{initializer}}}{{/if}}
     </span>
+    {{/if}}
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
     <div class="docblock">
         {{{comment}}}

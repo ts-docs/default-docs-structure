@@ -208,9 +208,10 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const res = [];
     let currentThing;
     if (data.type === "class") {
-        if (data.properties.length) res.push({
+        const filteredProps = data.properties.filter(prop => !prop.key);
+        if (filteredProps.length) res.push({
             name: "Properties",
-            values: data.properties.map(m => `<a href="#.${m.name}">${m.name}</a>`)
+            values: filteredProps.map(m => `<a href="#.${m.name}">${m.name}</a>`)
         });
         if (data.methods.length) res.push({
             name: "Methods",
@@ -264,9 +265,10 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
             values: data.module.constants.map(c => `<a href="${goBack}constant/${c.name}${c.id ? `_${c.id}`:""}.html">${c.name}</a>`)
         });
     } else if (data.type === "interface") {
-        if (data.properties.length) res.push({
+        const filteredProps = data.properties.filter(prop => prop.prop);
+        if (filteredProps) res.push({
             name: "Properties",
-            values: data.properties.filter(prop => prop.prop).map(m => `<a href="#.${m.prop.name}">${m.prop.name}</a>`)
+            values: filteredProps.map(m => `<a href="#.${m.prop.name}">${m.prop.name}</a>`)
         });
         currentThing = `<p class="current-thing">interface <span class="object">${data.name}</span></p>`;
     } else if (data.type === "enum") {
