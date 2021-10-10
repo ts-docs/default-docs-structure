@@ -274,7 +274,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         });
     } else if (data.type === "interface") {
         const filteredProps = data.properties.filter(prop => prop.prop);
-        if (filteredProps) res.push({
+        if (filteredProps.length) res.push({
             name: "Properties",
             values: filteredProps.map(m => `<a href="#.${m.prop.name}">${m.prop.name}</a>`)
         });
