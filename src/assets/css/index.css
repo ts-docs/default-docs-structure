@@ -77,6 +77,11 @@ a:hover {
     text-decoration: underline;
 }
 
+a.default-color, a.default-color:hover {
+    color: var(--textColor);
+    text-decoration: none;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -510,6 +515,43 @@ h2.section-header, h3.section-header, h4.section-header, h5.section-header, h6.s
     margin-top: 10px;
     transition: none;
     border-color: transparent;
+}
+
+table {
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+    margin-top: 0;
+    margin-bottom: 16px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-color: grey;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+th {
+    border: 1px solid var(--sidebarColor);
+    padding: 8px 8px;
+}
+
+tr {
+    border-top: 1px solid var(--sidebarColor);
+}
+
+td {
+    padding: 6px 13px;
+    border: 1px solid var(--sidebarColor);
 }
 
 @media only screen and (max-width: 680px) {

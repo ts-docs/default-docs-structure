@@ -164,12 +164,16 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
 
 Handlebars.registerHelper("handleModuleIndex", (mod) => {
     return `
+    <div class="row">
     ${mod.exports.length ? `
-    <h2>Exports</h2>
+    <div class="col"> 
+    <h2 id="exports">Exports</h2>
     ${mod.exports.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
+    </div>
     `:""}
     ${mod.reExports.length ? `
-    <h2>Re-Exports</h2>
+    <div class="col">
+    <h2 id="exports">Re-Exports</h2>
     ${mod.reExports.map(ex => {
         if (ex.references.length > 3) return `
         <div>
@@ -188,7 +192,9 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
         }
         else return `<div><span class="keyword">exports</span> ${ex.references.map(ex => `${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}`).join(", ")}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
     }).join("")}
+    </div>
     `:""}
+    </div>
     `;
 });
 
@@ -206,6 +212,7 @@ function generateHeadings(heading) {
 Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const data = ctx.data.root;
     const res = [];
+    let exports;
     let currentThing;
     if (data.type === "class") {
         const filteredProps = data.properties.filter(prop => !prop.key);
@@ -234,6 +241,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
                 })
             }
         }
+        if (data.module.exports.length || data.module.reExports.length) exports = '<a class="sidebar-category default-color collapsible-body open" href="#exports">Exports</a>'
         currentThing = `<p class="current-thing text-center">module <span class="module">${data.module.name}</span></p>`;
         const goBack = data.realType ? "../":"";
         if (data.module.modules.size) res.push({
@@ -313,8 +321,9 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     return `
     <h1 class="lib-name text-center"><a href="${"../".repeat(data.depth)}index.html">${data.headerName}</a></h1>
     ${data.logo ? `<img src="${"../".repeat(data.depth)}${data.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
-    ${currentThing ? currentThing:""}
+    ${currentThing || ""}
     <div class="sidebar-members">
+    ${exports || ""}
     ${res.map(thing => `
         <div class="sidebar-member">
         <div class="collapsible-trigger">
