@@ -1,10 +1,7 @@
 
 <div>
-    <h1>Class <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}</h1>
-    
-    {{#if definedIn}}
-    <p><a class="secondary-text" href={{loc.sourceFile}}>Defined in {{definedIn}}.ts</a></p>
-    {{/if}}
+    <h1>Class <span class="referenceLink object">{{name}}</span></h1>
+    {{#if typeParameters}}<p class="monospace">&lt;{{{join typeParameters ", "}}}&gt;</p>{{/if}}
 
     {{#if isAbstract}}
     <p class="item-name"><span class="keyword">abstract class</span></p>
@@ -16,6 +13,10 @@
 
     {{#if implements}}
     <p class="item-name"><span class="keyword">implements</span> {{{join implements ", "}}}</p>
+    {{/if}}
+    
+    {{#if definedIn}}
+    <p><a class="secondary-text" href={{loc.sourceFile}}>Defined in {{definedIn}}.ts</a></p>
     {{/if}}
 
     {{{comment}}}

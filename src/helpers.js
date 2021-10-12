@@ -52,6 +52,7 @@ const ReferenceTypes = {
     EXTERNAL: 11
 }
 
+module.exports = (Handlebars) => {
 Handlebars.registerHelper("join", (args, delimiter) => {
     if (!args) return "";
     return args.map(item => item.trim()).join(delimiter);
@@ -72,10 +73,6 @@ Handlebars.registerHelper("handlePaths", ([path, final]) => {
     return res;
 });
 
-Handlebars.registerHelper("formatFunctionParameterComments", (func) => {
-     if (!func.paramComments) return "";
-     return `<ul>${func.paramComments.map(p => `<li class="item-name"><span class="param-name">${p.name}</span> - <span>${p.comment}</span></li>`).join("")}</ul>`
-});
 
 Handlebars.registerHelper("handleAssets", (mod) => {
     const dpth = "../".repeat(mod.depth);
@@ -102,7 +99,7 @@ Handlebars.registerHelper("resolveOverloads", (overloads, options) => {
         <span class="secondary-text">${overloads.length} more overload${overloads.length === 1 ? "":"s"}</span>
         </div>
         <div class="collapsible-body">
-        ${overloads.map(overload => options.fn(overload)).join("")}
+        ${overloads.map(overload => `<div class="item">${options.fn(overload)}</div>`).join("")}
         </div>
         </div>
         </div>
@@ -175,7 +172,7 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
     <div class="col">
     <h2 id="exports">Re-Exports</h2>
     ${mod.reExports.map(ex => {
-        if (ex.references.length > 3) return `
+        if (ex.references.length > 1) return `
         <div>
         <span class="keyword">exports</span>
         <span class="collapsible-trigger">
@@ -190,7 +187,7 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
             if (ex.reExportsReExport) return `<div><span class="keyword">exports</span> <span class="item-name object">${ex.reExportsReExport}</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
             return `<div><span class="keyword">exports</span> <span class="symbol">*</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
         }
-        else return `<div><span class="keyword">exports</span> ${ex.references.map(ex => `${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}`).join(", ")}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
+        else return `<div><span class="keyword">exports</span> ${ex.references[0].ref}${ex.references[0].alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.references[0].alias}</span>`:""}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
     }).join("")}
     </div>
     `:""}
@@ -338,3 +335,5 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     </div>
     `
 });
+
+}

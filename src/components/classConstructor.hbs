@@ -4,8 +4,10 @@
 <div id="class.constructor" class="item">
     <span class="item-name"><span class="keyword">constructor</span><span>({{#if isLarge}}<div class="left-item">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span></span>
 
+    {{#if comment}}
     <div class="docblock">
-    {{{formatFunctionParameterComments this}}}
+    {{{comment}}}
     </div>
+    {{/if}}
 </div>
 {{/resolveOverloads}}

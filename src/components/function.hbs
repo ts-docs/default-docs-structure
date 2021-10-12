@@ -9,7 +9,6 @@
     <div>
         <div class="monospace">({{#if isLarge}}<div class="left-item">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}}){{#if returnType}}<span class="symbol">:</span> {{{returnType}}}{{/if}}</div>
         <div class="docblock">
-            {{{formatFunctionParameterComments this}}}
             {{{comment}}}
         </div>
     </div>

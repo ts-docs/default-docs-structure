@@ -1,12 +1,7 @@
 <div>
-    <h1>Interface <span class="referenceLink object">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
+    <h1>Interface <span class="referenceLink object">{{name}}</span></h1>
 
-
-    {{#each definedIn}}
-        {{#if filename}}
-        <p><a class="secondary-text" href={{link}}>Defined in {{filename}}.ts</a></p>
-        {{/if}}
-    {{/each}}
+    {{#if typeParameters}}<p class="monospace">&lt;{{{join typeParameters ", "}}}&gt;</p>{{/if}}
 
     {{#if extends}}
     <p class="item-name"><span class="keyword">extends</span> {{{join extends ", "}}}</p>
@@ -16,6 +11,11 @@
     <p class="item-name"><span class="keyword">implements</span> {{{join implements ", "}}}</p>
     {{/if}}
 
+    {{#each definedIn}}
+        {{#if filename}}
+        <p><a class="secondary-text" href={{link}}>Defined in {{filename}}.ts</a></p>
+        {{/if}}
+    {{/each}}
 
     <p>{{{comment}}}</p>
 

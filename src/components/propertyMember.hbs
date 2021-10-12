@@ -13,7 +13,9 @@
     </span>
     {{/if}}
     <a href={{loc.sourceFile}}>{{> sourceCode}}</a>
+    {{#if comment}}
     <div class="docblock">
-        {{{comment}}}
+    {{{comment}}}
     </div>
+    {{/if}}
 </div>

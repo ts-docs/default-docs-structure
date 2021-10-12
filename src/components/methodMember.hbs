@@ -8,13 +8,13 @@
     {{#if ../isGetter}}<span class="modifier">get</span>{{/if}}
     {{#if ../isSetter}}<span class="modifier">set</span>{{/if}}
         <span class="monospace">{{#if ../realName}}[<a class="item-name method-name" href="#.{{../rawName}}">{{{../name}}}</a>]{{else}}<a class="item-name method-name" href="#.{{../rawName}}">{{{../name}}}</a>{{/if}}{{#if typeParameters}}<span>&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}<span>({{#if isLarge}}<div class="left-item">{{{join parameters ",<br>"}}}</div>{{else}}{{{join parameters ", "}}}{{/if}})</span>{{~#if returnType}}<span><span class="symbol">:</span> {{{returnType}}}</span>{{/if~}}</span>
-        {{#if ../isDeprecated}}<span class="badge danger">deprecated</span>{{/if}}
     {{#if renderSourceFile}}
     <a href={{../loc.sourceFile}}>{{> sourceCode}}</a>
     {{/if}}
-        <div class="docblock">
-        {{{formatFunctionParameterComments this}}}
-        {{{comment}}}
+    {{#if comment}}
+    <div class="docblock">
+    {{{comment}}}
     </div>
+    {{/if}}
     {{/resolveOverloads}}
 </div>
