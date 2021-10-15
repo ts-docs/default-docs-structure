@@ -132,7 +132,7 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    let path = ref.type.path.join("/");
+    let path = ref.type.path ? ref.type.path.join("/") : "";
     if (ref.type.displayName) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}<span class="symbol">.</span>${ref.type.displayName}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span><span class="symbol">.</span>${ref.type.displayName}</span></span></span>`
     return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
 });
@@ -141,9 +141,9 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
     switch (ref.kind) {
         case Types.STRING: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\">string</a>"
         case Types.NUMBER: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number\">number</a>"
-        case Types.TRUE:
-        case Types.FALSE:
-        case Types.BOOLEAN: return `<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">${ref.name}</a>`
+        case Types.TRUE: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">true</a>"
+        case Types.FALSE: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">false</a>"
+        case Types.BOOLEAN: return `<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>`
         case Types.UNDEFINED: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
         case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
         case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
@@ -155,7 +155,8 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.OBJECT: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\">object</a>";
         case Types.NEVER: return "<a class='primitive'>never</a>";
         case Types.REGEX_LITERAL: return `<a class="primitive regex-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">${ref.name}</a>`;
-        default: return `<span class='primitive'>${ref.name}</span>`;
+        case Types.ANY: return `<span class='primitive'>any</span>`
+        default: return `<span class='primitive'>unknown</span>`;
     }
 });
 
