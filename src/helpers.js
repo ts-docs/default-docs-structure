@@ -59,6 +59,11 @@ Handlebars.registerHelper("join", (args, delimiter) => {
     return args.map(item => item.trim()).join(delimiter);
 });
 
+Handlebars.registerHelper("handleComputed", (args, className, href) => {
+    if (args.isComputed) return new Handlebars.SafeString(`<span class="monospace">[<a class="${className}" ${href ? `href="#.${args.rawName}"`:""}}>${args.name}</a>]</span>`);
+    else return new Handlebars.SafeString(`<a class="${className}" ${href ? `href="#.${args.rawName}"`:""}}>${args.name}</a>`);
+});
+
 Handlebars.registerHelper("handlePaths", ([path, final]) => {
     // Special cases
     if (path === "" && final === "changelog") return `<a href="./index.html" class="path-member">index</a> / <a href="" class="path-member">changelog</a>`;
@@ -240,7 +245,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
                 })
             }
         }
-        if (data.module.exports.length || data.module.reExports.length) exports = '<a class="sidebar-category default-color collapsible-body open" href="#exports">Exports</a>'
+        if (data.module.exports.length || data.module.reExports.length) exports = '<a class="sidebar-category sidebar-standalone-member" href="#exports">Exports</a>'
         currentThing = `<p class="current-thing text-center">module <span class="module">${data.module.name}</span></p>`;
         const goBack = data.realType ? "../":"";
         if (data.module.modules.size) res.push({

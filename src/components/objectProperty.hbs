@@ -1,4 +1,4 @@
-{{#if isProperty}}<span class="item-name"><span class="item-name property-name">{{{name}}}</span>{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</span>{{/if}}
+{{#if isProperty}}<span class="item-name">{{handleComputed this "item-name property-name" true}}{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</span>{{/if}}
 {{#if isIndex}}<span class="item-name">[key<span class="symbol">:</span> {{{index}}}]<span class="symbol">:</span> {{{type}}}</span>{{/if}}
 {{#if isCall}}{{{content}}}{{/if}}
 {{#if isConstruct}}{{{content}}}{{/if}}

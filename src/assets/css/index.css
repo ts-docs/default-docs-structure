@@ -77,11 +77,6 @@ a:hover {
     text-decoration: underline;
 }
 
-a.default-color, a.default-color:hover {
-    color: var(--textColor);
-    text-decoration: none;
-}
-
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -153,6 +148,14 @@ a.default-color, a.default-color:hover {
 .sidebar-category-member {
     margin-bottom: 4px;
     display: block;
+}
+
+.sidebar-standalone-member, .sidebar-standalone-member:hover {
+    padding-bottom: 10px;
+    padding-left: 35px;
+    display: block;
+    text-decoration: none;
+    color: var(--textColor);
 }
 
 .sidebar-category-member a, .sidebar-category-member a:visited {

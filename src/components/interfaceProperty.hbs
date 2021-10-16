@@ -1,7 +1,7 @@
 
 <div>
     {{#if isProperty}}
-    <div class="item" id=".{{rawName}}"><div class="item-name">{{#if isReadonly}}<span class="modifier">readonly </span>{{/if}}<a class="property-name" href="#.{{name}}">{{{name}}}</a>{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</div></div>
+    <div class="item" id=".{{rawName}}"><div class="item-name">{{#if isReadonly}}<span class="modifier">readonly </span>{{/if}}{{handleComputed this "property-name" true}}{{#if isOptional}}<span class="symbol">?</span>{{/if}}<span class="symbol">:</span> {{{type}}}</div></div>
     {{/if}}
     {{#if isIndex}}
     <div>
