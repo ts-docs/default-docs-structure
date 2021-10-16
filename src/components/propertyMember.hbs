@@ -7,7 +7,7 @@
     {{#if key}}
     <span class="item-name">[key<span class="symbol">:</span> {{{key}}}]<span class="symbol">:</span> {{{type}}}</span>
     {{else}}
-    <span class="item-name"><a class="property-name" href="#.{{name}}">{{name}}</a>
+    <span class="item-name"><a class="property-name" href="#.{{../rawName}}">{{{name}}}</a>
         {{~#if type}}<span>: {{{type}}}</span>{{/if~}}
         {{#if initializer}} <span class="symbol">=</span> {{{initializer}}}{{/if}}
     </span>

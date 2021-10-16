@@ -53,6 +53,7 @@ const ReferenceTypes = {
 }
 
 module.exports = (Handlebars) => {
+
 Handlebars.registerHelper("join", (args, delimiter) => {
     if (!args) return "";
     return args.map(item => item.trim()).join(delimiter);
@@ -114,6 +115,7 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         return `<span class="c-tooltip"><a class="reference-link object" href="${ref.type.link}">${name}${display}</a><span class="c-tooltip-content"><span class="keyword">external item</span> <span class="item-name object">${ref.type.name}${display}</span></span></span>`
     }
     let typeClass = "object";
+    const path = ref.type.path ? ref.type.path.join("/") : "";
     switch (ref.type.kind) {
         case ReferenceTypes.CLASS: type = "class"; break;
         case ReferenceTypes.INTERFACE: type = "interface"; break;
@@ -122,7 +124,7 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         case ReferenceTypes.TYPE_ALIAS: type = "type"; break;
         case ReferenceTypes.FUNCTION: type = "function"; typeClass = "method-name"; break;
         case ReferenceTypes.CONSTANT: type = "const"; typeClass = "constant"; break;
-        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">module</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${ref.type.path.join("/")}</span></span></span>`
+        case ReferenceTypes.NAMESPACE_OR_MODULE: return `<span class="c-tooltip"><a class="reference-link module" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">module</span> <span class="item-name module">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}</span></span></span>`
         case ReferenceTypes.TYPE_PARAMETER: return `<span class="c-tooltip"><a class="reference-link object">${name}</a><span class="c-tooltip-content"><span class="keyword">type parameter</span> <span class="item-name object">${ref.type.name}</span></span></span>`;
         case ReferenceTypes.EXTERNAL: type = "item";
         default: return `<span class="reference-link item-name">${name}</span>`
@@ -132,7 +134,6 @@ Handlebars.registerHelper("handleReferenceKind", (ref) => {
         if (isMethod) ref.hash = ref.hash.slice(0, -2);
         return `<a class="reference-link" href="${ref.link}#.${ref.hash}"><span class="object">${name}</span><span class="symbol">.</span><span class="${isMethod ? "method-name":"property-name"}">${ref.hash}</span></a>`;
     }
-    let path = ref.type.path ? ref.type.path.join("/") : "";
     if (ref.type.displayName) return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}<span class="symbol">.</span>${ref.type.displayName}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span><span class="symbol">.</span>${ref.type.displayName}</span></span></span>`
     return `<span class="c-tooltip"><a class="reference-link ${typeClass}" href="${ref.link}">${name}</a><span class="c-tooltip-content"><span class="keyword">${type}</span> <span class="item-name ${typeClass}">${ref.type.name}</span><span style="display:block" class="monospace fw-bold">${path}${ref.type.path && ref.type.path.length ? "/":""}<span class="item-name ${typeClass}">${ref.type.name}</span></span></span></span>`
 });
@@ -146,7 +147,7 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
         case Types.BOOLEAN: return `<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean\">boolean</a>`
         case Types.UNDEFINED: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined\">undefined</a>"
         case Types.NULL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null\">null</a>"
-        case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">${ref.name}</a>`
+        case Types.STRING_LITERAL: return `<a class="primitive string-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">"${ref.name}"</a>`
         case Types.NUMBER_LITERAL: return `<a class="primitive number-literal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">${ref.name}</a>`;
         case Types.VOID: return "<a class='primitive' href=\"https://www.typescriptlang.org/docs/handbook/2/functions.html#void\">void</a>"
         case Types.SYMBOL: return "<a class='primitive' href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol\">symbol</a>";
@@ -216,11 +217,11 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         const filteredProps = data.properties.filter(prop => !prop.key);
         if (filteredProps.length) res.push({
             name: "Properties",
-            values: filteredProps.map(m => `<a href="#.${m.name}">${m.name}</a>`)
+            values: filteredProps.map(m => `<a href="#.${m.rawName}">${m.rawName}</a>`)
         });
         if (data.methods.length) res.push({
             name: "Methods",
-            values: data.methods.map(m => `<a href="#.${m.realName || m.name}">${m.realName || m.name}</a>`)
+            values: data.methods.map(m => `<a href="#.${m.rawName}">${m.rawName}</a>`)
         }); 
         currentThing = `<p class="current-thing text-center">class <span class="object">${data.name}</span></p>`;
     } else if (data.type === "module") {
@@ -274,7 +275,7 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         const filteredProps = data.properties.filter(prop => prop.prop);
         if (filteredProps.length) res.push({
             name: "Properties",
-            values: filteredProps.map(m => `<a href="#.${m.prop.name}">${m.prop.name}</a>`)
+            values: filteredProps.map(m => `<a href="#.${m.prop.rawName}">${m.prop.rawName}</a>`)
         });
         currentThing = `<p class="current-thing">interface <span class="object">${data.name}</span></p>`;
     } else if (data.type === "enum") {

@@ -35,7 +35,7 @@ const config = {
         minimizer: [
             new CssMinimizerPlugin(),
             new TerserPlugin()
-        ]
+        ],
     },
 
     plugins: [
