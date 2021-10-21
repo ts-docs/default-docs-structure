@@ -167,39 +167,45 @@ Handlebars.registerHelper("linkPrimitive", (ref) => {
 });
 
 Handlebars.registerHelper("handleModuleIndex", (mod) => {
+    if (!mod.exports) return "";
+    if (mod.exportMode === "simple") {
     return `
     <div class="row">
-    ${mod.exports.length ? `
+    ${mod.exports.exports.length ? `
     <div class="col"> 
     <h2 id="exports">Exports</h2>
-    ${mod.exports.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
+    ${mod.exports.exports.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
     </div>
     `:""}
-    ${mod.reExports.length ? `
+    ${mod.exports.reExports.length ? `
     <div class="col">
     <h2 id="exports">Re-Exports</h2>
-    ${mod.reExports.map(ex => {
+    ${mod.exports.reExports.map(ex => {
         if (ex.references.length > 1) return `
         <div>
         <span class="keyword">exports</span>
         <span class="collapsible-trigger">
         <span class="collapsible-arrow"></span>
-        <span class="keyword">${ex.references.length} things</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</span>
+        <span class="keyword">${ex.references.length} things</span> ${ex.namespace ? ` <span class="keyword">as</span> <span class="item-name object">${ex.namespace}</span>`:""} <span class="keyword">from</span> ${ex.module}</span>
         <div class="collapsible-body"> 
         ${ex.references.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
         </div>
         </div>
         `
         else if (ex.references.length === 0) {
-            if (ex.reExportsReExport) return `<div><span class="keyword">exports</span> <span class="item-name object">${ex.reExportsReExport}</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
-            return `<div><span class="keyword">exports</span> <span class="symbol">*</span> ${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
+            if (ex.reExportsOfReExport) return `<div><span class="keyword">exports</span> <span class="item-name object">${ex.reExportsOfReExport}</span> ${ex.namespace ? ` <span class="keyword">as</span> <span class="item-name object">${ex.namespace}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
+            return `<div><span class="keyword">exports</span> <span class="symbol">*</span> ${ex.namespace ? ` <span class="keyword">as</span> <span class="item-name object">${ex.namespace}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
         }
-        else return `<div><span class="keyword">exports</span> ${ex.references[0].ref}${ex.references[0].alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.references[0].alias}</span>`:""}${ex.alias ? ` <span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
+        else return `<div><span class="keyword">exports</span> ${ex.references[0].ref}${ex.references[0].alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.references[0].alias}</span>`:""}${ex.namespace ? ` <span class="keyword">as</span> <span class="item-name object">${ex.namespace}</span>`:""} <span class="keyword">from</span> ${ex.module}</div>`;
     }).join("")}
     </div>
     `:""}
     </div>
-    `;
+    `
+    } else {
+        
+    }
+    return;
 });
 
 function generateHeadings(heading) {
@@ -216,7 +222,6 @@ function generateHeadings(heading) {
 Handlebars.registerHelper("resolveSidebar", (ctx) => {
     const data = ctx.data.root;
     const res = [];
-    let exports;
     let currentThing;
     if (data.type === "class") {
         const filteredProps = data.properties.filter(prop => !prop.key);
@@ -245,7 +250,6 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
                 })
             }
         }
-        if (data.module.exports.length || data.module.reExports.length) exports = '<a class="sidebar-category sidebar-standalone-member" href="#exports">Exports</a>'
         currentThing = `<p class="current-thing text-center">module <span class="module">${data.module.name}</span></p>`;
         const goBack = data.realType ? "../":"";
         if (data.module.modules.size) res.push({
@@ -327,7 +331,6 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
     ${data.logo ? `<img src="${"../".repeat(data.depth)}${data.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
     ${currentThing || ""}
     <div class="sidebar-members">
-    ${exports || ""}
     ${res.map(thing => `
         <div class="sidebar-member">
         <div class="collapsible-trigger">
