@@ -73,7 +73,7 @@ Handlebars.registerHelper("handlePaths", ([path, final]) => {
     let res = `<a href="${"../".repeat(len + 1)}index.html" class="path-member">index</a> / `;
     for (let i=0; i < len; i++) {
         const part = path[i];
-        res += `<a href="${"../".repeat(len - i)}index.html" class="path-member">${part.slice(2)}</a> / `
+        res += `<a href="${"../".repeat(len - i)}index.html" class="path-member">${part}</a> / `
     } 
     res += `<a class="path-member" href="">${final.startsWith("m.") ? final.slice(2) : final}</a>`;
     return res;
@@ -188,7 +188,7 @@ Handlebars.registerHelper("handleModuleIndex", (mod) => {
         <span class="collapsible-arrow"></span>
         <span class="keyword">${ex.references.length} things</span> ${ex.namespace ? ` <span class="keyword">as</span> <span class="item-name object">${ex.namespace}</span>`:""} <span class="keyword">from</span> ${ex.module}</span>
         <div class="collapsible-body"> 
-        ${ex.references.map(ex => `<div>${ex.ref}${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
+        ${ex.references.map(ex => `<div>${ex.ref} ${ex.alias ? `<span class="keyword">as</span> <span class="item-name object">${ex.alias}</span>`:""}</div>`).join("")}
         </div>
         </div>
         `

@@ -1,5 +1,7 @@
 <div>
-    <h1>Function <span class="referenceLink method-name">{{name}}</span>{{#if typeParameters}}<span>&lt;{{~{join typeParameters ", "}~}}&gt;</span>{{/if}}</h1>
+    <h1>Function <span class="referenceLink method-name">{{name}}</span></h1>
+
+    {{#if typeParameters}}<span class="monospace">&lt;{{{join typeParameters ", "}}}&gt;</span>{{/if}}
 
     {{#if definedIn}}
     <p><a class="secondary-text" href={{loc.sourceFile}}>Defined in {{definedIn}}.ts</a></p>
