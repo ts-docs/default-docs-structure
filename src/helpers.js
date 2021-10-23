@@ -64,18 +64,20 @@ Handlebars.registerHelper("handleComputed", (args, className, href) => {
     else return new Handlebars.SafeString(`<a class="${className}" ${href ? `href="#.${args.rawName}"`:""}}>${args.name}</a>`);
 });
 
-Handlebars.registerHelper("handlePaths", ([path, final]) => {
+Handlebars.registerHelper("handlePaths", (page) => {
     // Special cases
-    if (path === "" && final === "changelog") return `<a href="./index.html" class="path-member">index</a> / <a href="" class="path-member">changelog</a>`;
-    if (path === "pages") return `<a href="../../index.html" class="path-member">index</a> / <span class="path-member">pages</span> / <a href="" class="path-member">${final}</a>`;
+    let [path, dir, filename] = page.path;
+    if (path === "" && filename === "changelog") return `<a href="./index.html" class="path-member">index</a> / <a href="" class="path-member">changelog</a>`;
+    if (page.type === "page") return `<a href="../../index.html" class="path-member">index</a> / <span class="path-member">${dir}</span> / <a href="" class="path-member">${filename}</a>`;
     path = path.split("/").slice(1);
     const len = path.length;
     let res = `<a href="${"../".repeat(len + 1)}index.html" class="path-member">index</a> / `;
     for (let i=0; i < len; i++) {
         const part = path[i];
-        res += `<a href="${"../".repeat(len - i)}index.html" class="path-member">${part}</a> / `
+        res += `<a href="${"../".repeat(len - i)}index.html" class="path-member">${part.startsWith("m.") ? part.slice(2) : part}</a> / `
     } 
-    res += `<a class="path-member" href="">${final.startsWith("m.") ? final.slice(2) : final}</a>`;
+    if (filename === "index") res += `<a class="path-member" href="">${dir.startsWith("m.") ? dir.slice(2) : dir}</a>`;
+    else res += `<a class="path-member" href="">${filename}</a>`;
     return res;
 });
 
@@ -327,8 +329,8 @@ Handlebars.registerHelper("resolveSidebar", (ctx) => {
         }
     }
     return `
-    <h1 class="lib-name text-center"><a href="${"../".repeat(data.depth)}index.html">${data.headerName}</a></h1>
-    ${data.logo ? `<img src="${"../".repeat(data.depth)}${data.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
+    <h1 class="lib-name text-center"><a href="${"../".repeat(data.depth)}index.html">${data.static.headerName}</a></h1>
+    ${data.static.logo ? `<img src="${"../".repeat(data.depth)}${data.static.logo}" alt="Logo" class="img-fluid mx-auto d-block">`:""}
     ${currentThing || ""}
     <div class="sidebar-members">
     ${res.map(thing => `
