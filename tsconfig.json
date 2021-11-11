@@ -30,5 +30,5 @@
           { "transform": "@ts-docs/jsx-to-str" },
     ]
   },
-  "exclude": ["./src/assets", "./node_modules"]
+  "exclude": ["./src/assets", "./node_modules", "./dist"]
 }
