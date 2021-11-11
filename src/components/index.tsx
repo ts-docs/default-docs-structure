@@ -112,6 +112,3 @@ export function render(gen: Generator, staticData: StaticDocumentationData, data
         </html>
     </>;
 }
-
-//@ts-expect-error reeeee
-console.log(render({ depth: 3 }, { hasChangelog: true }, { path: ["a/b/c", "a.js", "reee"]}))
