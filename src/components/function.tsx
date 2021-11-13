@@ -10,7 +10,7 @@ export function render(gen: Generator, staticData: StaticDocumentationData, type
     return <div>
         <h1>Function <span class="referenceLink method-name">{type.name}</span></h1>
         {typeParams ? `<${typeParams.map(gen.generateTypeParameter)}>` : ""}
-        {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {{definedIn}}</a></p> : ""}
+        {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {definedIn}</a></p> : ""}
 
         {...type.signatures.map(sig => <div>
             {FunctionHead(gen, false, sig)}

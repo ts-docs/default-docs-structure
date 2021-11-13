@@ -10,7 +10,7 @@ export function render(gen: Generator, staticData: StaticDocumentationData, { co
     const definedIn = getPathFileName(constant.loc.sourceFile);
     return <div>
         <h1>Const <span class="referenceLink constant">{name}</span></h1>
-        {definedIn ? <p><a class="secondary-text" href={constant.loc.sourceFile}>Defined in {{ definedIn }}</a></p> : ""}
+        {definedIn ? <p><a class="secondary-text" href={constant.loc.sourceFile}>Defined in {definedIn}</a></p> : ""}
 
         {constant.type ? gen.generateType(constant.type) : ""}
 
