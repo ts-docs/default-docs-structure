@@ -9,7 +9,7 @@ export function render(gen: Generator, staticData: StaticDocumentationData, type
     return <div>
         <h1>Type alias <span class="referenceLink object">{type.name}</span></h1>
         {type.typeParameters ? `<${type.typeParameters.map(gen.generateTypeParameter)}>` : ""}
-        {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {{definedIn}}.ts</a></p> : ""}
+        {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {{definedIn}}</a></p> : ""}
 
         {comment ? <p>comment</p> : ""}
 
