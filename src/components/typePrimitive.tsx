@@ -1,8 +1,8 @@
 
 import {Literal, Type, TypeKinds as Types} from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: Type) {
+export function render(gen: Generator, type: Type) {
     switch (type.kind) {
         case Types.STRING: return <a class='primitive' href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>
         case Types.NUMBER: return <a class='primitive' href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>

@@ -1,9 +1,9 @@
 
 import type { EnumDecl } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 import { getPathFileName } from "../utils";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: EnumDecl) {
+export function render(gen: Generator, type: EnumDecl) {
     return <div>
         <h1>Enum <span class="referenceLink object">{type.name}</span></h1>
 

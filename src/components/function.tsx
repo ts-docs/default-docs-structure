@@ -1,10 +1,10 @@
 
 import type { FunctionDecl } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 import { FunctionHead } from "../partials/FunctionHead";
 import { getPathFileName } from "../utils";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: FunctionDecl) {
+export function render(gen: Generator, type: FunctionDecl) {
     const definedIn = getPathFileName(type.loc.sourceFile);
     const typeParams = type.signatures[0].typeParameters;
     return <div>

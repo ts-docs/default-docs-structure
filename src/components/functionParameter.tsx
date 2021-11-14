@@ -1,8 +1,8 @@
 
 import { FunctionParameter } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: FunctionParameter) {
+export function render(gen: Generator, type: FunctionParameter) {
     return <span class="item-name">
         {type.rest ? <span class="symbol">...</span> : ""}
         <span class="param-name">{type.name}</span>

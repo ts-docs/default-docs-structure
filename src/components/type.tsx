@@ -1,9 +1,9 @@
 
 import type { TypeDecl } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 import { getPathFileName } from "../utils";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: TypeDecl) {
+export function render(gen: Generator, type: TypeDecl) {
     const definedIn = getPathFileName(type.loc.sourceFile);
     const comment = gen.generateComment(type.jsDoc, false);
     return <div>

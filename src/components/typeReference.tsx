@@ -1,9 +1,9 @@
 
 import { Reference, TypeReferenceKinds } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 import { Tooltip } from "../partials/Tooltip";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, {other, ref, link}: {
+export function render(gen: Generator, {other, ref, link}: {
     ref: Reference,
     other: {
         displayName?: string,

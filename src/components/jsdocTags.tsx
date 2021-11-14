@@ -1,8 +1,8 @@
 
 import { Type } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: {
+export function render(gen: Generator, type: {
     tagName: string,
     comment?: string,
     arg: string,

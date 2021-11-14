@@ -1,8 +1,8 @@
 
 import type { ConditionalType } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: ConditionalType) {
+export function render(gen: Generator, type: ConditionalType) {
     return <span class="item-name">
         {gen.generateType(type.checkType)} 
         <span class="keyword">extends</span>

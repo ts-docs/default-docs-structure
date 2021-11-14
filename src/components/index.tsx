@@ -1,12 +1,7 @@
-import { Generator, PageTypes, StaticDocumentationData } from "@ts-docs/ts-docs";
-import { SearchMenu } from "../partials/searchMenu";
 
-export interface IndexData {
-    name?: string,
-    type: PageTypes,
-    path: [string, string, string],
-    content: string
-}
+import { Generator, IndexData, PageTypes } from "@ts-docs/ts-docs";
+import { SearchMenu } from "../partials/searchMenu";
+import { Sidebar } from "../partials/Sidebar";
 
 function NavigationPath({ path: [path, dir, filename], type }: IndexData) {
     if (type === PageTypes.CHANGELOG) return <span><a href="./index.html" class="path-member">index</a> / <a href="" class="path-member">changelog</a></span>;
@@ -23,7 +18,7 @@ function NavigationPath({ path: [path, dir, filename], type }: IndexData) {
     return res;
 }
 
-export function render(gen: Generator, staticData: StaticDocumentationData, data: IndexData) {
+export function render(gen: Generator, data: IndexData) {
     const depth = "../".repeat(gen.depth);
     return <>
         {"<!DOCTYPE html>"}
@@ -31,7 +26,7 @@ export function render(gen: Generator, staticData: StaticDocumentationData, data
             <head>
                 <meta charSet="utf-8"> </meta>
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> </meta>
-                <title>{data.name ? `${data.name} |` : ""} {staticData.headerName}</title>
+                <title>{data.name ? `${data.name} |` : ""} {gen.settings.name}</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossOrigin="anonymous"></link>
                 <link id="highlightTheme" rel="stylesheet" crossOrigin="anonymous"></link>
                 {(() => {
@@ -51,7 +46,7 @@ export function render(gen: Generator, staticData: StaticDocumentationData, data
                         <div class="col-8">
                             <div class="row float-end row-cols-auto" style="margin-top:5px">
                                 <div class="col clickable-icon" id="theme-icon" />
-                                {staticData.hasChangelog ? (
+                                {gen.settings.changelog ? (
                                     <a href={`${depth}changelog.html`} class="clickable-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
                                             <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z" />
@@ -59,9 +54,9 @@ export function render(gen: Generator, staticData: StaticDocumentationData, data
                                         </svg>
                                     </a>
                                 ) : ""}
-                                {staticData.headerRepository ? (
+                                {gen.landingPage.repository ? (
                                     <div class="col">
-                                        <a href={staticData.headerRepository} class="clickable-icon">
+                                        <a href={gen.landingPage.repository} class="clickable-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github"
                                                 viewBox="0 0 16 16">
                                                 <path
@@ -70,9 +65,9 @@ export function render(gen: Generator, staticData: StaticDocumentationData, data
                                         </a>
                                     </div>
                                 ) : ""}
-                                {staticData.headerVersion ? (
+                                {gen.landingPage.version ? (
                                     <div class="col">
-                                        <span style="font-size: 1.2em">v{staticData.headerVersion}</span>
+                                        <span style="font-size: 1.2em">v{gen.landingPage.version}</span>
                                     </div>
                                 ) : ""}
                             </div>
@@ -83,7 +78,7 @@ export function render(gen: Generator, staticData: StaticDocumentationData, data
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-auto sidebar" id="sidebar">
-                            {/** Todo: Resolve sidebar */}
+                            {Sidebar(gen, data)}
                         </div>
                         <div id="content" class="col content">
                             <SearchMenu />

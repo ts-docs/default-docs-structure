@@ -1,9 +1,9 @@
 
 import type { InterfaceDecl } from "@ts-docs/extractor";
-import type { Generator, StaticDocumentationData } from "@ts-docs/ts-docs";
+import type { Generator } from "@ts-docs/ts-docs";
 import { getPathFileName } from "../utils";
 
-export function render(gen: Generator, staticData: StaticDocumentationData, type: InterfaceDecl) {
+export function render(gen: Generator, type: InterfaceDecl) {
     return <div>
         <h1>Interface <span class="referenceLink object">{type.name}</span></h1>
         {type.typeParameters ? type.typeParameters.map(p => gen.generateTypeParameter(p)) : ""}
