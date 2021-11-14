@@ -6,7 +6,7 @@ export function Collapsible(props: { text: string, open?: boolean }, child: stri
             <span class={`collapsible-arrow${props.open ? " open" : ""}`} />
             {props.text}
         </div>
-        <div class="collapsible-body">
+        <div class={`collapsible-body${props.open ? " open" : ""}`}>
             {child}
         </div>
     </>

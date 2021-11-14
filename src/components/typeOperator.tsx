@@ -1,5 +1,5 @@
 
-import type {Type} from "@ts-docs/extractor";
+import type { Type } from "@ts-docs/extractor";
 import type { Generator } from "@ts-docs/ts-docs";
 
 export function render(gen: Generator, type: {name: string, type: Type}) {

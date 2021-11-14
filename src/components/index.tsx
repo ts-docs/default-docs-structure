@@ -11,7 +11,7 @@ function NavigationPath({ path: [path, dir, filename], type }: IndexData) {
     let res = `<a href="${"../".repeat(len + 1)}index.html" class="path-member">index</a> / `;
     for (let i = 0; i < len; i++) {
         const part = newPath[i];
-        res += <><a href={`${"../".repeat(len - i)}index.html`} class="path-member">{part.startsWith("m.") ? part.slice(2) : part}</a> /</>
+        res += <><a href={`${"../".repeat(len - i)}index.html`} class="path-member">{part.startsWith("m.") ? part.slice(2) : part}</a> / </>
     }
     if (filename === "index") res += <a class="path-member" href="">{dir.startsWith("m.") ? dir.slice(2) : dir}</a>;
     else res += <a class="path-member" href="">{filename}</a>;

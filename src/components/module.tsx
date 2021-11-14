@@ -19,8 +19,7 @@ export function ReExportedReference(gen: Generator, re: ExportedElement) {
         return <div><span class="keyword">exports</span> <span class="symbol">*</span> {re.namespace ? <><span class="keyword"> as</span> <span class="item-name object">${re.namespace}</span></>:""} <span class="keyword">from</span> {gen.generateRef({kind: TypeKinds.REFERENCE, type: re.module})}</div>;
     } else if (re.references.length === 1) return <div><span class="keyword">exports</span> {ExportedReference(gen, re.references[0])} {re.namespace ? <><span class="keyword"> as</span> <span class="item-name object">${re.namespace}</span></>:""} <span class="keyword">from</span> {gen.generateRef({kind: TypeKinds.REFERENCE, type: re.module})}</div>;
     else return <div>
-        <span class="keyword">exports</span>
-        <Collapsible text={<><span class="keyword">{re.references.length} things</span> {re.namespace ? <><span class="keyword"> as</span> <span class="item-name object">${re.namespace}</span></>:""} <span class="keyword">from</span> {gen.generateRef({kind: TypeKinds.REFERENCE, type: re.module})}</>}>
+        <span class="keyword">exports</span> <Collapsible text={<><span class="keyword">{re.references.length} things</span> {re.namespace ? <><span class="keyword"> as</span> <span class="item-name object">${re.namespace}</span></>:""} <span class="keyword">from</span> {gen.generateRef({kind: TypeKinds.REFERENCE, type: re.module})}</>}>
             {...re.references.map(ref => ExportedReference(gen, ref))}
         </Collapsible>
     </div>;

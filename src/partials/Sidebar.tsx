@@ -24,11 +24,11 @@ export function Sidebar(gen: Generator, index: IndexData) {
             const filteredProps = index.class!.properties.filter(prop => prop.prop);
             if (filteredProps.length) sidebarCategories.push({
                 name: "Properties",
-                values: filteredProps.map(({ prop }) => <a href={`.${prop!.rawName}`}>{prop!.rawName}</a>)
+                values: filteredProps.map(({ prop }) => <a href={`#.${prop!.rawName}`}>{prop!.rawName}</a>)
             });
             if (index.class!.methods.length) sidebarCategories.push({
                 name: "Methods",
-                values: index.class!.methods.map(method => <a href={`.${method.rawName}`}>{method.rawName}</a>)
+                values: index.class!.methods.map(method => <a href={`#.${method.rawName}`}>{method.rawName}</a>)
             });
             currentThing = <>class <span class="object">{index.class!.name}</span></>
             break;
@@ -37,7 +37,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
             const filteredProps = index.interface!.properties.filter(prop => prop.prop);
             if (filteredProps.length) sidebarCategories.push({
                 name: "Properties",
-                values: filteredProps.map(({ prop }) => <a href={`.${prop!.rawName}`}>{prop!.rawName}</a>)
+                values: filteredProps.map(({ prop }) => <a href={`#.${prop!.rawName}`}>{prop!.rawName}</a>)
             });
             currentThing = <>interface <span class="object">{index.interface!.name}</span></>;
             break;
@@ -81,7 +81,13 @@ export function Sidebar(gen: Generator, index: IndexData) {
                     }
                 }
             }
-            if (index.type !== PageTypes.INDEX) {
+            if (index.type === PageTypes.INDEX) {
+                sidebarCategories.push({
+                    name: "Modules",
+                    values: index.projects.map(p => <a href={`./m.${p.module.name}/index.html`}>{p.module.name}</a>)
+                });
+            }
+            else {
                 const goBack = index.type === PageTypes.MODULE ? "" : "../";
                 const module = index.module!;
                 currentThing = <>module <span class="module">{module.name}</span></>
@@ -122,13 +128,13 @@ export function Sidebar(gen: Generator, index: IndexData) {
     return <>
         <h1 class="lib-name text-center"><a href={`${depth}index.html`}>{gen.settings.name}</a></h1>
         {gen.settings.logo ? <img src={`${depth}${gen.settings.logo}`} alt="Logo" class="img-fluid mx-auto d-block"></img> : ""}
-        {currentThing}
+        <p class="current-thing text-center">{currentThing}</p>
         <div class="sidebar-members">
             {sidebarCategories.map(thing => <div class="sidebar-member">
-                <Collapsible text={thing.name} open={true}>
-                    {...thing.values.map(val => <span class="sidebar-category-member">{val}</span>)}
+                <Collapsible text={<span class="sidebar-category">{thing.name}</span>} open={true}>
+                    {thing.values.map(val => <span class="sidebar-category-member">{val}</span>).join("")}
                 </Collapsible>
-            </div>)}
+            </div>).join("")}
         </div>
     </>
 }

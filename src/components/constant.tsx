@@ -8,7 +8,7 @@ export function render(gen: Generator, { constant, content }: {
     content?: string
 }) {
     return <div>
-        <h1>Const <span class="referenceLink constant">{name}</span></h1>
+        <h1>Const <span class="referenceLink constant">{constant.name}</span></h1>
         {constant.loc.sourceFile ? <p><a class="secondary-text" href={constant.loc.sourceFile}>Defined in {getPathFileName(constant.loc.sourceFile)}</a></p> : ""}
 
         {constant.type ? gen.generateType(constant.type) : ""}

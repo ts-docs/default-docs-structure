@@ -9,7 +9,7 @@ export function render(gen: Generator, type: FunctionDecl) {
     const typeParams = type.signatures[0].typeParameters;
     return <div>
         <h1>Function <span class="referenceLink method-name">{type.name}</span></h1>
-        {typeParams ? `<${typeParams.map(gen.generateTypeParameter)}>` : ""}
+        {typeParams ? <>&lt;{typeParams.map(p => gen.generateTypeParameter(p))}&gt;</> : ""}
         {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {definedIn}</a></p> : ""}
 
         {...type.signatures.map(sig => <div>
