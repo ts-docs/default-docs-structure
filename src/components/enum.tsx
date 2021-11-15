@@ -14,7 +14,7 @@ export function render(gen: Generator, type: EnumDecl) {
         {type.members.length ? <>
             <h2>Members</h2>
 
-            {type.members.map(member => <div id={`.${member.name}`} class="item">
+            {...type.members.map(member => <div id={`.${member.name}`} class="item">
                 <a class="item-name" href={`#.${member.name}`}>{member.name}</a>
 
                 {member.initializer ? <span>= {gen.generateType(member.initializer)}</span> : ""}
@@ -22,7 +22,7 @@ export function render(gen: Generator, type: EnumDecl) {
                 {member.jsDoc ? <div class="docblock">
                     {gen.generateComment(member.jsDoc)}
                 </div> : ""}
-            </div>).join()}
+            </div>)}
         </> : ""}
 
     </div>
