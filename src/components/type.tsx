@@ -8,11 +8,11 @@ export function render(gen: Generator, type: TypeDecl) {
     const comment = gen.generateComment(type.jsDoc, false);
     return <div>
         <h1>Type alias <span class="referenceLink object">{type.name}</span></h1>
-        {type.typeParameters ? `<${type.typeParameters.map(p => gen.generateTypeParameter(p))}>` : ""}
+        {type.typeParameters ? <p>&lt;{type.typeParameters.map(p => gen.generateTypeParameter(p)).join(", ")}&gt;</p> : ""}
         {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {definedIn}</a></p> : ""}
 
-        {comment ? <p>comment</p> : ""}
+        {comment ? <p>{comment}</p> : ""}
 
-        {type.value ? <div class="monospace">{gen.generateType(type.value)}</div> : ""}
+        {type.value ? <div class="item-name">{gen.generateType(type.value)}</div> : ""}
     </div>
 }

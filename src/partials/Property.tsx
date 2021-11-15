@@ -8,13 +8,13 @@ export function Property(gen: Generator, prop: ObjectProperty, isInterface: bool
             return <span class="item-name">
                 <span class="property-name">{RealName(gen, prop.prop)}</span>
                 {prop.prop.isOptional ? <span class="symbol">?</span> : ""}
-                <span class="symbol">:</span>
+                <span class="symbol">: </span>
                 {gen.generateType(prop.prop.type!)}
             </span>
         }
         else if (prop.index) {
             return <span class="item-name">
-                [key<span class="symbol">:</span> {gen.generateType(prop.index.key!)}]<span class="symbol">:</span> {gen.generateType(prop.index.type)}
+                [key<span class="symbol">: </span>{gen.generateType(prop.index.key!)}]<span class="symbol">: </span> {gen.generateType(prop.index.type)}
             </span>
         } 
         else if (prop.call) return gen.generateConstructType(prop.call, false);
@@ -27,14 +27,13 @@ export function Property(gen: Generator, prop: ObjectProperty, isInterface: bool
                     {prop.prop.isReadonly ? <span class="modifier">readonly </span> : ""}
                     <span class="property-name">{RealName(gen, prop.prop)}</span>
                     {prop.prop.isOptional ? <span class="symbol">?</span> : ""}
-                    <span class="symbol">:</span>
-                    {gen.generateType(prop.prop.type!)}
+                    <span class="symbol">: </span>{gen.generateType(prop.prop.type!)}
                 </div>
             </div>
         }
         else if (prop.index) {
             full += <div class="item">
-                <span class="item-name">[key<span class="symbol">:</span> {gen.generateType(prop.index.key!)}]<span class="symbol">:</span> {gen.generateType(prop.index.type)}</span>
+                <span class="item-name">[key<span class="symbol">: </span> {gen.generateType(prop.index.key!)}]<span class="symbol">: </span> {gen.generateType(prop.index.type)}</span>
             </div>
         } 
         else if (prop.call) full += <div class="item">{gen.generateConstructType(prop.call, false)}</div>;

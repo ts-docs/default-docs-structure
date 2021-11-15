@@ -8,11 +8,11 @@ export function render(gen: Generator, type: FunctionParameter) {
         <span class="param-name">{type.name}</span>
         {type.isOptional ? <span class="symbol">?</span> : ""}
         {type.type ? <>
-            <span class="symbol">:</span>
+            <span class="symbol">: </span>
             {gen.generateType(type.type)}
         </> : ""}
         {type.defaultValue ? <>
-            <span class="symbol">=</span>
+            <span class="symbol"> = </span>
             {gen.generateType(type.defaultValue)}
         </> : ""}
     </span>

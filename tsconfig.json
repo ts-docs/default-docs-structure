@@ -27,7 +27,7 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true,        /* Disallow inconsistently-cased references to the same file. */
     "plugins": [
-          { "transform": "@ts-docs/jsx-to-str" },
+          { "transform": "@ts-docs/jsx-to-str", "trim": true },
     ]
   },
   "exclude": ["./src/assets", "./node_modules", "./dist"]

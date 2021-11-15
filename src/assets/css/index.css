@@ -241,6 +241,7 @@ code {
 h2, h3, h4, h5, h6 {
     border-bottom: solid var(--textColor) 1px;
     padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 h2.section-header, h3.section-header {

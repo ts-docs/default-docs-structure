@@ -67,8 +67,8 @@ export function Sidebar(gen: Generator, index: IndexData) {
                     name: "Branches",
                     values: [
                         <select id="branch-select" class="form-select">
-                            <option selected={gen.activeBranch === "main" ? true : false}>main</option>
-                            {...gen.settings.branches.map(br => <option>{br.displayName}</option>)}
+                            {`<option ${gen.activeBranch === "main" ? "selected" : ""}>main</option>`}
+                            {...gen.settings.branches.map(br => `<option ${gen.activeBranch === br.displayName ? "selected" : ""}>${br.displayName}</option>`)}
                         </select>
                     ]
                 });
@@ -76,7 +76,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
                     for (const category of gen.settings.customPages) {
                         sidebarCategories.push({
                             name: "Pages",
-                            values: gen.settings.customPages.map(p => <a href={`./pages/${category.name}/${p.name}.html`}>{p.name}</a>)
+                            values: category.pages.map(p => <a href={`./pages/${category.name}/${p.name}.html`}>{p.name}</a>)
                         });
                     }
                 }
