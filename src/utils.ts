@@ -1,5 +1,5 @@
 
-import { ArrayType, ArrowFunction, FunctionParameter, Literal, ObjectLiteral, Reference, Tuple, Type, TypeKinds, TypeOperator, UnionOrIntersection } from "@ts-docs/extractor";
+import { ArrayType, ArrowFunction, FunctionParameter, Literal, ObjectLiteral, Reference, Tuple, TupleMember, Type, TypeKinds, TypeOperator, UnionOrIntersection } from "@ts-docs/extractor";
 import path from "path";
 
 export function getPathFileName(p?: string): string | undefined {
@@ -46,7 +46,7 @@ export function getTypeLength(type?: Type): number {
         case TypeKinds.BOOLEAN:
         case TypeKinds.UNKNOWN: return 7;
         case TypeKinds.BIGINT: return 6;
-        case TypeKinds.TUPLE: return (type as Tuple).types.reduce((acc, t) => acc + getTypeLength(t), 0);
+        case TypeKinds.TUPLE: return (type as Tuple).types.reduce((acc, t) => acc + getTypeLength(t.type) + (t.name ? t.name.length : 0), 0);
         case TypeKinds.TYPEOF_OPERATOR:
         case TypeKinds.KEYOF_OPERATOR:
         case TypeKinds.UNIQUE_OPERATOR:
@@ -73,7 +73,7 @@ export function isLargeObject(obj: ObjectLiteral): boolean {
     return getTypeLength(obj) > 42;
 }
 
-export function isLargeArr(arr: Array<Type>): boolean {
+export function isLargeTuple(arr: Array<TupleMember>): boolean {
     if (arr.length > 4) return true;
-    return arr.reduce((acc, t) => acc + getTypeLength(t), 0) > 42;
+    return arr.reduce((acc, t) => acc + getTypeLength(t.type) + (t.name ? t.name.length : 0), 0) > 42;
 }

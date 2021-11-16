@@ -1,7 +1,12 @@
 import type {Tuple} from "@ts-docs/extractor";
 import type { Generator } from "@ts-docs/ts-docs";
-import { isLargeArr } from "../utils";
+import { isLargeTuple } from "../utils";
 
 export function render(gen: Generator, {types}: Tuple) {
-    return <span>[{isLargeArr(types) ? <div class="left-item">{types.map(t => gen.generateType(t)).join(",<br>")}</div> : types.map(t => gen.generateType(t)).join(", ")}]</span>
+    const mapped = types.map(t => <span class="item-name">
+        {t.spread ? <span class="symbol">...</span> : ""}
+        {t.name ? <><span class="property-name">{t.name}</span>{t.optional ? <span class="symbol">?</span> : ""}: </> : ""}
+        {gen.generateType(t.type)}
+    </span>);
+    return <span>[{isLargeTuple(types) ? <div class="left-item">{mapped.join(",<br>")}</div> : mapped.join(", ")}]</span>
 }
