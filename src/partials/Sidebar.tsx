@@ -45,7 +45,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
         case PageTypes.ENUM: {
             if (index.enum!.members.length) sidebarCategories.push({
                 name: "Members",
-                values: index.enum!.members.map(m => <a href={`#.${m.name}`}>${m.name}</a>)
+                values: index.enum!.members.map(m => <a href={`#.${m.name}`}>{m.name}</a>)
             });
             currentThing = <>enum <span class="object">{index.enum!.name}</span></>;
             break;

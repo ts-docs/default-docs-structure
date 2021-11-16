@@ -72,7 +72,7 @@ export function render(gen: Generator, type: ClassDecl) {
                     {method.isGetter ? <span class="modifier">get </span> : ""}
                     {method.isSetter ? <span class="modifier">set </span> : ""}
 
-                    <span class="item-name method-name">{RealName(gen, method)}</span>
+                    {typeof method.name === "string" ? <span class="item-name method-name">{method.name}</span> : <span class="item-name">[<span class="method-name">{gen.generateType(method.name)}</span>]</span>}
                     {FunctionHead(gen, false, sig)}
                     <SourceCodeIcon {...method.loc.sourceFile!} />
                 </div>)}

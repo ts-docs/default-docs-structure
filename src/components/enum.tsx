@@ -17,7 +17,7 @@ export function render(gen: Generator, type: EnumDecl) {
             {...type.members.map(member => <div id={`.${member.name}`} class="item">
                 <a class="item-name" href={`#.${member.name}`}>{member.name}</a>
 
-                {member.initializer ? <span>= {gen.generateType(member.initializer)}</span> : ""}
+                {member.initializer ? <span class="item-name"> = {gen.generateType(member.initializer)}</span> : ""}
 
                 {member.jsDoc ? <div class="docblock">
                     {gen.generateComment(member.jsDoc)}
