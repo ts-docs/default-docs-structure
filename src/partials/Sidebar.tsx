@@ -1,4 +1,6 @@
+import { FileExports } from "@ts-docs/extractor/dist/extractor/ExportHandler";
 import { Heading, IndexData, PageTypes, Generator } from "@ts-docs/ts-docs";
+import { ExportsSidebar } from "../components/module";
 import { Collapsible } from "./Collapsible";
 
 function generateHeadings(heading: Heading) {
@@ -91,6 +93,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
                 const goBack = index.type === PageTypes.MODULE ? "" : "../";
                 const module = index.module!;
                 currentThing = <>module <span class="module">{module.name}</span></>
+                if (gen.settings.exportMode === "detailed" && index.exports) sidebarCategories.push(ExportsSidebar(gen, index.exports as Record<string, FileExports>));
                 if (module.modules.size) sidebarCategories.push({
                     name: "Modules",
                     values: [...module.modules.values()].map(c => <a href={`${goBack}m.${c.name}/index.html`}>{c.name}</a>)

@@ -1,14 +1,11 @@
 
 import { Reference, TypeReferenceKinds } from "@ts-docs/extractor";
-import type { Generator } from "@ts-docs/ts-docs";
+import type { Generator, OtherRefData } from "@ts-docs/ts-docs";
 import { Tooltip } from "../partials/Tooltip";
 
 export function render(gen: Generator, { other, ref, link }: {
     ref: Reference,
-    other: {
-        displayName?: string,
-        hash?: string
-    },
+    other: OtherRefData,
     link: string
 }) {
     const typeArgs = ref.typeArguments && ref.typeArguments.length ? <>&lt;{ref.typeArguments.map(arg => gen.generateType(arg)).join(", ")}&gt;</> : "";
@@ -32,7 +29,7 @@ export function render(gen: Generator, { other, ref, link }: {
         case TypeReferenceKinds.FUNCTION: type = "function "; typeClass = "method-name"; break;
         case TypeReferenceKinds.CONSTANT: type = "const "; typeClass = "constant"; break;
         case TypeReferenceKinds.NAMESPACE_OR_MODULE: return <Tooltip {...<><span class="keyword">module </span> <span class="item-name module">{ref.type.name}</span><span style="display:block" class="monospace fw-bold">{path}</span></>}>
-            <a class="reference-link module" href={link}>{name}</a>
+            <a class="reference-link module" href={link}>{name}{gen.settings.exportMode === "detailed" && other.filename ? `/${other.filename}` : ""}</a>
         </Tooltip>
         case TypeReferenceKinds.TYPE_PARAMETER: return <Tooltip {...<><span class="keyword">type parameter </span> <span class="item-name object">{name}</span></>}>
             <a class="reference-link object">{name}</a>

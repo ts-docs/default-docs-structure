@@ -4,7 +4,9 @@ import path from "path";
 
 export function getPathFileName(p?: string): string | undefined {
     if (!p) return;
-    return path.parse(p).name;
+    const name = path.parse(p).name;
+    if (name.endsWith(".d")) return name.slice(0, -2);
+    else return name;
 }
 
 export function getTypeLength(type?: Type): number {
