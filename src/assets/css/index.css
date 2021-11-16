@@ -28,27 +28,27 @@ html[data-theme="dark"] {
 }
 
 html[data-theme="light"] {
-    --backgroundColor: #ffff;
+    --backgroundColor: #f4efef;
     --textColor: black;
     --textSecondaryColor: rgba(0, 0, 0, 0.63);
     --sidebarColor: #cfcfcf;
     --navigationColor: #DFDFDF;
     --searchColor: #cfcfcf;
     --primaryLight: #202125;
-    --moduleName: #c62828;
-    --objectName: #238d5e;
+    --moduleName: #b60000;
+    --objectName: #04522e;
     --functionName: #64b5f6;
     --typeName: #7986cb;
-    --methodName: #9a6e31;
-    --functionParamName: #5c56d6;
-    --primitiveName: #0576db;
+    --methodName: #6b4c20;
+    --functionParamName: #0f1a42;
+    --primitiveName: #2e5f8b;
     --propertyName: #365fae;
     --constantName: #007fb8;
-    --modifierColor: #e20000;
+    --modifierColor: #8a0000;
     --stringColor: #b63600;
-    --numberColor: #407d27;
+    --numberColor: #336f1a;
     --regexColor: #bf2b0d;
-    --keywordColor: #245db4;
+    --keywordColor: #9a0098;
     --linkColor: #005bc3;
     --warningColor: #c72b2d50;
     --noteColor: rgba(0, 91, 156, 0.3);

@@ -43,7 +43,7 @@ export function render(gen: Generator, type: ClassDecl) {
                     item += <span class="item-name">[key<span class="symbol">: </span> {gen.generateType(prop.index.key!)}]<span class="symbol">: </span> {gen.generateType(prop.index.type)}</span>
                 } else {
                     item = <>
-                        <span class="item-name"><span class="property-name">{RealName(gen, prop.prop!)}</span>
+                        <span class="item-name"><a class="property-name" href={`#.${prop.prop!.rawName}`}>{RealName(gen, prop.prop!)}</a>
                             {prop.prop!.isOptional ? <span class="symbol">?</span> : ""}
                             {prop.prop!.type ? <><span class="symbol">: </span> {gen.generateType(prop.prop!.type)}</> : ""}
                             {prop.prop!.initializer ? <><span class="symbol"> = </span> {gen.generateType(prop.prop!.initializer)}</> : ""}
@@ -72,7 +72,7 @@ export function render(gen: Generator, type: ClassDecl) {
                     {method.isGetter ? <span class="modifier">get </span> : ""}
                     {method.isSetter ? <span class="modifier">set </span> : ""}
 
-                    {typeof method.name === "string" ? <span class="item-name method-name">{method.name}</span> : <span class="item-name">[<span class="method-name">{gen.generateType(method.name)}</span>]</span>}
+                    {typeof method.name === "string" ? <a class="item-name method-name" href={`#.${method.rawName}`}>{method.name}</a> : <span class="item-name">[<a class="method-name" href={`#.${method.rawName}`}>{gen.generateType(method.name)}</a>]</span>}
                     {FunctionHead(gen, false, sig)}
                     <SourceCodeIcon {...method.loc.sourceFile!} />
                 </div>)}

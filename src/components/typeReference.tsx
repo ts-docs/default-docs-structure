@@ -52,7 +52,8 @@ export function render(gen: Generator, { other, ref, link }: {
         <Tooltip {...<>
             <span class="keyword">{type}</span> <span class={"item-name " + typeClass}>{realName || name}</span><span style="display:block" class="monospace fw-bold">{path}{path.length ? "/" : ""}<span class={"item-name " + typeClass}>{ref.type.name}</span></span>
         </>}>
-            <a class={"reference-link " + typeClass} href={link}>{name}{extension}{hash}</a>{typeArgs}
+            <a class={"reference-link " + typeClass} href={link}>{name}{extension}{hash}</a>
         </Tooltip>
+        {typeArgs}
     </span>
 }

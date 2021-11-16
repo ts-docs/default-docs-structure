@@ -25,7 +25,7 @@ export function Property(gen: Generator, prop: ObjectProperty, isInterface: bool
             full += <div class="item" id={`.${prop.prop.rawName}`}>
                 <div class="item-name">
                     {prop.prop.isReadonly ? <span class="modifier">readonly </span> : ""}
-                    <span class="property-name">{RealName(gen, prop.prop)}</span>
+                    <a class="property-name" href={`#.${prop.prop.rawName}`}>{RealName(gen, prop.prop)}</a>
                     {prop.prop.isOptional ? <span class="symbol">?</span> : ""}
                     <span class="symbol">: </span>{gen.generateType(prop.prop.type!)}
                 </div>
