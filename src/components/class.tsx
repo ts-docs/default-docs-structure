@@ -10,7 +10,7 @@ import { SourceCodeIcon } from "../partials/SourceCodeIcon";
 export function render(gen: Generator, type: ClassDecl) {
     return <div>
         <h1>Class <span class="referenceLink object">{type.name}</span></h1>
-        {type.typeParameters ? <p>&lt;{type.typeParameters.map(p => gen.generateTypeParameter(p)).join(", ")}&gt;</p> : ""}
+        {type.typeParameters ? <p class="item-name">&lt;{type.typeParameters.map(p => gen.generateTypeParameter(p)).join(", ")}&gt;</p> : ""}
         {type.isAbstract ? <p class="item-name"><span class="keyword">abstract class</span></p> : ""}
         {type.extends ? <p class="item-name"><span class="keyword">extends </span> {gen.generateType(type.extends)}</p> : ""}
         {type.implements ? <p class="item-name"><span class="keyword">implements </span> {type.implements.map(t => gen.generateType(t))}</p> : ""}
@@ -19,7 +19,7 @@ export function render(gen: Generator, type: ClassDecl) {
         {type.jsDoc ? gen.generateComment(type.jsDoc) : ""}
 
         {type._constructor ? <>
-            <h2>Constructor</h2>
+            <h2 id="constructor"><a href="#constructor">Constructor</a></h2>
             {FunctionSignatures(type._constructor.signatures, (sig) => <div id="class.constructor" class="item">
                 <span class="keyword">constructor</span>{FunctionHead(gen, false, sig)}
 
@@ -30,7 +30,7 @@ export function render(gen: Generator, type: ClassDecl) {
         </> : ""}
 
         {type.properties.length ? <>
-            <h2>Properties</h2>
+            <h2 id="properties"><a href="#properties">Properties</a></h2>
             {...type.properties.map(prop => {
                 let item = <>
                     {prop.isStatic ? <span class="modifier">static </span> : ""}
@@ -62,7 +62,7 @@ export function render(gen: Generator, type: ClassDecl) {
         </> : ""}
 
         {type.methods.length ? <>
-            <h2>Methods</h2>
+            <h2 id="methods"><a href="#methods">Methods</a></h2>
             {...type.methods.map(method => <div id={`.${method.rawName}`} class="item">
                 {FunctionSignatures(method.signatures, (sig) => <div class="item">
                     {method.isStatic ? <span class="modifier">static </span> : ""}

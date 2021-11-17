@@ -231,6 +231,10 @@ a:hover {
     -webkit-appearance: none;
 }
 
+.export-header {
+    border: none;
+}
+
 code {
     color: var(--primaryLight);
     background-color: rgba(110, 118, 129, 0.4);
@@ -242,6 +246,20 @@ h2, h3, h4, h5 {
     border-bottom: solid var(--textColor) 1px;
     padding-bottom: 10px;
     margin-bottom: 15px;
+}
+
+h2 a, h3 a, h4 a, h5 a {
+    color: inherit;
+}
+
+h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+h2:target, h3:target, h4:target, h5:target {
+    background-color: var(--sidebarColor);
+    padding: 5px 5px;
 }
 
 h6 {

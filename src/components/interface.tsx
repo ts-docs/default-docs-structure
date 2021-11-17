@@ -16,7 +16,7 @@ export function render(gen: Generator, type: InterfaceDecl) {
         {type.jsDoc ? gen.generateComment(type.jsDoc) : ""}
 
         {type.properties.length ? <div>
-            <h2>Properties</h2>
+            <h2 id="properties"><a href="#properties">Properties</a></h2>
             <div>
                 {type.properties.map(p => Property(gen, p, true)).join("")}
             </div>

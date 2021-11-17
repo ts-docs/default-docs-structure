@@ -12,7 +12,7 @@ export function render(gen: Generator, type: EnumDecl) {
         {type.jsDoc ? gen.generateComment(type.jsDoc) : ""}
 
         {type.members.length ? <>
-            <h2>Members</h2>
+            <h2 id="members"><a href="#members">Members</a></h2>
 
             {...type.members.map(member => <div id={`.${member.name}`} class="item">
                 <a class="item-name" href={`#.${member.name}`}>{member.name}</a>

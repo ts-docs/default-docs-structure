@@ -6,6 +6,6 @@ export function render(gen: Generator, type: TypeParameter) {
     return <span>
         {type.name}
         {type.constraint ? <span><span class="symbol">: </span> {gen.generateType(type.constraint)}</span>:""}
-        {type.default ? <span><span class="symbol">= </span> {gen.generateType(type.default)}</span>:""}
+        {type.default ? <span><span class="symbol"> = </span> {gen.generateType(type.default)}</span>:""}
     </span>
 }

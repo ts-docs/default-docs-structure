@@ -53,7 +53,7 @@ export function render(gen: Generator, { module, readme, exports }: {
             exportEl = <div>
                 <h2>Exports</h2>
                 {...exportsArr.map(([filename, fileExports]) => <div style="margin-bottom: 15px">
-                    <h4 id={filename}>{filename}</h4>
+                    <h4 id={filename} class="export-header">{filename}</h4>
                     <div class="row">
                         {fileExports.exports.length ? <div class="col">
                             <h6>Exports</h6>
