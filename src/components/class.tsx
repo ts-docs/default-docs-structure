@@ -42,7 +42,7 @@ export function render(gen: Generator, type: ClassDecl) {
                 if (prop.index) {
                     item += <span class="item-name">[key<span class="symbol">: </span> {gen.generateType(prop.index.key!)}]<span class="symbol">: </span> {gen.generateType(prop.index.type)}</span>
                 } else {
-                    item = <>
+                    item += <>
                         <span class="item-name"><a class="property-name" href={`#.${prop.prop!.rawName}`}>{RealName(gen, prop.prop!)}</a>
                             {prop.prop!.isOptional ? <span class="symbol">?</span> : ""}
                             {prop.prop!.type ? <><span class="symbol">: </span> {gen.generateType(prop.prop!.type)}</> : ""}
@@ -63,8 +63,8 @@ export function render(gen: Generator, type: ClassDecl) {
 
         {type.methods.length ? <>
             <h2 id="methods"><a href="#methods">Methods</a></h2>
-            {...type.methods.map(method => <div id={`.${method.rawName}`} class="item">
-                {FunctionSignatures(method.signatures, (sig) => <div class="item">
+            {...type.methods.map((method) => <div id={`.${method.rawName}`} class="item">
+                {FunctionSignatures(method.signatures, (sig, ind) => <div class="item">
                     {method.isStatic ? <span class="modifier">static </span> : ""}
                     {method.isProtected ? <span class="modifier">protected </span> : ""}
                     {method.isAbstract ? <span class="modifier">abstract </span> : ""}
@@ -74,7 +74,7 @@ export function render(gen: Generator, type: ClassDecl) {
 
                     {typeof method.name === "string" ? <a class="item-name method-name" href={`#.${method.rawName}`}>{method.name}</a> : <span class="item-name">[<a class="method-name" href={`#.${method.rawName}`}>{gen.generateType(method.name)}</a>]</span>}
                     {FunctionHead(gen, false, sig)}
-                    <SourceCodeIcon {...method.loc.sourceFile!} />
+                    {ind === 0 ? <SourceCodeIcon {...method.loc.sourceFile!} /> : ""}
                 </div>)}
             </div>)}
         </> : ""}

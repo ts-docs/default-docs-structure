@@ -22,11 +22,12 @@ export function render(gen: Generator, data: IndexData) {
     const depth = "../".repeat(gen.depth);
     return <>
         {"<!DOCTYPE html>"}
-        <html>
+        <html lang="en-US">
             <head>
-                <meta charSet="utf-8"> </meta>
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> </meta>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <title>{data.name ? `${data.name} | ` : ""} {gen.settings.name}</title>
+                <meta name="description" content={`Documentation for ${gen.settings.name} v${gen.landingPage.version || ""}, ${data.name ? data.name : ""}`} /> 
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossOrigin="anonymous" />
                 <link id="highlightTheme" rel="stylesheet" crossOrigin="anonymous" />
                 {(() => {

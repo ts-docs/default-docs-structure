@@ -11,12 +11,12 @@ export function render(gen: Generator, { other, ref, link }: {
     const typeArgs = ref.typeArguments && ref.typeArguments.length ? <>&lt;{ref.typeArguments.map(arg => gen.generateType(arg)).join(", ")}&gt;</> : "";
     const name = other.displayName ? other.displayName : ref.type.name;
     const extension = (!other.displayName) && ref.type.displayName ? <><span class="symbol">.</span><span>{ref.type.displayName}</span></> : "";
-    if (ref.type.kind === TypeReferenceKinds.INTERNAL) return <Tooltip {...<><span class="keyword">internal </span><span class="item-name object">{name}{extension}</span></>}>
-        <span class="reference-link object">{name}{extension}</span>{typeArgs}
-    </Tooltip>
-    if (ref.type.link) return <Tooltip {...<><span class="keyword">external </span> <span class="item-name object">{name}{extension}</span></>}>
-        <a class="reference-link object" href={ref.type.link}>{name}{extension}</a>{typeArgs}
-    </Tooltip>;
+    if (ref.type.kind === TypeReferenceKinds.INTERNAL) return <><Tooltip {...<><span class="keyword">internal </span><span class="item-name object">{name}{extension}</span></>}>
+        <span class="reference-link object">{name}{extension}</span>
+    </Tooltip>{typeArgs}</>
+    if (ref.type.link) return <><Tooltip {...<><span class="keyword">external </span> <span class="item-name object">{name}{extension}</span></>}>
+        <a class="reference-link object" href={ref.type.link}>{name}{extension}</a>
+    </Tooltip>{typeArgs}</>
     let type = "object ";
     let typeClass = "object";
     const path = ref.type.path ? ref.type.path.join("/") : "";

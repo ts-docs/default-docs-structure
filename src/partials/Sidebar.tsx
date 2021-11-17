@@ -26,11 +26,11 @@ export function Sidebar(gen: Generator, index: IndexData) {
             const filteredProps = index.class!.properties.filter(prop => prop.prop);
             if (filteredProps.length) sidebarCategories.push({
                 name: "Properties",
-                values: filteredProps.map(({ prop }) => <a href={`#.${prop!.rawName}`}>{prop!.rawName}</a>)
+                values: filteredProps.map(({ prop, isStatic, isPrivate }) => <a href={`#.${prop!.rawName}`}>{prop!.rawName}{isStatic ? <span class="badge badge-on-prop" title="static property">S</span> : ""}{isPrivate ? <span class="badge badge-on-prop" title="private property">P</span> : ""}</a>)
             });
             if (index.class!.methods.length) sidebarCategories.push({
                 name: "Methods",
-                values: index.class!.methods.map(method => <a href={`#.${method.rawName}`}>{method.rawName}</a>)
+                values: index.class!.methods.map(method => <a href={`#.${method.rawName}`}>{method.rawName}{method.isStatic ? <span class="badge badge-on-prop" title="static method">S</span> : ""}{method.isPrivate ? <span class="badge badge-on-prop" title="private method">P</span> : ""}</a>)
             });
             currentThing = <>class <span class="object">{index.class!.name}</span></>
             break;
