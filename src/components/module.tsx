@@ -81,6 +81,7 @@ export function ExportsSidebar(gen: Generator, exports: Record<string, FileExpor
     let filenames = Object.keys(exports);
     const indexInd = filenames.findIndex(filename => filename === "index");
     if (indexInd !== -1) filenames = [filenames[indexInd], ...(filenames.splice(indexInd, 1), filenames)];
+    if (gen.settings.sort === "alphabetical") filenames.sort((a, b) => a.localeCompare(b));
     return {
         name: "Exports",
         values: filenames.map(name => <a href={`#${name}`}>{name}</a>)
