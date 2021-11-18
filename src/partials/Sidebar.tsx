@@ -77,7 +77,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
                 if (gen.settings.customPages) {
                     for (const category of gen.settings.customPages) {
                         sidebarCategories.push({
-                            name: "Pages",
+                            name: category.name,
                             values: category.pages.map(p => <a href={`./pages/${category.name}/${p.name}.html`}>{p.name}</a>)
                         });
                     }

@@ -233,6 +233,7 @@ a:hover {
 
 .export-header {
     border: none;
+    display: inline;
 }
 
 code {

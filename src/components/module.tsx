@@ -53,8 +53,8 @@ export function render(gen: Generator, { module, readme, exports }: {
             exportEl = <div>
                 <h2>Exports</h2>
                 {...exportsArr.map(([filename, fileExports]) => <div style="margin-bottom: 15px">
-                    <h4 id={filename} class="export-header">{filename}</h4>
-                    <div class="row">
+                    <Collapsible text={<h4 id={filename} class="export-header">{filename}</h4>} open={false}>
+                    <div class="row" style="margin-top: 15px">
                         {fileExports.exports.length ? <div class="col">
                             <h6>Exports</h6>
                             {...fileExports.exports.map(e => <div>{ExportedReference(gen, e)}</div>)}
@@ -64,6 +64,7 @@ export function render(gen: Generator, { module, readme, exports }: {
                             {...fileExports.reExports.map(re => ReExportedReference(gen, re))}
                         </div> : ""}
                     </div>
+                    </Collapsible>
                 </div>)}
             </div>
         }
