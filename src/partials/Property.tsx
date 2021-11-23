@@ -13,9 +13,7 @@ export function Property(gen: Generator, prop: ObjectProperty, isInterface: bool
             </span>
         }
         else if (prop.index) {
-            return <span class="item-name">
-                [key<span class="symbol">: </span>{gen.generateType(prop.index.key!)}]<span class="symbol">: </span> {gen.generateType(prop.index.type)}
-            </span>
+            return <span class="item-name">[key<span class="symbol">: </span>{gen.generateType(prop.index.key!)}]<span class="symbol">: </span> {gen.generateType(prop.index.type)}</span>
         } 
         else if (prop.call) return gen.generateConstructType(prop.call, false);
         else if (prop.construct) return gen.generateConstructType(prop.construct, true);
