@@ -479,9 +479,19 @@ h2.section-header, h3.section-header {
 }
 
 .badge.danger {
-    background-color: #ff1919;
+    background-color: #b60000;
     color: white;
     margin-left: 15px;
+}
+
+.badge.warning {
+    background-color: #b68800;
+    color: white;
+    margin-left: 15px;
+}
+
+h1 .badge {
+    font-size: 16px;
 }
 
 .badge-on-prop {

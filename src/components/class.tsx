@@ -8,25 +8,29 @@ import { getPathFileName } from "../utils";
 import { SourceCodeIcon } from "../partials/SourceCodeIcon";
 
 export function render(gen: Generator, type: ClassDecl) {
+    const classComment = gen.generateComment(type.jsDoc, true) || ["", ""];
     return <div>
-        <h1>Class <span class="referenceLink object">{type.name}</span></h1>
+        <h1>Class <span class="referenceLink object">{type.name}</span> {classComment[1]}</h1>
         {type.typeParameters ? <p class="item-name">&lt;{type.typeParameters.map(p => gen.generateTypeParameter(p)).join(", ")}&gt;</p> : ""}
         {type.isAbstract ? <p class="item-name"><span class="keyword">abstract class</span></p> : ""}
         {type.extends ? <p class="item-name"><span class="keyword">extends </span> {gen.generateType(type.extends)}</p> : ""}
         {type.implements ? <p class="item-name"><span class="keyword">implements </span> {type.implements.map(t => gen.generateType(t))}</p> : ""}
         {type.loc.sourceFile ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {getPathFileName(type.loc.sourceFile)}</a></p> : ""}
 
-        {type.jsDoc ? gen.generateComment(type.jsDoc) : ""}
+        {classComment[0]}
 
         {type._constructor ? <>
             <h2 id="constructor"><a href="#constructor">Constructor</a></h2>
-            {FunctionSignatures(type._constructor.signatures, (sig) => <div id="class.constructor" class="item">
-                <span class="keyword">constructor</span>{FunctionHead(gen, false, sig)}
+            {FunctionSignatures(type._constructor.signatures, (sig) => {
+            const sigComment = gen.generateComment(sig.jsDoc, true) || [undefined, ""];
+            return <div id="class.constructor" class="item">
+                <span class="keyword">constructor</span>{FunctionHead(gen, false, sig)}{sigComment[1]}
 
-                {sig.jsDoc ? <div class="docblock">
-                    {gen.generateComment(sig.jsDoc, true)}
+                {sigComment[0] ? <div class="docblock">
+                    {sigComment[0]}
                 </div> : ""}
-            </div>)}
+            </div>
+        })}
         </> : ""}
 
         {type.properties.length ? <>
@@ -50,12 +54,13 @@ export function render(gen: Generator, type: ClassDecl) {
                         </span>
                     </>
                 }
+                const [blockComment, inlineComment] = gen.generateComment(prop.jsDoc, true) || [undefined, ""];
                 return <div class="item" id={prop.prop ? `.${prop.prop.rawName}` : ""}>
-                    {item}
+                    {item}{inlineComment}
                     <SourceCodeIcon {...prop.loc.sourceFile!} />
 
-                    {prop.jsDoc ? <div class="docblock">
-                        {gen.generateComment(prop.jsDoc, true)}
+                    {blockComment ? <div class="docblock">
+                        {blockComment}
                     </div> : ""}
                 </div>
             })}
@@ -64,7 +69,9 @@ export function render(gen: Generator, type: ClassDecl) {
         {type.methods.length ? <>
             <h2 id="methods"><a href="#methods">Methods</a></h2>
             {...type.methods.map((method) => <div id={`.${method.rawName}`} class="item">
-                {FunctionSignatures(method.signatures, (sig, ind) => <div class="item">
+                {FunctionSignatures(method.signatures, (sig, ind) => {
+                const [blockComment, inlineComment] = gen.generateComment(sig.jsDoc, true) || [undefined, ""];
+                return <div class="item">
                     {method.isStatic ? <span class="modifier">static </span> : ""}
                     {method.isProtected ? <span class="modifier">protected </span> : ""}
                     {method.isAbstract ? <span class="modifier">abstract </span> : ""}
@@ -74,8 +81,14 @@ export function render(gen: Generator, type: ClassDecl) {
 
                     {typeof method.name === "string" ? <a class="item-name method-name" href={`#.${method.rawName}`}>{method.name}</a> : <span class="item-name">[<a class="method-name" href={`#.${method.rawName}`}>{gen.generateType(method.name)}</a>]</span>}
                     {FunctionHead(gen, false, sig)}
+                    {inlineComment}
                     {ind === 0 ? <SourceCodeIcon {...method.loc.sourceFile!} /> : ""}
-                </div>)}
+
+                    {blockComment ? <div class="docblock">
+                        {blockComment}
+                    </div> : ""}
+                </div>
+            })}
             </div>)}
         </> : ""}
 

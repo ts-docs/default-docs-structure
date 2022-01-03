@@ -12,12 +12,15 @@ export function render(gen: Generator, type: FunctionDecl) {
         {typeParams ? <p class="item-name">&lt;{typeParams.map(p => gen.generateTypeParameter(p)).join(", ")}&gt;</p> : ""}
         {definedIn ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {definedIn}</a></p> : ""}
 
-        {...type.signatures.map(sig => <div>
-            {FunctionHead(gen, false, {...sig, typeParameters: undefined})}
+        {...type.signatures.map(sig => {
+        const [blockComment, inlineComment] = gen.generateComment(sig.jsDoc, true) || [undefined, ""];
+        return <div>
+            {FunctionHead(gen, false, {...sig, typeParameters: undefined})}{inlineComment}
 
-            {sig.jsDoc ? <div class="docblock">
-                {gen.generateComment(sig.jsDoc)}
+            {blockComment ? <div class="docblock">
+                {blockComment}
             </div> : ""}
-        </div>)}
+        </div>
+    })}
     </div>
 }

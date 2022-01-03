@@ -10,13 +10,18 @@ export function render(gen: Generator, type: {
 }) {
     switch (type.tagName) {
         case "example":
-            return <><h3 class="section-header">Example</h3>{type.comment}</>
+            return { block: <><h3 class="section-header">Example</h3>{type.comment}</> }
         case "returns":
-            return <><h3 class="section-header">Returns</h3>{type.comment}</>
+            return { block: <><h3 class="section-header">Returns</h3>{type.comment}</> }
         case "param":
-            return <div class="no-p">· <span class="item-name"><span class="param-name">{type.arg}</span> - <span>{type.comment}</span></span></div>
+            return { block: <div class="no-p">· <span class="item-name"><span class="param-name">{type.arg}</span> - <span>{type.comment}</span></span></div> }
         case "deprecated":
-            return type.comment ? <><h3 class="section-header" style="color:red">Deprecated</h3>{type.comment}</> : <span class="badge danger">deprecated</span>;
+            return type.comment ? { block: <><h3 class="section-header" style="color:red">Deprecated</h3>{type.comment}</> } : { inline: <span class="badge danger">deprecated</span> };
+        case "beta":
+            return { inline: <span class="badge danger">beta</span> };
+        case "since":
+            if (!type.comment) return "";
+            return { inline: <span class="badge warning">since {type.comment}</span> };
         default:
             return "";
     }
