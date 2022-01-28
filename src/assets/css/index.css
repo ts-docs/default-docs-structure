@@ -617,6 +617,22 @@ td {
     border: 1px solid var(--sidebarColor);
 }
 
+.tab-code {
+    padding-top: 15px;
+}
+
+.tab-code-tab {
+    padding: 8px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.tab-code-tab.selected {
+    border-style: solid;
+    border-width: 1px;
+    border-bottom-style: none;
+}
+
 @media only screen and (max-width: 680px) {
     .sidebar {
         display: none;

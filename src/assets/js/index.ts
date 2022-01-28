@@ -15,6 +15,7 @@ initTheme();
 
 window.addEventListener("load", () => {
 
+    // Handles All the custom dropdowns
     for (const el of (document.getElementsByClassName("collapsible-trigger") as unknown as Array<HTMLSpanElement>)) {
         el.onclick = () => {
             const body = el.parentElement?.getElementsByClassName("collapsible-body")[0];
@@ -25,6 +26,7 @@ window.addEventListener("load", () => {
         }
     }
 
+    // Handles all the tooltips
     for (const tooltip of (document.getElementsByClassName("c-tooltip") as unknown as Array<HTMLSpanElement>)) {
         let timeout: any;
         const tooltipContent = tooltip.getElementsByClassName("c-tooltip-content")[0];
@@ -39,6 +41,27 @@ window.addEventListener("load", () => {
             clearTimeout(timeout);
             tooltipContent.classList.remove("open");
         }
+    }
+
+    for (const codeTab of (document.getElementsByClassName("tab-code") as unknown as Array<HTMLSpanElement>)) {
+        const tabs = codeTab.getElementsByClassName("tab-code-tab") as unknown as Array<HTMLSpanElement>;
+        const codes = codeTab.getElementsByClassName("tab-code-code") as unknown as Array<HTMLSpanElement>;
+        const tabLen = tabs.length;
+        for (let i=0; i < tabLen; i++) {
+            const tab = tabs[i];
+            tab.onclick = () => {
+                if (tab.classList.contains("selected")) return;
+                tab.classList.add("selected");
+                codes[i].style.display = "block";
+                for (let j=0; j < tabLen; j++) {
+                    if (j === i) continue;
+                    tabs[j].classList.remove("selected");
+                    codes[j].style.display = "none";
+                }
+            }
+        }
+        tabs[0].classList.add("selected");
+        codes[0].style.display = "block";
     }
 
     const branchSelect = document.getElementById("branch-select");
