@@ -139,6 +139,7 @@ a:hover {
     height: calc(100vh - 65px);
     padding-right: 25px;
     max-width: 28%;
+    min-width: 20%;
 }
 
 .sidebar-category {
@@ -628,9 +629,8 @@ td {
 }
 
 .tab-code-tab.selected {
-    border-style: solid;
-    border-width: 1px;
-    border-bottom-style: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
 }
 
 @media only screen and (max-width: 680px) {

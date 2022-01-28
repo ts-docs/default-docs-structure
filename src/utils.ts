@@ -79,3 +79,21 @@ export function isLargeTuple(arr: Array<TupleMember>): boolean {
     if (arr.length > 4) return true;
     return arr.reduce((acc, t) => acc + getTypeLength(t.type) + (t.name ? t.name.length : 0), 0) > 42;
 }
+
+/**
+ * Used for putting paranthesis
+ */
+export function isComplexType(type: Type) : boolean {
+    switch (type.kind) {
+        case TypeKinds.ARROW_FUNCTION:
+        case TypeKinds.INTERSECTION:
+        case TypeKinds.UNION:
+        case TypeKinds.TYPEOF_OPERATOR:
+        case TypeKinds.UNIQUE_OPERATOR:
+        case TypeKinds.KEYOF_OPERATOR:
+        case TypeKinds.READONLY_OPERATOR:
+            return true;
+        default:
+            return false;
+    }
+}
