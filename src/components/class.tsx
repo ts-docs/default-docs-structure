@@ -1,5 +1,5 @@
 
-import type { ClassDecl } from "@ts-docs/extractor";
+import { ClassDecl, TypeKinds } from "@ts-docs/extractor";
 import type { Generator } from "@ts-docs/ts-docs";
 import { FunctionHead } from "../partials/FunctionHead";
 import { FunctionSignatures } from "../partials/FunctionSignatures";
@@ -67,7 +67,10 @@ export function render(gen: Generator, type: ClassDecl) {
 
         {type.methods.length ? <>
             <h2 id="methods"><a href="#methods">Methods</a></h2>
-            {...type.methods.map((method) => <div id={`.${method.rawName}`} class="item">
+            {...type.methods.map((method) => {
+            const fnName = typeof method.name === "string" ? <a class="item-name method-name" href={`#.${method.rawName}`}>{method.name}</a> :
+            <span class="item-name">[<a class="method-name" href={`#.${method.rawName}`}>{method.name.kind === TypeKinds.ANY ? method.rawName.slice(1, -1) : gen.generateType(method.name)}</a>]</span>
+            return <div id={`.${method.rawName}`} class="item">
                 {FunctionSignatures(method.signatures, (sig, ind) => {
                 const [blockComment, inlineComment] = gen.generateComment(sig.jsDoc, true, {}, method.rawName) || [undefined, ""];
                 return <div class="item">
@@ -78,7 +81,7 @@ export function render(gen: Generator, type: ClassDecl) {
                     {method.isGetter ? <span class="modifier">get </span> : ""}
                     {method.isSetter ? <span class="modifier">set </span> : ""}
 
-                    {typeof method.name === "string" ? <a class="item-name method-name" href={`#.${method.rawName}`}>{method.name}</a> : <span class="item-name">[<a class="method-name" href={`#.${method.rawName}`}>{gen.generateType(method.name)}</a>]</span>}
+                    {fnName}
                     {FunctionHead(gen, false, sig)}
                     {inlineComment}
                     {ind === 0 ? <SourceCodeIcon {...method.loc.sourceFile!} /> : ""}
@@ -88,7 +91,7 @@ export function render(gen: Generator, type: ClassDecl) {
                     </div> : ""}
                 </div>
             })}
-            </div>)}
+            </div>})}
         </> : ""}
 
     </div>
