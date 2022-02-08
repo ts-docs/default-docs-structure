@@ -4,7 +4,6 @@ import type { Generator } from "@ts-docs/ts-docs";
 import { FunctionHead } from "../partials/FunctionHead";
 import { FunctionSignatures } from "../partials/FunctionSignatures";
 import { RealName } from "../partials/RealName";
-import { getPathFileName } from "../utils";
 import { SourceCodeIcon } from "../partials/SourceCodeIcon";
 
 export function render(gen: Generator, type: ClassDecl) {
@@ -15,14 +14,14 @@ export function render(gen: Generator, type: ClassDecl) {
         {type.isAbstract ? <p class="item-name"><span class="keyword">abstract class</span></p> : ""}
         {type.extends ? <p class="item-name"><span class="keyword">extends </span> {gen.generateType(type.extends)}</p> : ""}
         {type.implements ? <p class="item-name"><span class="keyword">implements </span> {type.implements.map(t => gen.generateType(t))}</p> : ""}
-        {type.loc.sourceFile ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {getPathFileName(type.loc.sourceFile)}</a></p> : ""}
+        {type.loc.sourceFile ? <p><a class="secondary-text" href={type.loc.sourceFile}>Defined in {type.loc.filename}</a></p> : ""}
 
         {classComment[0]}
 
         {type._constructor ? <>
             <h2 id="constructor"><a href="#constructor">Constructor</a></h2>
             {FunctionSignatures(type._constructor.signatures, (sig) => {
-            const sigComment = gen.generateComment(sig.jsDoc, true) || [undefined, ""];
+            const sigComment = gen.generateComment(sig.jsDoc, true, {}, "constructor") || [undefined, ""];
             return <div id="class.constructor" class="item">
                 <span class="keyword">constructor</span>{FunctionHead(gen, false, sig)}{sigComment[1]}
 
@@ -70,7 +69,7 @@ export function render(gen: Generator, type: ClassDecl) {
             <h2 id="methods"><a href="#methods">Methods</a></h2>
             {...type.methods.map((method) => <div id={`.${method.rawName}`} class="item">
                 {FunctionSignatures(method.signatures, (sig, ind) => {
-                const [blockComment, inlineComment] = gen.generateComment(sig.jsDoc, true) || [undefined, ""];
+                const [blockComment, inlineComment] = gen.generateComment(sig.jsDoc, true, {}, method.rawName) || [undefined, ""];
                 return <div class="item">
                     {method.isStatic ? <span class="modifier">static </span> : ""}
                     {method.isProtected ? <span class="modifier">protected </span> : ""}

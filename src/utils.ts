@@ -1,13 +1,5 @@
 
 import { ArrayType, ArrowFunction, FunctionParameter, Literal, ObjectLiteral, Reference, Tuple, TupleMember, Type, TypeKinds, TypeOperator, UnionOrIntersection } from "@ts-docs/extractor";
-import path from "path";
-
-export function getPathFileName(p?: string): string | undefined {
-    if (!p) return;
-    const name = path.parse(p).name;
-    if (name.endsWith(".d")) return name.slice(0, -2);
-    else return name;
-}
 
 export function getTypeLength(type?: Type): number {
     if (!type) return 0;
