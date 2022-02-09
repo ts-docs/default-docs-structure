@@ -98,23 +98,18 @@ export async function initSearch(search: URLSearchParams, contentMain: HTMLEleme
             evaluateSearch(val, options);
         } else await loadSearchData();
 
-        let timeout: any;
         searchBar.oninput = async (ev) => {
             const target = ev.target as HTMLInputElement;
             const searchTerm = target.value.trim();
             if (!searchTerm.length) {
-                clearTimeout(timeout);
                 searchMenu.classList.add("d-none");
                 contentMain.classList.remove("d-none");
                 return;
             }
-            if (timeout) clearTimeout(timeout);
-            timeout = setTimeout(async () => {
-                history.pushState({search: searchTerm}, "", `?search=${searchTerm}`);
-                await evaluateSearch(searchTerm, options);
-                contentMain.classList.add("d-none");
-                searchMenu.classList.remove("d-none");
-            }, 400);
+            history.pushState({search: searchTerm}, "", `?search=${searchTerm}`);
+            await evaluateSearch(searchTerm, options);
+            contentMain.classList.add("d-none");
+            searchMenu.classList.remove("d-none");
         }
     }
 }
@@ -122,13 +117,16 @@ export async function initSearch(search: URLSearchParams, contentMain: HTMLEleme
 function search(term: string, filteredResults: Array<SearchResult>): Array<SearchResult> {
     if (!searchData) return [];
     if (term.includes(".")) {
-        return go(term, filteredResults.map(r => ({...r, oldName: r.name, name: `${r.obj || ""}.${r.name}`})), { key: "name", allowTypo: true, limit: 150, threshold: -5000 }).map(item => {
+        return go(term, filteredResults.map(r => ({...r, oldName: r.name, name: `${r.obj || ""}.${r.name}`})), { key: "name", allowTypo: true, limit: 100, threshold: -6000 }).map(item => {
           item.obj.highlighted = item.obj.oldName;
           item.obj.name = item.obj.oldName;
           return item.obj;   
         });
     } else {
-        return go(term, filteredResults, { key: "name", allowTypo: true, limit: 150, threshold: -5000 }).map(item => {
+        return go(term, filteredResults, { key: "name", allowTypo: true, limit: 100, threshold: -6000 }).concat().sort((a, b) => {
+            if (a.score < -5000 || b.score > -1000) return 0;
+            return a.obj.type - b.obj.type;
+        }).map(item => {
             item.obj.highlighted = highlight(item, '<span style="border-bottom: dotted 2px var(--primaryLight)">', "</span>");
             return item.obj;
         });
@@ -204,7 +202,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Class: {
             content = `<div>
             <span class="keyword">class</span>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/class/${res.name}.html" class="item-name object">${res.highlighted}</a>
             ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
@@ -213,7 +211,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Interface: {
             content = `<div>
             <span class="keyword">interface</span>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/interface/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/interface/${res.name}.html" class="item-name object">${res.highlighted}</a>
             ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
@@ -222,7 +220,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Enum: {
             content = `<div>
             <span class="keyword">enum</span>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/enum/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/enum/${res.name}.html" class="item-name object">${res.highlighted}</a>
             ${res.comment ? `<p class="docblock">${res.comment}</p>`:""}
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
@@ -231,7 +229,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Function: {
             content = `<div>
             <span class="keyword">function</span>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/function/${res.name}.html" class="item-name method-name">${res.highlighted}<a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/function/${res.name}.html" class="item-name method-name">${res.highlighted}</a>
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -239,7 +237,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Type: {
             content = `<div>
             <span class="keyword">type</span>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/type/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/type/${res.name}.html" class="item-name object">${res.highlighted}</a>
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -247,7 +245,7 @@ function formatResult(res: SearchResult) : string {
         case SearchResultType.Constant: {
             content = `<div>
             <span class="keyword">const</span>
-            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/constant/${res.name}.html" class="item-name object">${res.highlighted}<a>
+            <a href="${window.depth}${path.map(m => `m.${m}`).join("/")}/constant/${res.name}.html" class="item-name object">${res.highlighted}</a>
             ${path.length ? `<p class="docblock secondary">In ${path.join("/")}</p>`:""}
             </div>`;
             break;
@@ -299,14 +297,19 @@ function displayResults(results: Array<SearchResult>) {
          </div>
         `
     } else {
-    const mid = Math.ceil(results.length / 2);
+    let left = "";
+    let right = "";
+    for (let i=0; i < results.length; i++) {
+        if (i % 2 !== 0) right += formatResult(results[i]);
+        else left += formatResult(results[i]);
+    }
     searchResults.innerHTML = `
     <div class="row">
-    <div class="col-lg-6">
-    ${results.slice(0, mid).map(h => formatResult(h)).join("")}
+    <div class="col" style="max-width: 500px">
+    ${left}
     </div>
-    <div class="col-lg-6">
-    ${results.slice(-mid).map(h => formatResult(h)).join("")}
+    <div class="col" style="max-width: 500px">
+    ${right}
     </div>
     </div>
     `;
