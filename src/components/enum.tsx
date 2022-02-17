@@ -1,14 +1,13 @@
 
 import type { EnumDecl } from "@ts-docs/extractor";
 import type { Generator } from "@ts-docs/ts-docs";
-import { getPathFileName } from "../utils";
 
 export function render(gen: Generator, type: EnumDecl) {
     const [blockComment, inlineComment] = gen.generateComment(type.jsDoc, true) || ["", ""];
     return <div>
         <h1>Enum <span class="referenceLink object">{type.name}</span>{inlineComment}</h1>
 
-        {...type.loc.map(l => l.sourceFile ? <p><a class="secondary-text" href={l.sourceFile}>Defined in {getPathFileName(l.sourceFile)}</a></p> : "")}
+        {...type.loc.map(l => l.sourceFile ? <p><a class="secondary-text" href={l.sourceFile}>Defined in {l.filename}</a></p> : "")}
 
         {blockComment}
 

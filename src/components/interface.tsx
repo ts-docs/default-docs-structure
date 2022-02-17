@@ -2,7 +2,6 @@
 import type { InterfaceDecl } from "@ts-docs/extractor";
 import type { Generator } from "@ts-docs/ts-docs";
 import { Property } from "../partials/Property";
-import { getPathFileName } from "../utils";
 
 export function render(gen: Generator, type: InterfaceDecl) {
     const [blockComment, inlineComment] = gen.generateComment(type.jsDoc, true) || [undefined, ""];
@@ -12,7 +11,7 @@ export function render(gen: Generator, type: InterfaceDecl) {
         {type.extends ? <p class="item-name"><span class="keyword">extends </span> {type.extends.map(ext => gen.generateType(ext))}</p> : ""}
         {type.implements ? <p class="item-name"><span class="keyword">implements </span> {type.implements.map(ext => gen.generateType(ext))}</p> : ""}
 
-        {...type.loc.map(l => l.sourceFile ? <p><a class="secondary-text" href={l.sourceFile}>Defined in {getPathFileName(l.sourceFile)}</a></p> : "")}
+        {...type.loc.map(l => l.sourceFile ? <p><a class="secondary-text" href={l.sourceFile}>Defined in {l.filename}</a></p> : "")}
 
         {blockComment}
 

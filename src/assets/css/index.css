@@ -17,6 +17,7 @@ html[data-theme="dark"] {
     --propertyName: #9BBCFC;
     --constantName: #4fc3f7;
     --modifierColor: #FF7B7B;
+    --typeParamColor: #ff6492;
     --stringColor: #CE9178;
     --numberColor: #B5CEA8;
     --regexColor: #bf2b0d;
@@ -45,6 +46,7 @@ html[data-theme="light"] {
     --propertyName: #365fae;
     --constantName: #007fb8;
     --modifierColor: #8a0000;
+    --typeParamColor: #bf0000;
     --stringColor: #b63600;
     --numberColor: #336f1a;
     --regexColor: #bf2b0d;
@@ -250,7 +252,7 @@ code {
 }
 
 h2, h3, h4, h5 {
-    border-bottom: solid var(--textColor) 1px;
+    border-bottom: solid #A0A0FF 1px;
     padding-bottom: 10px;
     margin-bottom: 15px;
 }
@@ -489,6 +491,14 @@ h2.section-header, h3.section-header {
     background-color: #b68800;
     color: white;
     margin-left: 15px;
+}
+
+.type-param {
+    color: var(--typeParamColor);
+}
+
+.type-param:hover {
+    color: var(--typeParamColor);
 }
 
 h1 .badge {
