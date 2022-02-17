@@ -1,6 +1,6 @@
 {
   "name": "@ts-docs/default-docs-structure",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The default docs structure for the ts-docs generator.",
   "main": "./dist/index.js",
   "assets": "./dist/assets",
