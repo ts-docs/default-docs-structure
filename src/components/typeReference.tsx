@@ -40,10 +40,15 @@ export function render(gen: Generator, { other, ref, link }: {
         default: return <span class="reference-link item-name">{name}</span>
     }
     let hash = "";
-    let realName;
+    let realName = ref.type.name;
     if (other.hash) {
         const isMethod = other.hash.endsWith("()");
-        if (isMethod) other.hash = other.hash.slice(0, -2);
+        if (isMethod) {
+            other.hash = other.hash.slice(0, -2);
+            type = "method "
+        } else {
+            type = "property "
+        }
         link += `#.${other.hash}`;
         if (!other.displayName) hash = <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>
         else realName = ref.type.name + <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>;
