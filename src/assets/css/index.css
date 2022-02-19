@@ -531,7 +531,7 @@ h1 .badge {
     width: 80%;
     color: var(--textColor) !important;
     border-left: 5px solid;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .text-block.text-block-warning {
