@@ -10,7 +10,9 @@ export function render(gen: Generator, type: Utils.ChangelogData) {
             <p><a href={type.downloadZip}>Download .zip</a></p>
             <p><a href={type.downloadTar}>Download .tar</a></p>
         </div>
-        {gen.generateMarkdownWithHeaders(type.content)[0]}
+        <section>
+            {gen.generateMarkdownWithHeaders(type.content)[0]}
+        </section>
     </div>
     </div>
 }

@@ -20,13 +20,15 @@ function NavigationPath({ path: [path, dir, filename], type }: IndexData) {
 
 export function render(gen: Generator, data: IndexData) {
     const depth = "../".repeat(gen.depth);
+    const title = data.pageName ? data.pageName : data.name;
     return <>
         {"<!DOCTYPE html>"}
         <html lang="en-US">
             <head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <title>{data.name ? `${data.name} | ` : ""} {gen.settings.name}</title>
+                <meta name="keywords" content={`TypeScript documentation ${gen.settings.name || ""}`}></meta>
+                <title>{title ? `${title} | ` : ""} {gen.settings.name}</title>
                 <meta name="description" content={`Documentation for  ${gen.settings.name} v${gen.landingPage.version || ""}${data.name ? `, ${data.name}` : ""}`} /> 
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossOrigin="anonymous" />
                 <link id="highlightTheme" rel="stylesheet" crossOrigin="anonymous" />
@@ -40,7 +42,7 @@ export function render(gen: Generator, data: IndexData) {
                 })()}
             </head>
             <body>
-                <nav class="container-fluid navi">
+                <header class="container-fluid navi">
                     <div class="row">
                         <div class="col-4">
                             <input class="form-control search" id="search" type="search" placeholder="Search..." aria-label="Search" />
@@ -75,22 +77,20 @@ export function render(gen: Generator, data: IndexData) {
                             </div>
                         </div>
                     </div>
-                </nav>
+                </header>
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-auto sidebar" id="sidebar">
+                        <nav class="col-lg-auto sidebar" id="sidebar">
                             {Sidebar(gen, data)}
-                        </div>
-                        <div id="content" class="col content">
+                        </nav>
+                        <main id="content" class="col content">
                             <SearchMenu />
                             <div id="content-main" class="d-none">
                                 {data.path ? <div class="path"><NavigationPath {...data} /></div> : ""}
                                 {data.content}
                             </div>
-
-                        </div>
-
+                        </main>
                     </div>
                 </div>
 

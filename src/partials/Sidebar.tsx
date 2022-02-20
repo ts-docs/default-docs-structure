@@ -53,14 +53,28 @@ export function Sidebar(gen: Generator, index: IndexData) {
             break;
         }
         case PageTypes.PAGE: {
-            for (const heading of index.headings) sidebarCategories.push({
-                name: <a id={`#${heading.id}`}>{heading.name}</a>,
-                values: heading.subHeadings.map(sub => generateHeadings(sub))
-            });
-            for (const category of index.pages) sidebarCategories.push({
-                name: category.name,
-                values: category.pages.map(p => <a href={`../${category.name}/${p.name}.html`}>{p.name}</a>)
-            })
+            const firstHeading = index.headings[0];
+            for (const category of index.pages) {
+                const isCurrentPageHere = category.pages.some(p => p.name === index.pageName);
+                if (isCurrentPageHere) {
+                    sidebarCategories.unshift({
+                        name: category.name,
+                        values: category.pages.map(p => {
+                            if (p.name === index.pageName) return <span>
+                                <a href={`../${category.name}/${p.name}.html`} style="font-weight: bold">{p.name}</a>
+                                <div style="padding-left:15px">
+                                    {...firstHeading.subHeadings.map(h => generateHeadings(h))}
+                                </div>
+                            </span>
+                            else return <a href={`../${category.name}/${p.name}.html`}>{p.name}</a>;
+                        })
+                    });
+                }
+                else sidebarCategories.push({
+                    name: category.name,
+                    values: category.pages.map(p => <a href={`../${category.name}/${p.name}.html`}>{p.name}</a>)
+                })
+            }
             break;
         }
         default: {
