@@ -1,13 +1,13 @@
 {
   "name": "@ts-docs/default-docs-structure",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "The default docs structure for the ts-docs generator.",
   "main": "./dist/index.js",
   "assets": "./dist/assets",
   "devDependencies": {
     "@ts-docs/extractor": "^3.0.10",
     "@ts-docs/jsx-to-str": "^0.1.11",
-    "@ts-docs/ts-docs": "^0.3.0",
+    "@ts-docs/ts-docs": "^0.3.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "eslint": "^7.32.0",

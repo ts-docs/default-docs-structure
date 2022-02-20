@@ -252,7 +252,7 @@ code {
 }
 
 h2, h3, h4, h5 {
-    border-bottom: solid #A0A0FF 1px;
+    border-bottom: solid #505050 1px;
     padding-bottom: 10px;
     margin-bottom: 15px;
 }
@@ -279,7 +279,6 @@ h6 {
 h2.section-header, h3.section-header {
     margin-top: 10px;
     margin-bottom: 15px;
-    color: var(--primaryLight)
 }
 
 .no-p p {
@@ -532,7 +531,7 @@ h1 .badge {
     width: 80%;
     color: var(--textColor) !important;
     border-left: 5px solid;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .text-block.text-block-warning {
