@@ -29,7 +29,7 @@ export function render(gen: Generator, data: IndexData) {
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="keywords" content={`TypeScript documentation${" "}${gen.settings.name || ""}`}></meta>
                 <title>{title ? `${title} | ` : ""} {gen.settings.name}</title>
-                <meta name="description" content={`Documentation for  ${gen.settings.name} v${gen.landingPage.version || ""}${data.name ? `, ${data.name}` : ""}`} /> 
+                <meta name="description" content={`Documentation for${" "}${gen.settings.name} v${gen.landingPage.version || ""}${data.name ? `, ${data.name}` : ""}`} /> 
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossOrigin="anonymous" />
                 <link id="highlightTheme" rel="stylesheet" crossOrigin="anonymous" />
                 <link rel="icon" type="image/x-icon" href="/assets/media/favicon.ico"></link>
