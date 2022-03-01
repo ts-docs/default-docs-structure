@@ -37,6 +37,6 @@ export function Property(gen: Generator, prop: ObjectProperty, isInterface: bool
         else if (prop.call) full += <div class="item">{gen.generateConstructType(prop.call, false)}</div>;
         else if (prop.construct) full += <div class="item">{gen.generateConstructType(prop.construct, true)}</div>
         const [blockComment, inlineComment] = gen.generateComment(prop.jsDoc, true) || [undefined, ""];
-        return full + inlineComment + (blockComment ? <div class="codeblock">{blockComment}</div> : "")
+        return full + inlineComment + (blockComment ? <div class="docblock">{blockComment}</div> : "")
     }
 }
