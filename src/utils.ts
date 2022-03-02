@@ -63,7 +63,7 @@ export function isLargeSignature(sig: { parameters?: Array<FunctionParameter>, r
 }
 
 export function isLargeObject(obj: ObjectLiteral): boolean {
-    if (obj.properties.length > 3 || obj.properties.some(prop => prop.call || prop.construct)) return true;
+    if (obj.properties.length > 3 || obj.properties.some(prop => prop.call || prop.construct || prop.jsDoc)) return true;
     return getTypeLength(obj) > 42;
 }
 
