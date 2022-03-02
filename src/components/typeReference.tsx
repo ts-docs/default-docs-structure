@@ -3,11 +3,26 @@ import { Reference, TypeReferenceKinds } from "@ts-docs/extractor";
 import type { Generator, OtherRefData } from "@ts-docs/ts-docs";
 import { Tooltip } from "../partials/Tooltip";
 
-export function render(gen: Generator, { other, ref, link }: {
+export function render(gen: Generator, { other, ref, link, local }: {
     ref: Reference,
     other: OtherRefData,
-    link: string
+    link: string,
+    local?: {
+        name: string,
+        isMethod: boolean
+    } 
 }) {
+    if (local) {
+        let {name, isMethod} = local;
+        const className = isMethod ? "method-name" : "property-name";
+        const path = gen.currentModule.path.join("/");
+        return <Tooltip {...<span class="item-name">
+                <span class="keyword">{isMethod ? "property " : "method "}</span><span class="object">{gen.currentItem.name}</span><span class="symbol">.</span><span class={className}>{name}</span>
+                <span style="display:block">{path}{path.length ? "/" : ""}<span class="object">{gen.currentItem.name}</span></span>
+                </span>}>
+            <span class="item-name"><a class={className} href={`#.${name}`}>{other.displayName || name}</a></span>
+        </Tooltip>
+    }
     const typeArgs = ref.typeArguments && ref.typeArguments.length ? <>&lt;{ref.typeArguments.map(arg => gen.generateType(arg)).join(", ")}&gt;</> : "";
     const name = other.displayName ? other.displayName : ref.type.name;
     const extension = (!other.displayName) && ref.type.displayName ? <><span class="symbol">.</span><span>{ref.type.displayName}</span></> : "";
@@ -50,8 +65,7 @@ export function render(gen: Generator, { other, ref, link }: {
             type = "property "
         }
         link += `#.${other.hash}`;
-        if (!other.displayName) hash = <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>
-        else realName = ref.type.name + <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>;
+        realName = ref.type.name + <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>;
     }
     return <span>
         <Tooltip {...<>
