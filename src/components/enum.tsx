@@ -11,19 +11,24 @@ export function render(gen: Generator, type: EnumDecl) {
 
         {blockComment}
 
-        {type.members.length ? <>
+        {type.members.length ? <div>
             <h2 id="members"><a href="#members">Members</a></h2>
 
-            {...type.members.map(member => <div id={`.${member.name}`} class="item">
-                <a class="item-name" href={`#.${member.name}`}>{member.name}</a>
+            <div style="margin-left: 10px">
+            {...type.members.map(member => {
+                const [blockComment, inlineComment] = gen.generateComment(member.jsDoc, true) || [undefined, ""];
+                return <div id={`.${member.name}`} class="item">
+                <a class="item-name" href={`#.${member.name}`}>{member.name}</a> {inlineComment}
 
                 {member.initializer ? <span class="item-name"> = {gen.generateType(member.initializer)}</span> : ""}
 
-                {member.jsDoc ? <div class="docblock">
-                    {gen.generateComment(member.jsDoc)}
+                {blockComment ? <div class="docblock">
+                    {blockComment}
                 </div> : ""}
-            </div>)}
-        </> : ""}
+            </div>})
+            }
+            </div>
+        </div> : ""}
 
     </div>
 }

@@ -8,6 +8,7 @@ export function render(gen: Generator, {type}: ArrayType) {
         case TypeKinds.INTERSECTION:
         case TypeKinds.UNION:
         case TypeKinds.CONDITIONAL_TYPE:
+        case TypeKinds.ARROW_FUNCTION:
             return <span>({gen.generateType(type)})[]</span>
         default:
             return <span>{gen.generateType(type)}[]</span>

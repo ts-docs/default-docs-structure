@@ -22,6 +22,14 @@ export function render(gen: Generator, type: {
         case "since":
             if (!type.comment) return "";
             return { inline: <span class="badge warning">since {type.comment}</span> };
+        case "remarks":
+            return { block: <><h3 class="section-header">Remarks</h3>{type.comment}</> };
+        case "throws":
+            return { block: <><h3 class="section-header">Throws</h3>{type.comment}</> };
+        case "alpha":
+            return { inline: <span class="badge danger">alpha</span> };
+        case "experimental":
+            return { inline: <span class="badge danger">experimental</span> };
         default:
             return "";
     }
