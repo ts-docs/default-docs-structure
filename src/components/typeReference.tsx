@@ -17,7 +17,7 @@ export function render(gen: Generator, { other, ref, link, local }: {
         const className = isMethod ? "method-name" : "property-name";
         const path = gen.currentModule.path.join("/");
         return <Tooltip {...<span class="item-name">
-                <span class="keyword">{isMethod ? "property " : "method "}</span><span class="object">{gen.currentItem.name}</span><span class="symbol">.</span><span class={className}>{name}</span>
+                <span class="keyword">{isMethod ? "method " : "property "}</span><span class="object">{gen.currentItem.name}</span><span class="symbol">.</span><span class={className}>{name}</span>
                 <span style="display:block">{path}{path.length ? "/" : ""}<span class="object">{gen.currentItem.name}</span></span>
                 </span>}>
             <span class="item-name"><a class={className} href={`#.${name}`}>{other.displayName || name}</a></span>
@@ -25,7 +25,7 @@ export function render(gen: Generator, { other, ref, link, local }: {
     }
     const typeArgs = ref.typeArguments && ref.typeArguments.length ? <>&lt;{ref.typeArguments.map(arg => gen.generateType(arg)).join(", ")}&gt;</> : "";
     const name = other.displayName ? other.displayName : ref.type.name;
-    const extension = (!other.displayName) && ref.type.displayName ? <><span class="symbol">.</span><span>{ref.type.displayName}</span></> : "";
+    let extension = ref.type.displayName ? <><span class="symbol">.</span><span>{ref.type.displayName}</span></> : "";
     
     if (ref.type.kind === TypeReferenceKinds.INTERNAL) return <><Tooltip {...<><span class="keyword">internal </span><span class="item-name object">{name}{extension}</span></>}>
         <span class="reference-link object">{name}{extension}</span>
@@ -54,9 +54,7 @@ export function render(gen: Generator, { other, ref, link, local }: {
         </Tooltip>
         default: return <span class="reference-link item-name">{name}</span>
     }
-    let hash = "";
-    let realName = ref.type.name;
-    if (other.hash) {
+    if (other.hash && !extension) {
         const isMethod = other.hash.endsWith("()");
         if (isMethod) {
             other.hash = other.hash.slice(0, -2);
@@ -65,13 +63,13 @@ export function render(gen: Generator, { other, ref, link, local }: {
             type = "property "
         }
         link += `#.${other.hash}`;
-        realName = ref.type.name + <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>;
+        extension = <><span class="symbol">.</span><span class={isMethod ? "method-name" : "property-name"}>{other.hash}</span></>;
     }
     return <span>
         <Tooltip {...<>
-            <span class="keyword">{type}</span> <span class={"item-name " + typeClass}>{realName || name}</span><span style="display:block" class="monospace fw-bold">{path}{path.length ? "/" : ""}<span class={"item-name " + typeClass}>{ref.type.name}</span></span>
+            <span class="keyword">{type}</span> <span class={"item-name " + typeClass}>{ref.type.name}{extension}</span><span style="display:block" class="monospace fw-bold">{path}{path.length ? "/" : ""}<span class={"item-name " + typeClass}>{ref.type.name}</span></span>
         </>}>
-            <a class={"reference-link " + typeClass} href={link}>{name}{extension}{hash}</a>
+            <a class={"reference-link " + typeClass} href={link}>{name}{other.displayName ? "" : extension}</a>
         </Tooltip>
         {typeArgs}
     </span>

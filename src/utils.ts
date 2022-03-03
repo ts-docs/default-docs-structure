@@ -68,7 +68,7 @@ export function isLargeObject(obj: ObjectLiteral): boolean {
 }
 
 export function isLargeTuple(arr: Array<TupleMember>): boolean {
-    if (arr.length > 4) return true;
+    if (arr.length > 4 || arr.some(t => t.jsDoc)) return true;
     return arr.reduce((acc, t) => acc + getTypeLength(t.type) + (t.name ? t.name.length : 0), 0) > 42;
 }
 
