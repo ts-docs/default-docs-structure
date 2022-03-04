@@ -14,7 +14,7 @@ export function render(gen: Generator, type: {
         case "returns":
             return { block: <><h3 class="section-header">Returns</h3>{type.comment}</> }
         case "param":
-            return { block: <div class="no-p">· <span class="item-name"><span class="param-name">{type.arg}</span> - <span>{type.comment}</span></span></div> }
+            return { block: <div class="no-p">· <span class="item-name"><span class="param-name">{type.arg}</span></span> - <span>{type.comment}</span></div> }
         case "deprecated":
             return type.comment ? { block: <><h3 class="section-header" style="color:red">Deprecated</h3>{type.comment}</> } : { inline: <span class="badge danger">deprecated</span> };
         case "beta":

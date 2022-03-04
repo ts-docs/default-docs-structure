@@ -1,4 +1,3 @@
-
 import { ArrayType, ArrowFunction, FunctionParameter, Literal, ObjectLiteral, Reference, Tuple, TupleMember, Type, TypeKinds, TypeOperator, UnionOrIntersection } from "@ts-docs/extractor";
 
 export function getTypeLength(type?: Type): number {
