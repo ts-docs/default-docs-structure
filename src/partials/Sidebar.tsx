@@ -32,7 +32,6 @@ export function Sidebar(gen: Generator, index: IndexData) {
     }> = [];
 
     let currentThing = "";
-
     switch (index.type) {
         case PageTypes.CLASS: {
             const filteredProps = index.class!.properties.filter(prop => prop.prop);
@@ -115,6 +114,13 @@ export function Sidebar(gen: Generator, index: IndexData) {
                         });
                     }
                 }
+                for (const [name, values] of Object.entries(gen.categories)) {
+                    if (gen.settings.sort === "alphabetical") values.sort((a, b) => a.type.name.localeCompare(b.type.name));
+                    sidebarCategories.push({
+                        name,
+                        values: values.map(v => <a href={gen.generateRef(v, {}, true)}>{v.type.name}</a>)
+                    });
+                }
             }
             if (index.type === PageTypes.INDEX) {
                 sidebarCategories.push({
@@ -161,13 +167,14 @@ export function Sidebar(gen: Generator, index: IndexData) {
             break;
     }
     const depth = "../".repeat(gen.depth);
+    const allOpen = sidebarCategories.length < 7;
     return <>
         <h1 class="lib-name text-center"><a href={`${depth}index.html`}>{gen.settings.name}</a></h1>
         {gen.settings.logo ? <img src={`${depth}${gen.settings.logo}`} alt="Logo" class="img-fluid mx-auto d-block"></img> : ""}
         <p class="current-thing text-center">{currentThing}</p>
         <div class="sidebar-members">
             {sidebarCategories.map(thing => <div class="sidebar-member">
-                <Collapsible text={<span class="sidebar-category">{thing.name}</span>} open={true}>
+                <Collapsible text={<span class="sidebar-category">{thing.name}</span>} open={allOpen}>
                     {thing.values.map(val => <span class="sidebar-category-member">{val}</span>).join("")}
                 </Collapsible>
             </div>).join("")}
