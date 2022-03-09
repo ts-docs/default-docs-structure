@@ -114,11 +114,11 @@ export function Sidebar(gen: Generator, index: IndexData) {
                         });
                     }
                 }
-                for (const [name, values] of Object.entries(gen.categories)) {
-                    if (gen.settings.sort === "alphabetical") values.sort((a, b) => a.type.name.localeCompare(b.type.name));
+                for (const [name, vals] of Object.entries(gen.categories)) {
+                    if (gen.settings.sort === "alphabetical") vals.sort((a, b) => a.type.name.localeCompare(b.type.name));
                     sidebarCategories.push({
                         name,
-                        values: values.map(v => <a href={gen.generateRef(v, {}, true)}>{v.type.name}</a>)
+                        values: vals.map(v => <a href={gen.generateRef(v, {}, true)}>{v.type.name}</a>)
                     });
                 }
             }
