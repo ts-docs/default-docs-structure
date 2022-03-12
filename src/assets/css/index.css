@@ -588,6 +588,10 @@ h1 .badge {
     border-color: transparent;
 }
 
+.dotted-bottom {
+    border-bottom: dotted 2px var(--primaryLight);
+}
+
 table {
     width: max-content;
     max-width: 100%;

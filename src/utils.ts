@@ -54,7 +54,7 @@ export function getTypeLength(type?: Type): number {
  */
 export function isLargeSignature(sig: { parameters?: Array<FunctionParameter>, returnType?: Type }): boolean {
     if (sig.parameters) {
-        if (sig.parameters.length > 3) return true;
+        if (sig.parameters.length > 3 || sig.parameters.some(p => p.jsDoc?.comment)) return true;
         const total = sig.parameters.reduce((acc, param) => acc + param.name.length + getTypeLength(param.type) + getTypeLength(param.defaultValue), getTypeLength(sig.returnType));
         if (total > 32) return true;
     }

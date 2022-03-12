@@ -127,7 +127,7 @@ function search(term: string, filteredResults: Array<SearchResult>): Array<Searc
             if (a.score < -5000 || b.score > -1000) return 0;
             return a.obj.type - b.obj.type;
         }).map(item => {
-            item.obj.highlighted = highlight(item, '<span style="border-bottom: dotted 2px var(--primaryLight)">', "</span>");
+            item.obj.highlighted = highlight(item, '<span style="dotted-bottom">', "</span>");
             return item.obj;
         });
     }
