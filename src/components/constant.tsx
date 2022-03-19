@@ -12,12 +12,12 @@ export function render(gen: Generator, { constant, content }: {
         <h1>Const <span class="referenceLink constant">{constant.name}</span>{inlineComment}</h1>
         {constant.loc.sourceFile ? <p><a class="secondary-text" href={constant.loc.sourceFile}>Defined in {constant.loc.filename}</a></p> : ""}
 
+        {blockComment}
+
         {type ? <div>
             <h2>Type</h2>
             {type}    
         </div> : ""}
-
-        {blockComment}
 
         {content ? <div>
             <h2>Content</h2>

@@ -17,7 +17,7 @@ export function render(gen: Generator, type: InterfaceDecl) {
 
         {type.properties.length ? <div>
             <h2 id="properties"><a href="#properties">Properties</a></h2>
-            <div style="margin-left: 10px">
+            <div style="margin-left: 10px;">
                 {type.properties.map(p => Property(gen, p, true)).join("")}
             </div>
         </div> : ""}
