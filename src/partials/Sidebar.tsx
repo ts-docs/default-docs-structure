@@ -86,7 +86,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
                     name: category.name,
                     values: category.pages.map(p => {
                         if (p.attributes.redirect) return generateExternalLink(p.name, p.attributes.redirect);
-                        return <a href={`./pages/${category.name}/${p.name}.html`}>{p.name}</a>;
+                        return <a href={`../${category.name}/${p.name}.html`}>{p.name}</a>;
                     })
                 })
             }
