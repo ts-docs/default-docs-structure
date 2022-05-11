@@ -1,6 +1,7 @@
 name: Publish to npm
 on:
   repository_dispatch:
+  workflow_dispatch:
     types: [publish]
 jobs:
   publish:
