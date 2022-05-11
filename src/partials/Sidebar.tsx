@@ -167,7 +167,7 @@ export function Sidebar(gen: Generator, index: IndexData) {
             break;
     }
     const depth = "../".repeat(gen.depth);
-    const allOpen = sidebarCategories.length < 7;
+    const allOpen = gen.settings.style.dontCollapseCategories || sidebarCategories.length < 7;
     return <>
         <h1 class="lib-name text-center"><a href={`${depth}index.html`}>{gen.settings.name}</a></h1>
         {gen.settings.logo ? <img src={`${depth}${gen.settings.logo}`} alt="Logo" class="img-fluid mx-auto d-block"></img> : ""}

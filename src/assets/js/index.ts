@@ -3,7 +3,7 @@ import { initSidebar } from "./sidebar";
 import { initTheme } from "./theme";
 
 declare global {
-    
+
     interface Window {
         depth: string,
         lm?: string, // Latest Module
@@ -17,12 +17,22 @@ initTheme();
 window.addEventListener("load", () => {
 
     // Handles All the custom dropdowns
+    const dropdownStates: Record<string, boolean> = localStorage.getItem("dropdowns") ? JSON.parse(localStorage.getItem("dropdowns") || "{}") : {};
     for (const el of (document.getElementsByClassName("collapsible-trigger") as unknown as Array<HTMLSpanElement>)) {
+        const body = el.parentElement?.getElementsByClassName("collapsible-body")[0];
+        if (!body) return;
+        const arrow = el.getElementsByClassName("collapsible-arrow")[0];
+        const state = dropdownStates[el.textContent || ""];
+        if (state === false) {
+            body.classList.remove("open");
+            arrow.classList.remove("open");
+        } else if (state === true) {
+            body.classList.add("open");
+            if (arrow) arrow.classList.toggle("open");
+        }
         el.onclick = () => {
-            const body = el.parentElement?.getElementsByClassName("collapsible-body")[0];
-            if (!body) return;
-            body.classList.toggle("open");
-            const arrow = el.getElementsByClassName("collapsible-arrow")[0];
+            dropdownStates[el.textContent || ""] = body.classList.toggle("open");
+            localStorage.setItem("dropdowns", JSON.stringify(dropdownStates));
             if (arrow) arrow.classList.toggle("open");
         }
     }
