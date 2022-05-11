@@ -2,16 +2,17 @@
 import { Generator, IndexData, PageTypes } from "@ts-docs/ts-docs";
 import { SearchMenu } from "../partials/searchMenu";
 import { Sidebar } from "../partials/Sidebar";
+import NodePath from "path";
 
 function NavigationPath({ path: [path, dir, filename], type }: IndexData) {
     if (type === PageTypes.CHANGELOG) return <span><a href="./index.html" class="path-member">index</a> / <a href="" class="path-member">changelog</a></span>;
     if (type === PageTypes.PAGE) return <span><a href="../../index.html" class="path-member">index</a> / <span class="path-member">{dir}</span> / <a href="" class="path-member">{filename}</a></span>;
-    const newPath = path.split("/");
+    const newPath = path.split(NodePath.sep);
     const len = newPath.length;
     let res = `<a href="${"../".repeat(len + 1)}index.html" class="path-member">index</a> / `;
     for (let i = 0; i < len; i++) {
         const part = newPath[i];
-        if (part) res += <><a href={`${"../".repeat(len - i)}index.html`} class="path-member">{part.startsWith(".") ? part.slice(1) : part}</a> / </>
+        if (part) res += <><a href={`${"../".repeat(len - i)}index.html`} class="path-member">{part.startsWith("m.") ? part.slice(2) : part}</a> / </>
     }
     if (filename === "index") res += <a class="path-member" href="">{dir.startsWith("m.") ? dir.slice(2) : dir}</a>;
     else res += <a class="path-member" href="">{filename}</a>;
