@@ -88,7 +88,9 @@ export function render(gen: Generator, data: IndexData) {
                         <main id="content" class="col content">
                             <SearchMenu />
                             <div id="content-main" class="d-none">
-                                {data.path ? <div class="path"><NavigationPath {...data} /></div> : ""}
+                                {data.path ? <div class="path">
+                                    <NavigationPath {...data} />
+                                </div> : ""}
                                 {data.content}
                             </div>
                         </main>

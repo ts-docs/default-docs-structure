@@ -187,7 +187,6 @@ a:hover {
 }
 
 .content {
-    padding-top: 10px;
     height: calc(100vh - 65px);
     overflow-y: scroll;
     margin-left: 5px;
@@ -284,6 +283,15 @@ h2.section-header, h3.section-header {
 
 .no-p p {
     display: inline;
+}
+
+.path {
+    position: sticky;
+    top: 0.1px;
+    background-color: var(--backgroundColor);
+    padding: 5px;
+    padding-top: 10px;
+    z-index: 1000;
 }
 
 .path-member {
