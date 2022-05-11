@@ -1,5 +1,6 @@
 
 import { go, highlight } from "fuzzysort";
+import { PackedSearchData, ClassMemberFlags } from "@ts-docs/ts-docs";
 
 interface SearchOptions {
     classes: HTMLInputElement,
@@ -43,28 +44,6 @@ interface SearchResult {
     comment?: string
 }
 
-const enum ClassMemberFlags {
-    IS_GETTER = 1 << 0,
-    IS_SETTER = 1 << 1,
-    IS_PRIVATE = 1 << 2
-}
-
-export type SearchDataComment = string|undefined;
-
-export type PackedSearchData = [
-    Array<[
-        number, // Module ID,
-        Array<[string, Array<[string, number, SearchDataComment]>, Array<[string, number, SearchDataComment]>, Array<number>, SearchDataComment]>, // Classes
-        Array<[string, Array<string>, Array<number>, SearchDataComment]>, // Interfaces,
-        Array<[string, Array<string>, Array<number>, SearchDataComment]>, // Enums,
-        Array<[string, Array<number>]>, // Types
-        Array<[string, Array<number>]>, // Functions
-        Array<[string, Array<number>]> // Constants
-    ]>,
-    Array<string> // Module names
-];
-
-
 function hasBit(bits: number, bit: number) {
     return (bits & bit) === bit;
 }
@@ -77,9 +56,7 @@ let searchResults: Array<SearchResult>|undefined;
 export async function initSearch(search: URLSearchParams, contentMain: HTMLElement, searchMenu: HTMLElement) {
     const searchBar = document.getElementById("search") as HTMLInputElement;
     if (searchBar) {
-        window.onkeypress = () => {
-                searchBar.focus();
-        }
+        window.onkeypress = () => searchBar.focus();
         const options = getSearchOptions();
         window.onpopstate = (event: PopStateEvent) => {
            if (event.state && event.state.search) {

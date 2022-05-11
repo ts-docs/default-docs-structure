@@ -16,13 +16,13 @@ function setTheme(themeName: string, saveChoice?: boolean, icon?: HTMLElement, h
     document.documentElement.dataset.theme = themeName;
     if (saveChoice) localStorage.setItem("theme", themeName);
     currentTheme = themeName;
-    if (icon && highlightTheme) {
+    if (highlightTheme) { 
         if (themeName === "light") {
-            icon.innerHTML = Themes.dark.icon;
+            if (icon) icon.innerHTML = Themes.dark.icon;
             highlightTheme.href = Themes.light.highlightTheme;
         }
         else {
-            icon.innerHTML = Themes.light.icon;
+            if (icon) icon.innerHTML = Themes.light.icon;
             highlightTheme.href = Themes.dark.highlightTheme;
         }
     }
@@ -34,7 +34,7 @@ function oppositeOfCurrentTheme() {
 }
 
 export function initTheme() {
-    let theme = localStorage.getItem("theme");
+    let theme = window.t || localStorage.getItem("theme");
     if (!theme) {
         if (window.matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
         else theme = "light";
@@ -43,8 +43,10 @@ export function initTheme() {
     window.addEventListener("load", () => {
         const icon = document.getElementById("theme-icon")!;
         const highlightTheme = document.getElementById("highlightTheme")! as HTMLLinkElement;
-        icon.innerHTML = Themes[oppositeOfCurrentTheme()].icon;
         highlightTheme.href = Themes[currentTheme].highlightTheme;
-        icon.onclick = () => setTheme(oppositeOfCurrentTheme(), true, icon, highlightTheme);
+        if (!window.t) {
+            icon.innerHTML = Themes[oppositeOfCurrentTheme()].icon;
+            icon.onclick = () => setTheme(oppositeOfCurrentTheme(), true, icon, highlightTheme);
+        }
     });
 }

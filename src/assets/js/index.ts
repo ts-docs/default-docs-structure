@@ -3,11 +3,12 @@ import { initSidebar } from "./sidebar";
 import { initTheme } from "./theme";
 
 declare global {
-
+    
     interface Window {
         depth: string,
         lm?: string, // Latest Module
-        ab?: boolean // Alternate Branch
+        ab?: boolean, // Alternate Branch
+        t?: string // Locked theme
     }
 }
 

@@ -24,21 +24,21 @@ export function render(gen: Generator, data: IndexData) {
     const title = data.pageName ? data.pageName : data.name;
     return <>
         {"<!DOCTYPE html>"}
-        <html lang="en-US">
+        <html lang="en">
             <head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="keywords" content={`TypeScript documentation${" "}${gen.settings.name || ""}`}></meta>
+                <meta name="keywords" content={`typescript, documentation, docs, ts${gen.settings.name ? `, ${gen.settings.name}` : ""}`}></meta>
                 <title>{title ? `${title} | ` : ""} {gen.settings.name}</title>
-                <meta name="description" content={`Documentation for${" "}${gen.settings.name} v${gen.landingPage.version || ""}${data.name ? `, ${data.name}` : ""}`} /> 
+                <meta name="description" content={`Typescript API documentation for${" "}${gen.settings.name} v${gen.landingPage.version || ""}${data.name ? `, ${data.name}` : ""}`} /> 
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossOrigin="anonymous" />
                 <link id="highlightTheme" rel="stylesheet" crossOrigin="anonymous" />
                 <link rel="icon" type="image/x-icon" href="/assets/media/favicon.ico"></link>
                 {(() => {
                     return <>
                         <link href={`${depth}assets/css/index.css`} type="text/css" rel="stylesheet" />
+                        <script>window.depth="{depth}";window.ab={gen.activeBranch !== "main"};{gen.currentGlobalModuleName ? `window.lm="${gen.currentGlobalModuleName}";` : ""}{gen.settings.style.forceTheme ? `window.t="${gen.settings.style.forceTheme}";` : ""}</script>
                         <script src={`${depth}assets/js/index.js`}></script>
-                        <script>window.depth="{depth}";window.ab={gen.activeBranch !== "main"};{gen.currentGlobalModuleName ? `window.lm="${gen.currentGlobalModuleName}";` : ""}</script>
                     </>
                 })()}
             </head>

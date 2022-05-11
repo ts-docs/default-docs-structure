@@ -229,6 +229,7 @@ a:hover {
     outline: none !important;
     padding-top: 10px;
     padding-bottom: 10px;
+    border-radius: .1rem;
 }
 
 .search::placeholder {
