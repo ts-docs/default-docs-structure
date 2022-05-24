@@ -28,7 +28,7 @@ window.addEventListener("load", () => {
             arrow.classList.remove("open");
         } else if (state === true) {
             body.classList.add("open");
-            if (arrow) arrow.classList.toggle("open");
+            arrow.classList.add("open");
         }
         el.onclick = () => {
             dropdownStates[el.textContent || ""] = body.classList.toggle("open");
